@@ -1,0 +1,14 @@
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Debug\net8.0\LfsCruise.exe
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Debug\net8.0\LfsCruise.deps.json
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Debug\net8.0\LfsCruise.runtimeconfig.json
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Debug\net8.0\LfsCruise.dll
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Debug\net8.0\LfsCruise.pdb
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LFSDrive.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LFSDrive.AssemblyInfoInputs.cache
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LFSDrive.AssemblyInfo.cs
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LFSDrive.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LfsCruise.dll
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\refint\LfsCruise.dll
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LfsCruise.pdb
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\LFSDrive.genruntimeconfig.cache
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Debug\net8.0\ref\LfsCruise.dll
