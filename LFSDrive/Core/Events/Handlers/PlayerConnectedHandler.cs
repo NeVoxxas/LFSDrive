@@ -40,7 +40,7 @@ public sealed class PlayerConnectedHandler
 
         await _sendMessage(
             player.UCID,
-            $"^2Welcome! ^7Money: ^2€{player.Data.Money} ^7Bank: ^2€{player.Data.Bank}",
+            $"^2Zdrw Duxas! ^2Pinigai: ^2${player.Data.Money} ^7Banke: ^2${player.Data.Bank}",
             cancellationToken
         );
 

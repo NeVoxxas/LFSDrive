@@ -1,8 +1,9 @@
 using LfsCruise.Core;
-using LfsCruise.Database;
 using LfsCruise.Core.Commands;
+using LfsCruise.Core.Economy;
 using LfsCruise.Core.Events;
 using LfsCruise.Core.Players;
+using LfsCruise.Database;
 using LfsCruise.InSim.Packets;
 using LfsCruise.Utils;
 using System.Net.Sockets;
@@ -15,10 +16,17 @@ public sealed class InSimClient : IDisposable
     private readonly ServerConfig _config;
     private readonly PacketFactory _packetFactory;
     private readonly TcpClient _tcpClient;
+
     private readonly PlayerManager _playerManager = new();
+    private readonly EconomyService _economyService = new();
+
+
     private NetworkStream? _networkStream;
+
     private readonly CommandManager _commandManager = new();
+
     private readonly EventBus _eventBus = new();
+
     private readonly DatabaseService _databaseService;
 
 
@@ -34,8 +42,10 @@ public sealed class InSimClient : IDisposable
         _databaseService = new DatabaseService(databaseConfig);
 
         _commandManager = new CommandManager();
-        _commandManager.Register(new HelpCommand(SendMessageToConnectionAsync));
-        _commandManager.Register(new IdCommand(SendMessageToConnectionAsync));
+        CommandLoader.RegisterAll(
+            _commandManager,
+            _economyService,
+            SendMessageToConnectionAsync);
 
         _eventBus.Subscribe(
             new PlayerConnectedHandler(
@@ -126,6 +136,14 @@ public sealed class InSimClient : IDisposable
             var inSimPacket = _packetFactory.Create(packet);
             WritePacketLog(inSimPacket);
 
+            // Gaunam jau prisijungusius, ir užkraunam InSim
+
+            if (inSimPacket is VerPacket)
+            {
+                await RequestInitialStateAsync(cancellationToken);
+                Console.WriteLine("Initial state requested.");
+            }
+
             // Hostingo KeepAlive
 
             if (inSimPacket is TinyPacket tiny)
@@ -141,24 +159,28 @@ public sealed class InSimClient : IDisposable
                 continue;
             }
 
+            // Player connected
+
             if (inSimPacket is NcnPacket ncn)
             {
                 await _eventBus.PublishAsync(ncn, cancellationToken);
             }
 
+            // Player disconnected
+
             if (inSimPacket is CnlPacket cnl)
             {
+                var player = _playerManager.Get(cnl.UCID);
+
+                if (player is not null)
+                {
+                    await _databaseService.SavePlayerAsync(player, cancellationToken);
+                }
+
                 _playerManager.Remove(cnl.UCID);
-
-                Console.WriteLine("------------------------");
-                Console.WriteLine("Player disconnected");
-                Console.WriteLine($"UCID           : {cnl.UCID}");
-                Console.WriteLine($"Reason         : {cnl.Reason}");
-                Console.WriteLine($"Players online : {_playerManager.Count}");
-                Console.WriteLine("------------------------");
-
-                continue;
             }
+
+            // Chat message
 
             if (inSimPacket is MsoPacket mso)
             {
@@ -249,6 +271,27 @@ public sealed class InSimClient : IDisposable
 
             totalBytesRead += bytesRead;
         }
+    }
+
+    public async Task RequestInitialStateAsync(CancellationToken cancellationToken)
+    {
+        await SendTinyAsync(1, 13, cancellationToken); // TINY_NCN
+        await SendTinyAsync(2, 14, cancellationToken); // TINY_NPL
+        await SendTinyAsync(3, 23, cancellationToken); // TINY_NCI
+        await SendTinyAsync(4, 7, cancellationToken);  // TINY_SST
+    }
+
+    private async Task SendTinyAsync(byte reqI, byte subT, CancellationToken cancellationToken)
+    {
+        var packet = new byte[]
+        {
+        1, // Size: 4 bytes / 4
+        3, // ISP_TINY
+        reqI,
+        subT
+        };
+
+        await SendPacketAsync(packet, cancellationToken);
     }
 
     private NetworkStream GetNetworkStream()

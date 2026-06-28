@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LfsCruise")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1891310e0e6b3e8b4920d07f3d489148149f3087")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8cfe37924324cc4498e3d8d338b0d8f7f9e52a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("LfsCruise")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LfsCruise")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

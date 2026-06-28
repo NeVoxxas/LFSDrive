@@ -60,4 +60,27 @@ public sealed class DatabaseService
             Bank = 0
         };
     }
+    public async Task SavePlayerAsync(Player player, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+        UPDATE players
+        SET nickname = @nickname,
+            money = @money,
+            bank = @bank,
+            last_seen = CURRENT_TIMESTAMP
+        WHERE username = @username;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@username", player.Username);
+        command.Parameters.AddWithValue("@nickname", player.Nickname);
+        command.Parameters.AddWithValue("@money", player.Data.Money);
+        command.Parameters.AddWithValue("@bank", player.Data.Bank);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+
 }
