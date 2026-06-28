@@ -11,7 +11,9 @@ public sealed class PacketFactory
             [TinyPacket.PacketType] = TinyPacket.Parse,
             [NcnPacket.PacketType] = NcnPacket.Parse,
             [CnlPacket.PacketType] = CnlPacket.Parse,
-            [MsoPacket.PacketType] = MsoPacket.Parse
+            [MsoPacket.PacketType] = MsoPacket.Parse,
+            [MciPacket.PacketType] = MciPacket.Parse,
+            [NplPacket.PacketType] = NplPacket.Parse
         })
     {
     }

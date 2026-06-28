@@ -36,4 +36,9 @@ public sealed class PlayerManager
     }
 
     public int Count => _players.Count;
+
+    public Player? GetByPlid(byte plid)
+    {
+        return _players.Values.FirstOrDefault(p => p.PLID == plid);
+    }
 }

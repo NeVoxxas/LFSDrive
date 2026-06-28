@@ -68,7 +68,7 @@ public sealed class InSimClient : IDisposable
             var isiPacket = new IsiPacket
             {
                 UDPPort = 0,
-                Flags = 0,
+                Flags = 0x20,
                 Prefix = (byte)_config.Prefix,
                 Interval = checked((ushort)_config.Interval),
                 Admin = _config.AdminPassword,
@@ -189,6 +189,44 @@ public sealed class InSimClient : IDisposable
                 if (player is not null)
                 {
                     await _commandManager.ExecuteAsync(player, mso.Text, cancellationToken);
+                }
+
+                continue;
+            }
+
+            if (inSimPacket is MciPacket mci)
+            {
+                foreach (var car in mci.Cars)
+                {
+                    var player = _playerManager.GetByPlid(car.PLID);
+
+                    if (player is null)
+                        continue;
+
+                    player.Vehicle.PLID = car.PLID;
+                    player.Vehicle.Node = car.Node;
+
+                    player.Vehicle.X = car.XMetres;
+                    player.Vehicle.Y = car.YMetres;
+                    player.Vehicle.Z = car.ZMetres;
+
+                    player.Vehicle.Speed = car.SpeedKmh;
+                    player.Vehicle.Heading = car.Heading;
+                }
+
+                continue;
+            }
+
+            if (inSimPacket is NplPacket npl)
+            {
+                var player = _playerManager.Get(npl.UCID);
+
+                if (player is not null)
+                {
+                    player.PLID = npl.PLID;
+                    player.CarName = npl.CarName;
+
+                    Console.WriteLine($"NPL | {player.Username} -> PLID {player.PLID}, Car {player.CarName}");
                 }
 
                 continue;

@@ -19,4 +19,9 @@ public sealed class Player
     public byte TotalConnections { get; set; }
 
     public PlayerData Data { get; set; } = new();
+
+    public VehicleState Vehicle { get; } = new();
+
+    public byte PLID { get; set; }
+    public string CarName { get; set; } = string.Empty;
 }
