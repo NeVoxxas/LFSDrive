@@ -41,4 +41,8 @@ public sealed class PlayerManager
     {
         return _players.Values.FirstOrDefault(p => p.PLID == plid);
     }
+    public IReadOnlyCollection<Player> GetAll()
+    {
+        return _players.Values.ToList();
+    }
 }

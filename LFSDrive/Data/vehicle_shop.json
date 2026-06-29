@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "id": "D",
+      "name": "D kategorija",
+      "requiredLicense": 0,
+      "vehicles": [
+        {
+          "carName": "XFG",
+          "displayName": "XF GTI",
+          "price": 0
+        },
+        {
+          "carName": "XRG",
+          "displayName": "XR GT",
+          "price": 800
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "C kategorija",
+      "requiredLicense": 50,
+      "vehicles": []
+    },
+    {
+      "id": "B",
+      "name": "B kategorija",
+      "requiredLicense": 150,
+      "vehicles": []
+    },
+    {
+      "id": "A",
+      "name": "A kategorija",
+      "requiredLicense": 500,
+      "vehicles": []
+    }
+  ]
+}

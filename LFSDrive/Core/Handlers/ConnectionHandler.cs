@@ -1,0 +1,79 @@
+﻿using LfsCruise.Core.Events;
+using LfsCruise.Core.Players;
+using LfsCruise.Core.UI.HUD;
+using LfsCruise.Core.Vehicles;
+using LfsCruise.Database;
+using LfsCruise.InSim.Packets;
+
+namespace LfsCruise.InSim.Handlers;
+
+public sealed class ConnectionHandler
+{
+    private readonly PlayerManager _playerManager;
+    private readonly DatabaseService _databaseService;
+    private readonly EventBus _eventBus;
+    private readonly HudManager _hudManager;
+    private readonly VehicleOwnershipService _vehicleOwnershipService;
+    private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
+    private readonly Func<string, CancellationToken, Task> _sendHostCommand;
+
+    public ConnectionHandler(
+        PlayerManager playerManager,
+        DatabaseService databaseService,
+        EventBus eventBus,
+        HudManager hudManager,
+        VehicleOwnershipService vehicleOwnershipService,
+        Func<byte, string, CancellationToken, Task> sendMessage,
+        Func<string, CancellationToken, Task> sendHostCommand)
+    {
+        _playerManager = playerManager;
+        _databaseService = databaseService;
+        _eventBus = eventBus;
+        _hudManager = hudManager;
+        _vehicleOwnershipService = vehicleOwnershipService;
+        _sendMessage = sendMessage;
+        _sendHostCommand = sendHostCommand;
+    }
+
+
+    public Task HandleConnectedAsync(NcnPacket ncn, CancellationToken cancellationToken)
+    {
+        return _eventBus.PublishAsync(ncn, cancellationToken);
+    }
+
+    public async Task HandleDisconnectedAsync(CnlPacket cnl, CancellationToken cancellationToken)
+    {
+        var player = _playerManager.Get(cnl.UCID);
+
+        if (player is not null)
+        {
+            await _databaseService.SavePlayerAsync(player, cancellationToken);
+        }
+
+        _hudManager.RemovePlayer(cnl.UCID);
+        _playerManager.Remove(cnl.UCID);
+    }
+
+    public async Task HandleNewPlayerAsync(NplPacket npl, CancellationToken cancellationToken)
+    {
+        var player = _playerManager.Get(npl.UCID);
+
+        if (player is null)
+            return;
+
+        player.PLID = npl.PLID;
+        player.CarName = npl.CarName;
+        var ownsVehicle = await _vehicleOwnershipService.OwnsVehicleAsync(player, npl.CarName, cancellationToken);
+
+            if (!ownsVehicle)
+            {
+                await _sendMessage( player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{npl.CarName}", cancellationToken);
+
+                await _sendHostCommand($"/spec {player.Username}", cancellationToken);
+
+            return;
+            }
+
+        Console.WriteLine($"NPL | {player.Username} -> PLID {player.PLID}, Car {player.CarName}");
+    }
+}

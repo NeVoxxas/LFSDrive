@@ -1,0 +1,46 @@
+﻿using LfsCruise.Core.Players;
+using LfsCruise.Core.Progression;
+using LfsCruise.Core.UI.Hud.Widgets;
+using LfsCruise.Core.UI.HUD.Widgets;
+
+namespace LfsCruise.Core.UI.HUD;
+
+public sealed class HudManager
+{
+    private readonly HudRenderer _renderer;
+
+    private readonly List<HudWidget> _widgets;
+
+    public HudManager(
+        HudRenderer renderer,
+        ProgressionService progressionService)
+    {
+        _renderer = renderer;
+
+        _widgets =
+        [
+            new LicenseWidget(progressionService),
+            new DistanceWidget(),
+            new MoneyWidget(),
+            new ServerWidget(),
+            new DiscordWidget(),
+            new MenuWidget()
+
+        ];
+    }
+
+    public Task UpdateAsync(
+        Player player,
+        CancellationToken cancellationToken = default)
+    {
+        return _renderer.RenderAsync(
+            player,
+            _widgets,
+            cancellationToken);
+    }
+
+    public void RemovePlayer(byte ucid)
+    {
+        _renderer.RemovePlayer(ucid);
+    }
+}

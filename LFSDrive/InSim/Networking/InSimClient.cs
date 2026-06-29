@@ -3,11 +3,20 @@ using LfsCruise.Core.Commands;
 using LfsCruise.Core.Economy;
 using LfsCruise.Core.Events;
 using LfsCruise.Core.Players;
+using LfsCruise.Core.Progression;
+using LfsCruise.Core.UI;
+using LfsCruise.Core.UI.HUD;
+using LfsCruise.Core.UI.Menu;
+using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.World;
 using LfsCruise.Database;
+using LfsCruise.InSim.Enums;
+using LfsCruise.InSim.Handlers;
 using LfsCruise.InSim.Packets;
 using LfsCruise.Utils;
 using System.Net.Sockets;
+using System.Numerics;
 
 
 namespace LfsCruise.InSim.Networking;
@@ -26,11 +35,30 @@ public sealed class InSimClient : IDisposable
 
     private readonly CommandManager _commandManager;
 
-    private readonly EventBus _eventBus = new();
+    private readonly EventBus _eventBus = new(); // Event
 
-    private readonly DatabaseService _databaseService;
+    private readonly DatabaseService _databaseService; // DB
 
-    private readonly ZoneManager _zoneManager = new();
+    private readonly ZoneManager _zoneManager = new(); // Zonos
+
+    private readonly ProgressionService _progressionService = new(); // Progresas
+
+    private readonly VehicleOwnershipService _vehicleOwnershipService;
+
+    private readonly VehicleShopService _vehicleShopService;
+
+    private readonly HudManager _hudManager; // Hudas
+
+    private readonly HudUpdateLoop _hudUpdateLoop;
+
+    private readonly MenuManager _menuManager; // Hudas
+
+    // HANDLERIAI
+
+    private readonly ChatHandler _chatHandler;
+    private readonly PitHandler _pitHandler;
+    private readonly MciHandler _mciHandler;
+    private readonly ConnectionHandler _connectionHandler;
 
 
     public InSimClient(ServerConfig config, PacketFactory? packetFactory = null)
@@ -43,6 +71,10 @@ public sealed class InSimClient : IDisposable
 
         _databaseService = new DatabaseService(databaseConfig);
 
+        _vehicleOwnershipService = new VehicleOwnershipService(databaseConfig);
+
+        _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
+
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
@@ -51,6 +83,7 @@ public sealed class InSimClient : IDisposable
             _commandManager,
             _economyService,
             _zoneService,
+            _progressionService,
             SendMessageToConnectionAsync);
 
         _eventBus.Subscribe(
@@ -60,9 +93,25 @@ public sealed class InSimClient : IDisposable
                 SendMessageToConnectionAsync
             )
         );
-        Console.WriteLine("Loading world zones...");
-        _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
-        _zoneService.Load();
+
+        var hudRenderer = new HudRenderer(SendButtonAsync);
+
+        _hudManager = new HudManager(
+            hudRenderer,
+            _progressionService);
+
+        _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
+
+        var menuRenderer = new MenuRenderer( SendButtonAsync, DeleteButtonRangeAsync);
+
+        _menuManager = new MenuManager(menuRenderer, _vehicleShopService);
+
+        //HANDLERIAI
+
+        _chatHandler = new ChatHandler(_playerManager, _commandManager);
+        _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
+        _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService);
+        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _vehicleOwnershipService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)
@@ -77,7 +126,7 @@ public sealed class InSimClient : IDisposable
             var isiPacket = new IsiPacket
             {
                 UDPPort = 0,
-                Flags = 0x20 | 0x40,
+                Flags = 0x20 | 0x0800,
                 Prefix = (byte)_config.Prefix,
                 Interval = checked((ushort)_config.Interval),
                 Admin = _config.AdminPassword,
@@ -87,7 +136,11 @@ public sealed class InSimClient : IDisposable
             await SendPacketAsync(isiPacket, cancellationToken);
             Console.WriteLine("IS_ISI packet sent");
 
+            _ = Task.Run(() => _hudUpdateLoop.RunAsync(cancellationToken), cancellationToken);
+            Console.WriteLine("HUD loop started");
+
             await ReceiveLoopAsync(cancellationToken);
+
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -168,105 +221,58 @@ public sealed class InSimClient : IDisposable
                 continue;
             }
 
-            // Player connected
+            // Handleriai
 
-            if (inSimPacket is NcnPacket ncn)
+            switch (inSimPacket)
             {
-                await _eventBus.PublishAsync(ncn, cancellationToken);
-            }
+                case MsoPacket mso:
+                    await _chatHandler.HandleAsync(mso, cancellationToken);
+                    continue;
 
-            // Player disconnected
+                case PitPacket pit:
+                    await _pitHandler.HandleAsync(pit, cancellationToken);
+                    continue;
 
-            if (inSimPacket is CnlPacket cnl)
-            {
-                var player = _playerManager.Get(cnl.UCID);
+                case MciPacket mci:
+                    _mciHandler.Handle(mci);
+                    continue;
 
-                if (player is not null)
-                {
-                    await _databaseService.SavePlayerAsync(player, cancellationToken);
-                }
+                case NcnPacket ncn:
+                    await _connectionHandler.HandleConnectedAsync(ncn, cancellationToken);
+                    continue;
 
-                _playerManager.Remove(cnl.UCID);
-            }
+                case CnlPacket cnl:
+                    await _connectionHandler.HandleDisconnectedAsync(cnl, cancellationToken);
+                    continue;
 
-            // Chat message
+                case NplPacket npl:
+                    await _connectionHandler.HandleNewPlayerAsync(npl, cancellationToken);
+                    continue;
+                case BtcPacket btc:
+                    {
+                        var player = _playerManager.Get(btc.UCID);
 
-            if (inSimPacket is MsoPacket mso)
-            {
-                var player = _playerManager.Get(mso.UCID);
+                        if (player is null)
+                            continue;
 
-                if (player is not null)
-                {
-                    await _commandManager.ExecuteAsync(player, mso.Text, cancellationToken);
-                }
+                        switch (btc.ClickID)
+                        {
+                            case ClickIds.Hud.Menu:
+                                await _menuManager.OpenMainMenuAsync(player, cancellationToken);
+                                break;
 
-                continue;
-            }
+                            case ClickIds.Menu.Close:
+                                await _menuManager.CloseAsync(player, cancellationToken);
+                                break;
 
-            if (inSimPacket is MciPacket mci)
-            {
-                foreach (var car in mci.Cars)
-                {
-                    var player = _playerManager.GetByPlid(car.PLID);
+                            default:
+                                await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
+                                break;
+                        }
 
-                    if (player is null)
                         continue;
+                    }
 
-                    player.Vehicle.PLID = car.PLID;
-                    player.Vehicle.Node = car.Node;
-                    player.Vehicle.X = car.XMetres;
-                    player.Vehicle.Y = car.YMetres;
-                    player.Vehicle.Z = car.ZMetres;
-                    player.Vehicle.Speed = car.SpeedKmh;
-                    player.Vehicle.Heading = car.Heading;
-                    _zoneManager.Update(player);
-                }
-
-                continue;
-            }
-
-            if (inSimPacket is NplPacket npl)
-            {
-                var player = _playerManager.Get(npl.UCID);
-
-                if (player is not null)
-                {
-                    player.PLID = npl.PLID;
-                    player.CarName = npl.CarName;
-
-                    Console.WriteLine($"NPL | {player.Username} -> PLID {player.PLID}, Car {player.CarName}");
-                }
-
-                continue;
-            }
-
-            if (inSimPacket is PitPacket pit)
-            {
-                var player = _playerManager.GetByPlid(pit.PLID);
-
-                if (player is null)
-                    continue;
-
-                const int price = 50;
-
-                if (!_economyService.RemoveMoney(player, price))
-                {
-                    await SendMessageToConnectionAsync(
-                        player.UCID,
-                        "^1Nepakanka pinigu pitstopui.",
-                        cancellationToken);
-
-                    continue;
-                }
-
-                await _databaseService.SavePlayerAsync(player, cancellationToken);
-
-                await SendMessageToConnectionAsync(
-                    player.UCID,
-                    $"^2Pitstopas pradetas. Nuskaiciuota: ^7{price}$",
-                    cancellationToken);
-
-                continue;
             }
 
         }
@@ -328,10 +334,20 @@ public sealed class InSimClient : IDisposable
         await SendPacketAsync(packet, cancellationToken);
     }
 
-    private static async Task ReadExactAsync(
-        NetworkStream stream,
-        Memory<byte> buffer,
-        CancellationToken cancellationToken)
+    public async Task SendHostCommandAsync(
+        string command,
+        CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine($"HOST CMD -> {command}");
+        var packet = new MstPacket
+        {
+            Msg = command
+        };
+
+        await SendPacketAsync(packet.ToArray(), cancellationToken);
+    }
+
+    private static async Task ReadExactAsync( NetworkStream stream, Memory<byte> buffer, CancellationToken cancellationToken)
     {
         var totalBytesRead = 0;
 
@@ -377,5 +393,60 @@ public sealed class InSimClient : IDisposable
     {
         _networkStream?.Dispose();
         _tcpClient.Dispose();
+    }
+
+    public async Task ClearButtonsAsync( byte ucid, CancellationToken cancellationToken = default)
+    {
+        var packet = new BfnPacket
+        {
+            SubT = (byte)BfnSubType.Clear,
+            UCID = ucid
+        };
+
+        await SendPacketAsync(packet.ToArray(), cancellationToken);
+    }
+
+    public async Task SendButtonAsync(
+    byte ucid,
+    byte clickId,
+    byte left,
+    byte top,
+    byte width,
+    byte height,
+    string text,
+    CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x20 | 0x40 | 0x08, // dark + light text
+            TypeIn = 0,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
+        //Console.WriteLine($"BTN -> UCID {ucid} ID {clickId} Text: {text}");
+        await SendPacketAsync(packet, cancellationToken);
+    }
+    public async Task DeleteButtonRangeAsync(
+        byte ucid,
+        byte firstId,
+        byte lastId,
+        CancellationToken cancellationToken = default)
+    {
+        var packet = new BfnPacket
+        {
+            SubT = (byte)BfnSubType.DeleteButton,
+            UCID = ucid,
+            ClickID = firstId,
+            ClickMax = lastId
+        };
+
+        await SendPacketAsync(packet.ToArray(), cancellationToken);
     }
 }

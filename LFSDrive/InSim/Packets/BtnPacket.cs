@@ -30,7 +30,7 @@ public sealed class BtnPacket : InSimPacket
 
         packet[0] = (byte)(size / 4);
         packet[1] = PacketType;
-        packet[2] = 0;      // ReqI
+        packet[2] = 1; // ReqI must be non-zero
         packet[3] = UCID;
 
         packet[4] = ClickID;
@@ -44,6 +44,7 @@ public sealed class BtnPacket : InSimPacket
         packet[11] = H;
 
         Array.Copy(textBytes, 0, packet, 12, Math.Min(textBytes.Length, paddedTextLength - 1));
+        packet[12 + Math.Min(textBytes.Length, paddedTextLength - 1)] = 0;
 
         return packet;
     }

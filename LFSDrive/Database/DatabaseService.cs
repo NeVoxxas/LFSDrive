@@ -19,7 +19,7 @@ public sealed class DatabaseService
         await connection.OpenAsync(cancellationToken);
 
         const string selectSql = """
-            SELECT money, bank
+            SELECT id, money, bank, driven_distance
             FROM players
             WHERE username = @username
             LIMIT 1;
@@ -35,15 +35,17 @@ public sealed class DatabaseService
             {
                 return new PlayerData
                 {
+                    Id = reader.GetInt32("id"),
                     Money = reader.GetInt32("money"),
-                    Bank = reader.GetInt32("bank")
+                    Bank = reader.GetInt32("bank"),
+                    DrivenDistance = reader.GetDouble("driven_distance")
                 };
             }
         }
 
         const string insertSql = """
-            INSERT INTO players (username, nickname, money, bank)
-            VALUES (@username, @nickname, 5000, 0);
+            INSERT INTO players (username, nickname, money, bank, driven_distance)
+            VALUES (@username, @nickname, 5000, 0, 0);
             """;
 
         await using (var insertCommand = new MySqlCommand(insertSql, connection))
@@ -57,7 +59,8 @@ public sealed class DatabaseService
         return new PlayerData
         {
             Money = 5000,
-            Bank = 0
+            Bank = 0,
+            DrivenDistance = 0
         };
     }
 
@@ -90,7 +93,8 @@ public sealed class DatabaseService
         SET nickname = @nickname,
             money = @money,
             bank = @bank,
-            last_seen = CURRENT_TIMESTAMP
+            last_seen = CURRENT_TIMESTAMP,
+            driven_distance = @driven_distance
         WHERE username = @username;
         """;
 
@@ -99,6 +103,7 @@ public sealed class DatabaseService
         command.Parameters.AddWithValue("@nickname", player.Nickname);
         command.Parameters.AddWithValue("@money", player.Data.Money);
         command.Parameters.AddWithValue("@bank", player.Data.Bank);
+        command.Parameters.AddWithValue("@driven_distance", player.Data.DrivenDistance);
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
