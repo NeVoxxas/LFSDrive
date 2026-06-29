@@ -30,11 +30,11 @@ public sealed class PlayerConnectedHandler
             UCID = packet.UCID,
             Username = packet.Username,
             Nickname = packet.PlayerName,
-            IsAdmin = packet.IsAdmin,
             TotalConnections = packet.Total
         };
 
         player.Data = await _databaseService.GetOrCreatePlayerAsync(player, cancellationToken);
+        player.AdminLevel = await _databaseService.GetAdminLevelAsync(player.Username, cancellationToken);
 
         _playerManager.Add(player);
 

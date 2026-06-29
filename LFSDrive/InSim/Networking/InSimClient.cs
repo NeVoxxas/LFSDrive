@@ -3,6 +3,7 @@ using LfsCruise.Core.Commands;
 using LfsCruise.Core.Economy;
 using LfsCruise.Core.Events;
 using LfsCruise.Core.Players;
+using LfsCruise.Core.World;
 using LfsCruise.Database;
 using LfsCruise.InSim.Packets;
 using LfsCruise.Utils;
@@ -19,16 +20,17 @@ public sealed class InSimClient : IDisposable
 
     private readonly PlayerManager _playerManager = new();
     private readonly EconomyService _economyService = new();
-
+    private readonly ZoneService _zoneService;
 
     private NetworkStream? _networkStream;
 
-    private readonly CommandManager _commandManager = new();
+    private readonly CommandManager _commandManager;
 
     private readonly EventBus _eventBus = new();
 
     private readonly DatabaseService _databaseService;
 
+    private readonly ZoneManager _zoneManager = new();
 
 
     public InSimClient(ServerConfig config, PacketFactory? packetFactory = null)
@@ -41,10 +43,14 @@ public sealed class InSimClient : IDisposable
 
         _databaseService = new DatabaseService(databaseConfig);
 
-        _commandManager = new CommandManager();
+        _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
+        _zoneService.Load();
+
+        _commandManager = new CommandManager(SendMessageToConnectionAsync);
         CommandLoader.RegisterAll(
             _commandManager,
             _economyService,
+            _zoneService,
             SendMessageToConnectionAsync);
 
         _eventBus.Subscribe(
@@ -54,6 +60,9 @@ public sealed class InSimClient : IDisposable
                 SendMessageToConnectionAsync
             )
         );
+        Console.WriteLine("Loading world zones...");
+        _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
+        _zoneService.Load();
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)
@@ -205,13 +214,12 @@ public sealed class InSimClient : IDisposable
 
                     player.Vehicle.PLID = car.PLID;
                     player.Vehicle.Node = car.Node;
-
                     player.Vehicle.X = car.XMetres;
                     player.Vehicle.Y = car.YMetres;
                     player.Vehicle.Z = car.ZMetres;
-
                     player.Vehicle.Speed = car.SpeedKmh;
                     player.Vehicle.Heading = car.Heading;
+                    _zoneManager.Update(player);
                 }
 
                 continue;

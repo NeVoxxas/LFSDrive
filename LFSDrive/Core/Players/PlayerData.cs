@@ -9,4 +9,5 @@
     public DateTime CreatedAt { get; set; }
 
     public DateTime LastSeen { get; set; }
+
 }

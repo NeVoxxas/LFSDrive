@@ -1,9 +1,19 @@
 ﻿using LfsCruise.Core.Players;
 
-namespace LfsCruise.Core.Commands;
+namespace LfsCruise.Core.Commands.General;
 
 public sealed class IdCommand : ICommand
 {
+    /*public enum CommandPermission
+    {
+        Player,
+        Admin,
+        Moderator,
+        Developer
+    }*/
+
+    public bool AdminOnly => false;
+
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public IdCommand(Func<byte, string, CancellationToken, Task> sendMessage)

@@ -2,10 +2,12 @@
 
 ### Sukurtas FrameWork'as
 
->Sukurtas pagrindinis Core'as
+>Sukurtas framework bazė
 
->CommandHandler
+>Patogus komandų registravimas
 
->Save/Load
+>Save/Load sistema
 
->Economy pagrindas
+>Economy sistema
+
+>Patogi zonų sistemą [ !createzone , !savezones , !reloadzones ] 

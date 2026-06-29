@@ -1,0 +1,16 @@
+[
+  {
+    "name": "TEST",
+    "type": "Test",
+    "x": 301.7,
+    "y": -140.3,
+    "radius": 25
+  },
+  {
+    "name": "MainFuel",
+    "type": "FuelStation",
+    "x": 316.5921325683594,
+    "y": -309.3466491699219,
+    "radius": 25
+  }
+]

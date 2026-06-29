@@ -14,7 +14,9 @@ public sealed class Player
 
     public string Nickname { get; set; } = string.Empty;
 
-    public bool IsAdmin { get; set; }
+    public int AdminLevel { get; set; }
+
+    public bool IsAdmin => AdminLevel > 0;
 
     public byte TotalConnections { get; set; }
 

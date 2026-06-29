@@ -1,10 +1,20 @@
 ﻿using LfsCruise.Core.Economy;
 using LfsCruise.Core.Players;
 
-namespace LfsCruise.Core.Commands;
+namespace LfsCruise.Core.Commands.Admin.Economy;
 
 public sealed class DepositCommand : ICommand
 {
+    /*public enum CommandPermission
+    {
+        Player,
+        Admin,
+        Moderator,
+        Developer
+    }*/
+
+    public bool AdminOnly => false;
+
     private readonly EconomyService _economy;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
