@@ -1,7 +1,7 @@
 ﻿using LfsCruise.Core.Players;
 using System.Globalization;
 
-namespace LfsCruise.Core.Commands.Admin.Economy;
+namespace LfsCruise.Core.Commands.Economy;
 
 public sealed class MoneyCommand : ICommand
 {
@@ -32,5 +32,7 @@ public sealed class MoneyCommand : ICommand
             $"^2Pinigai: ^7${player.Data.Money} ^2Banke ^7${player.Data.Bank}",
             cancellationToken
         );
+
+
     }
 }

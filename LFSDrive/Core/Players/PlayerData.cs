@@ -10,4 +10,8 @@
 
     public DateTime LastSeen { get; set; }
 
+    public double DrivenDistance { get; set; }
+
+    public double License => Math.Floor((DrivenDistance / 15.0) * 10.0) / 10.0;
+
 }

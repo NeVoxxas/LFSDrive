@@ -10,4 +10,4 @@
 
 >Economy sistema
 
->Patogi zonų sistemą [ !createzone , !savezones , !reloadzones ] 
+>Patogi zonų sistemą [ !createzone , !savezones , !reloadzones , !removezone ] 

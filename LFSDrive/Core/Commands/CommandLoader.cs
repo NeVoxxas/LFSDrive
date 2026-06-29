@@ -1,4 +1,9 @@
-﻿using LfsCruise.Core.Economy;
+﻿using LfsCruise.Core.Commands.Admin;
+using LfsCruise.Core.Commands.Admin.Zones;
+using LfsCruise.Core.Commands.Economy;
+using LfsCruise.Core.Commands.General;
+using LfsCruise.Core.Economy;
+using LfsCruise.Core.Players;
 using LfsCruise.Core.World;
 
 namespace LfsCruise.Core.Commands;
@@ -20,5 +25,6 @@ public static class CommandLoader
         commandManager.Register(new CreateZoneCommand(zoneService, sendMessage));
         commandManager.Register(new SaveZonesCommand(zoneService, sendMessage));
         commandManager.Register(new ReloadZonesCommand(zoneService, sendMessage));
+        commandManager.Register(new RemoveZoneCommand(zoneService, sendMessage));
     }
 }

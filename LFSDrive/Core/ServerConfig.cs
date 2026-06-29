@@ -6,7 +6,7 @@ public sealed class ServerConfig
 
     public int Port { get; init; } = 59596;
 
-    public string AdminPassword { get; init; } = "346588030";
+    public string AdminPassword { get; init; } = "testpassvoxx";
 
     public string InSimName { get; init; } = "LFSDrive";
 

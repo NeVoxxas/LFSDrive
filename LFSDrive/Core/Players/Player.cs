@@ -26,4 +26,14 @@ public sealed class Player
 
     public byte PLID { get; set; }
     public string CarName { get; set; } = string.Empty;
+
+    public double DrivenDistance { get; set; }
+
+    public double License
+    {
+        get
+        {
+            return Math.Floor((DrivenDistance / 15.0) * 10.0) / 10.0;
+        }
+    }
 }

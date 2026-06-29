@@ -77,7 +77,7 @@ public sealed class InSimClient : IDisposable
             var isiPacket = new IsiPacket
             {
                 UDPPort = 0,
-                Flags = 0x20,
+                Flags = 0x20 | 0x40,
                 Prefix = (byte)_config.Prefix,
                 Interval = checked((ushort)_config.Interval),
                 Admin = _config.AdminPassword,
@@ -240,9 +240,37 @@ public sealed class InSimClient : IDisposable
                 continue;
             }
 
+            if (inSimPacket is PitPacket pit)
+            {
+                var player = _playerManager.GetByPlid(pit.PLID);
+
+                if (player is null)
+                    continue;
+
+                const int price = 50;
+
+                if (!_economyService.RemoveMoney(player, price))
+                {
+                    await SendMessageToConnectionAsync(
+                        player.UCID,
+                        "^1Nepakanka pinigu pitstopui.",
+                        cancellationToken);
+
+                    continue;
+                }
+
+                await _databaseService.SavePlayerAsync(player, cancellationToken);
+
+                await SendMessageToConnectionAsync(
+                    player.UCID,
+                    $"^2Pitstopas pradetas. Nuskaiciuota: ^7{price}$",
+                    cancellationToken);
+
+                continue;
+            }
+
         }
     }
-
 
     private static void WritePacketLog(InSimPacket packet)
     {

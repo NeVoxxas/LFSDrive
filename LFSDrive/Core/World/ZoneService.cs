@@ -44,6 +44,31 @@ public sealed class ZoneService
         return dto;
     }
 
+    public bool RemoveZone(string name)
+    {
+        var dto = _zones.FirstOrDefault(z =>
+            z.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+        if (dto is null)
+            return false;
+
+        _zones.Remove(dto);
+
+        LoadFromMemory();
+
+        return true;
+    }
+
+    private void LoadFromMemory()
+    {
+        _zoneManager.Clear();
+
+        foreach (var zone in _zones)
+        {
+            _zoneManager.Add(new CircleZone(zone));
+        }
+    }
+
     public void Save()
     {
         _zoneStorage.Save(_zones);
