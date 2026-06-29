@@ -22,11 +22,25 @@ public sealed class VehicleShopService
             c.Id.Equals(categoryId, StringComparison.OrdinalIgnoreCase));
     }
 
-    public VehicleShopItem? GetVehicle(string carName)
+    public VehicleShopItem? GetVehicle(string carCode)
     {
         return _config.Categories
             .SelectMany(c => c.Vehicles)
             .FirstOrDefault(v =>
-                v.CarName.Equals(carName, StringComparison.OrdinalIgnoreCase));
+                v.CarCode.Equals(carCode, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public VehicleShopItem? GetVehicleByCode(string carCode)
+    {
+        foreach (var category in _config.Categories)
+        {
+            var vehicle = category.Vehicles
+                .FirstOrDefault(v => v.CarCode == carCode);
+
+            if (vehicle != null)
+                return vehicle;
+        }
+
+        return null;
     }
 }

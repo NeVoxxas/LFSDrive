@@ -2,6 +2,7 @@
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Database;
 using LfsCruise.InSim.Packets;
 
@@ -14,6 +15,7 @@ public sealed class ConnectionHandler
     private readonly EventBus _eventBus;
     private readonly HudManager _hudManager;
     private readonly VehicleOwnershipService _vehicleOwnershipService;
+    private readonly VehicleShopService _vehicleShopService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
     private readonly Func<string, CancellationToken, Task> _sendHostCommand;
 
@@ -23,6 +25,7 @@ public sealed class ConnectionHandler
         EventBus eventBus,
         HudManager hudManager,
         VehicleOwnershipService vehicleOwnershipService,
+        VehicleShopService vehicleShopService,
         Func<byte, string, CancellationToken, Task> sendMessage,
         Func<string, CancellationToken, Task> sendHostCommand)
     {
@@ -31,6 +34,7 @@ public sealed class ConnectionHandler
         _eventBus = eventBus;
         _hudManager = hudManager;
         _vehicleOwnershipService = vehicleOwnershipService;
+        _vehicleShopService = vehicleShopService;
         _sendMessage = sendMessage;
         _sendHostCommand = sendHostCommand;
     }
@@ -62,18 +66,20 @@ public sealed class ConnectionHandler
             return;
 
         player.PLID = npl.PLID;
-        player.CarName = npl.CarName;
-        var ownsVehicle = await _vehicleOwnershipService.OwnsVehicleAsync(player, npl.CarName, cancellationToken);
+        player.CarName = npl.CarCode;
+        var vehicle = _vehicleShopService.GetVehicleByCode(npl.CarCode);
+        var displayName = vehicle?.DisplayName ?? npl.CarCode;
+        var ownsVehicle = await _vehicleOwnershipService.OwnsVehicleAsync(player, npl.CarCode, cancellationToken);
 
             if (!ownsVehicle)
             {
-                await _sendMessage( player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{npl.CarName}", cancellationToken);
+                await _sendMessage( player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{displayName}", cancellationToken);
 
                 await _sendHostCommand($"/spec {player.Username}", cancellationToken);
 
             return;
             }
-
+            Console.WriteLine($"PLAYER CAR: {npl.CarCode}");
         Console.WriteLine($"NPL | {player.Username} -> PLID {player.PLID}, Car {player.CarName}");
     }
 }

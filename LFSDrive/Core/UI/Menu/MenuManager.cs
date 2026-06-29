@@ -1,6 +1,9 @@
-﻿using LfsCruise.Core.Players;
+﻿using LfsCruise.Core.Economy;
+using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
+using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Shop;
+using LfsCruise.Database;
 
 namespace LfsCruise.Core.UI.Menu;
 
@@ -12,13 +15,26 @@ public sealed class MenuManager
     private readonly MainMenuPage _mainMenuPage = new();
     private readonly VehicleShopService _vehicleShopService;
     private readonly ShopCategoriesPage _shopPage;
+    private readonly VehicleOwnershipService _ownershipService;
+    private readonly EconomyService _economyService;
+    private readonly DatabaseService _databaseService;
+    private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
         MenuRenderer renderer,
-        VehicleShopService vehicleShopService)
+        VehicleShopService vehicleShopService,
+        VehicleOwnershipService ownershipService,
+        EconomyService economyService,
+        DatabaseService databaseService,
+        Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
         _vehicleShopService = vehicleShopService;
+        _ownershipService = ownershipService;
+        _economyService = economyService;
+        _databaseService = databaseService;
+        _sendMessage = sendMessage;
+
         _shopPage = new ShopCategoriesPage(vehicleShopService);
     }
 
@@ -70,14 +86,8 @@ public sealed class MenuManager
             cancellationToken);
     }
 
-    public Task OpenVehicleCategoryAsync(
-        Player player,
-        VehicleShopCategory category,
-        CancellationToken cancellationToken)
+    public Task OpenVehicleCategoryAsync(Player player,VehicleShopCategory category,CancellationToken cancellationToken)
     {
-        return OpenPageAsync(
-            player,
-            new ShopVehiclesPage(category, _vehicleShopService),
-            cancellationToken);
+        return OpenPageAsync(player, new ShopVehiclesPage(category,_vehicleShopService, _ownershipService, _economyService, _databaseService, _sendMessage), cancellationToken);
     }
 }

@@ -24,12 +24,12 @@ public sealed class VehicleOwnershipService
             SELECT COUNT(*)
             FROM owned_vehicles
             WHERE player_id = @player_id
-              AND car_name = @car_name;
+              AND car_code = @car_code;
             """;
 
         await using var command = new MySqlCommand(sql, connection);
         command.Parameters.AddWithValue("@player_id", player.Data.Id);
-        command.Parameters.AddWithValue("@car_name", carName);
+        command.Parameters.AddWithValue("@car_code", carName);
 
         var result = Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken));
 
@@ -41,13 +41,13 @@ public sealed class VehicleOwnershipService
         await connection.OpenAsync(cancellationToken);
 
         const string sql = """
-           INSERT IGNORE INTO owned_vehicles (player_id, car_name)
-           VALUES (@player_id, @car_name);
+           INSERT IGNORE INTO owned_vehicles (player_id, car_code)
+           VALUES (@player_id, @car_code);
            """;
 
         await using var command = new MySqlCommand(sql, connection);
         command.Parameters.AddWithValue("@player_id", player.Data.Id);
-        command.Parameters.AddWithValue("@car_name", carName);
+        command.Parameters.AddWithValue("@car_code", carName);
 
         await command.ExecuteScalarAsync(cancellationToken);
     }

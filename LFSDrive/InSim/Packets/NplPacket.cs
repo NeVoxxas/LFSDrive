@@ -4,7 +4,7 @@ public sealed class NplPacket : InSimPacket
 {
     public const byte PacketType = 21;
 
-    private NplPacket(int size, byte reqI, byte plid, byte ucid, string playerName, string plate, string carName)
+    private NplPacket(int size, byte reqI, byte plid, byte ucid, string playerName, string plate, string carName, string carCode)
         : base(size, PacketType, reqI)
     {
         PLID = plid;
@@ -12,6 +12,7 @@ public sealed class NplPacket : InSimPacket
         PlayerName = playerName;
         Plate = plate;
         CarName = carName;
+        CarCode = carCode;
     }
 
     public byte PLID { get; }
@@ -19,6 +20,7 @@ public sealed class NplPacket : InSimPacket
     public string PlayerName { get; }
     public string Plate { get; }
     public string CarName { get; }
+    public string CarCode { get; }
 
     public static InSimPacket Parse(byte[] rawData)
     {
@@ -33,13 +35,43 @@ public sealed class NplPacket : InSimPacket
             throw new InvalidDataException($"Expected IS_NPL {PacketType}, got {type}.");
 
         var ucid = reader.ReadByte();
-        _ = reader.ReadByte(); // PType
+        _ = reader.ReadByte();   // PType
         _ = reader.ReadUInt16(); // Flags
 
         var playerName = reader.ReadFixedAsciiString(24);
         var plate = reader.ReadFixedAsciiString(8);
+
+        var carBytes = rawData.Skip(reader.Position).Take(4).ToArray();
+        var carOffset = reader.Position;
+
         var carName = reader.ReadFixedAsciiString(4);
 
-        return new NplPacket(size, reqI, plid, ucid, playerName, plate, carName);
+        var carCode = BitConverter.ToString(rawData, carOffset, 4);
+
+        _ = reader.ReadFixedAsciiString(16); // SName
+        _ = reader.ReadByte(); // Tyre FL
+        _ = reader.ReadByte(); // Tyre FR
+        _ = reader.ReadByte(); // Tyre RL
+        _ = reader.ReadByte(); // Tyre RR
+
+        _ = reader.ReadByte(); // H_Mass
+        _ = reader.ReadByte(); // H_TRes
+        _ = reader.ReadByte(); // Model
+        _ = reader.ReadByte(); // Pass
+
+        _ = reader.ReadByte(); // RWAdj
+        _ = reader.ReadByte(); // FWAdj
+        _ = reader.ReadByte(); // RIFlags
+        _ = reader.ReadByte(); // Sp3
+
+        _ = reader.ReadByte(); // SetF
+        _ = reader.ReadByte(); // NumP
+        _ = reader.ReadByte(); // Config
+        _ = reader.ReadByte(); // Fuel
+
+        Console.WriteLine(
+            $"NPL CName bytes: {BitConverter.ToString(carBytes)} | Text: '{carName}'");
+
+        return new NplPacket(size, reqI, plid, ucid, playerName, plate, carName, carCode);
     }
 }

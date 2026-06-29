@@ -2,7 +2,7 @@
 
 public sealed class VehicleShopItem
 {
-    public string CarName { get; set; } = string.Empty;
+    public string CarCode { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;
     public int Price { get; set; }
 }

@@ -104,14 +104,14 @@ public sealed class InSimClient : IDisposable
 
         var menuRenderer = new MenuRenderer( SendButtonAsync, DeleteButtonRangeAsync);
 
-        _menuManager = new MenuManager(menuRenderer, _vehicleShopService);
+        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, SendMessageToConnectionAsync);
 
         //HANDLERIAI
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
         _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService);
-        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _vehicleOwnershipService, SendMessageToConnectionAsync, SendHostCommandAsync);
+        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)
@@ -246,7 +246,9 @@ public sealed class InSimClient : IDisposable
                     continue;
 
                 case NplPacket npl:
+
                     await _connectionHandler.HandleNewPlayerAsync(npl, cancellationToken);
+                    //Console.WriteLine($"NPL CAR RAW: '{npl.CarName}' LEN={npl.CarName.Length}");
                     continue;
                 case BtcPacket btc:
                     {

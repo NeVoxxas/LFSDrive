@@ -6,14 +6,9 @@
       "requiredLicense": 0,
       "vehicles": [
         {
-          "carName": "XFG",
+          "carCode": "58-46-47-0",
           "displayName": "XF GTI",
           "price": 0
-        },
-        {
-          "carName": "XRG",
-          "displayName": "XR GT",
-          "price": 800
         }
       ]
     },
@@ -27,7 +22,13 @@
       "id": "B",
       "name": "B kategorija",
       "requiredLicense": 150,
-      "vehicles": []
+      "vehicles": [
+        {
+          "carCode": "36-11-DB-00",
+          "displayName": "BMW M5 E60",
+          "price": 59000
+        }
+      ]
     },
     {
       "id": "A",
