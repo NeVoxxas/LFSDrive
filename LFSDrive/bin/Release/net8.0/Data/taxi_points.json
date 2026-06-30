@@ -1,4 +1,10 @@
 {
+  "fare": {
+    "baseFare": 100,
+    "pricePerKm": 300,
+    "minReward": 250,
+    "maxReward": 3000
+  },
   "pickup": [
     {
       "x": 316.8,

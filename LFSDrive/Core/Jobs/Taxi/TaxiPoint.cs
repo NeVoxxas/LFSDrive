@@ -2,6 +2,6 @@
 
 public sealed class TaxiPoint
 {
-    public required double X { get; init; }
-    public required double Y { get; init; }
+    public required double X { get; set; }
+    public required double Y { get; set; }
 }

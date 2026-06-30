@@ -2,6 +2,8 @@
 
 public sealed class TaxiPointConfig
 {
+    public TaxiFareConfig Fare { get; set; } = new();
+
     public List<TaxiPoint> Pickup { get; set; } = new();
 
     public List<TaxiPoint> Destination { get; set; } = new();

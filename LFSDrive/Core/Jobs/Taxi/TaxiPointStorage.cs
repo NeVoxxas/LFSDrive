@@ -6,6 +6,12 @@ public sealed class TaxiPointStorage
 {
     private const string FilePath = "Data/taxi_points.json";
 
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = true
+    };
+
     public TaxiPointConfig Load()
     {
         if (!File.Exists(FilePath))
@@ -18,9 +24,15 @@ public sealed class TaxiPointStorage
 
         return JsonSerializer.Deserialize<TaxiPointConfig>(
             json,
-            new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            }) ?? new TaxiPointConfig();
+            JsonOptions) ?? new TaxiPointConfig();
+    }
+
+    public void Save(TaxiPointConfig config)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
+
+        var json = JsonSerializer.Serialize(config, JsonOptions);
+
+        File.WriteAllText(FilePath, json);
     }
 }

@@ -44,7 +44,7 @@ public sealed class TaxiJob : IJob
             State = TaxiState.DrivingToPickup,
             Pickup = new System.Numerics.Vector3((float)pickup.X, (float)pickup.Y, 0),
             Destination = new System.Numerics.Vector3((float)destination.X, (float)destination.Y, 0),
-            Reward = 500
+            Reward = CalculateReward(pickup, destination)
         };
 
         _missions[context.Player.UCID] = mission;
@@ -139,7 +139,7 @@ public sealed class TaxiJob : IJob
 
             Destination = new System.Numerics.Vector3((float)destination.X,(float)destination.Y,0),
 
-            Reward = 500
+            Reward = CalculateReward(pickup, destination)
         };
 
         _missions[context.Player.UCID] = mission;
@@ -149,6 +149,21 @@ public sealed class TaxiJob : IJob
         context.GpsService.SetTarget(context.Player,"Taxi pickup",pickup.X,pickup.Y);
 
         await context.SendMessage(context.Player.UCID,"^3Naujas taxi uzsakymas gautas.",cancellationToken);
+    }
+
+    private int CalculateReward(TaxiPoint pickup, TaxiPoint destination)
+    {
+        var fare = _points.Fare;
+
+        var dx = destination.X = pickup.X;
+        var dy = destination.Y = pickup.Y;
+
+        var distanceMeters = Math.Sqrt(dx*dx + dy*dy);
+        var distanceKm = distanceMeters / 1000.0;
+
+        var reward = fare.BaseFare + (int)Math.Round(distanceKm * fare.PricePerKm);
+
+        return Math.Clamp(reward, fare.MinReward, fare.MaxReward);
     }
 
     private TaxiPoint GetRandomPoint(List<TaxiPoint> points)

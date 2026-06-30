@@ -8,6 +8,7 @@ using LfsCruise.Core.Economy;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.World;
+using LfsCruise.Core.Jobs.Taxi;
 
 namespace LfsCruise.Core.Commands;
 
@@ -19,6 +20,7 @@ public static class CommandLoader
         ZoneService zoneService,
         ProgressionService progressionService,
         JobManager jobManager,
+        TaxiPointStorage taxiPointStorage,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         commandManager.Register(new HelpCommand(sendMessage));
@@ -35,5 +37,6 @@ public static class CommandLoader
         commandManager.Register(new JobsCommand(sendMessage));
         commandManager.Register(new JoinJobCommand(jobManager, sendMessage));
         commandManager.Register(new LeaveJobCommand(jobManager));
+        commandManager.Register(new TaxiFareCommand(taxiPointStorage, sendMessage));
     }
 }

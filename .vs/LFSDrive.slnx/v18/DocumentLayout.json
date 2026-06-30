@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\source\\repos\\LFSDrive\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\data\\taxi_points.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\data\\taxi_points.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TaxiJob.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAkwAoAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T21:04:57.123Z",
+              "Title": "taxi_points.json",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\taxi_points.json",
+              "RelativeDocumentMoniker": "LFSDrive\\Data\\taxi_points.json",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\taxi_points.json",
+              "RelativeToolTip": "LFSDrive\\Data\\taxi_points.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-30T22:01:47.794Z",
               "EditorCaption": ""
             },
             {

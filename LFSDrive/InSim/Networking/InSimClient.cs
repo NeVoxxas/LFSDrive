@@ -70,6 +70,8 @@ public sealed class InSimClient : IDisposable
 
     private readonly JobManager _jobManager;
 
+    private readonly TaxiPointStorage _taxiPointStorage = new();
+
     // HANDLERIAI
 
     private readonly ChatHandler _chatHandler;
@@ -92,8 +94,8 @@ public sealed class InSimClient : IDisposable
 
         _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
 
-        _lfsModInfoService = new LfsModInfoService();                          // ← naujas
-        _modNameService = new ModNameService(new ModNameStorage(), _lfsModInfoService); // ← naujas
+        _lfsModInfoService = new LfsModInfoService();
+        _modNameService = new ModNameService(new ModNameStorage(), _lfsModInfoService);
 
         _gpsService = new GpsService(SendButtonAsync, DeleteButtonRangeAsync);
 
@@ -106,13 +108,13 @@ public sealed class InSimClient : IDisposable
             SendMessageToConnectionAsync,
             SendButtonAsync,
             DeleteButtonRangeAsync);
-        _jobManager.Register(new TaxiJob(new TaxiPointStorage()));
+        _jobManager.Register(new TaxiJob(_taxiPointStorage));
 
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
-        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, SendMessageToConnectionAsync);
+        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, _taxiPointStorage ,SendMessageToConnectionAsync);
 
         _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
 

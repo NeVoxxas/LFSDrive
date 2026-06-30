@@ -19,7 +19,6 @@ public sealed class LfsModInfoService
             if (!match.Success)
                 return null;
 
-            // <title>LFS - Files - Vehicle Mods - ROKU HATCH</title>
             var title = match.Groups[1].Value.Trim();
             const string prefix = "LFS - Files - Vehicle Mods - ";
 
