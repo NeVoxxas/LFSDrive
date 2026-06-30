@@ -20,3 +20,4 @@ C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Release\net8.0\LfsCruise.pdb
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Release\net8.0\LFSDrive.genruntimeconfig.cache
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Release\net8.0\ref\LfsCruise.dll
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Release\net8.0\Data\vehicle_shop.json
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Release\net8.0\Data\taxi_points.json

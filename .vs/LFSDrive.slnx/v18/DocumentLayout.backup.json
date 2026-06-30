@@ -3,16 +3,120 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\source\\repos\\LFSDrive\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\gps\\gpsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\gps\\gpsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxistate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxistate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\jobmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\jobmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\jobcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\jobcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\handlers\\mcihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\handlers\\mcihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\gps\\gpstarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\gps\\gpstarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\ijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\ijob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\data\\taxi_points.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\data\\taxi_points.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxipointstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxipointstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxipointconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxipointconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taxipoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taxipoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\checkpoints\\checkpointmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\checkpoints\\checkpointmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\checkpoints\\checkpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\checkpoints\\checkpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\taxi\\taximission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\taxi\\taximission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\commands\\commandloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\commands\\commandloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\commands\\jobs\\leavejobcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\commands\\jobs\\leavejobcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\commands\\jobs\\joinjobcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\commands\\jobs\\joinjobcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\commands\\jobs\\jobscommands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\commands\\jobs\\jobscommands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\jobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\jobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\jobtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\jobtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\pages\\shopvehiclespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\pages\\shopvehiclespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\data\\vehicle_shop.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\data\\vehicle_shop.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\vehicles\\shop\\vehicleshopservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\vehicles\\shop\\vehicleshopservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\pages\\shopcategoriesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,32 +127,12 @@
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\vehicles\\shop\\vehicleshopitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\players\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\players\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\data\\vehicle_shop.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\data\\vehicle_shop.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\pages\\shopvehiclespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\pages\\shopvehiclespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\vehicles\\vehicleownershipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\vehicles\\vehicleownershipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\pages\\mainmenupage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,46 +150,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VehicleShopService.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAowCcAAAAgAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "InSimClient.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
+              "RelativeToolTip": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAuwFAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T20:27:41.768Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "VehicleShopItem.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T20:24:27.432Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Players\\Player.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\Players\\Player.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Players\\Player.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\Players\\Player.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAewBsAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T20:24:17.818Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-29T15:29:14.664Z",
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -114,6 +172,319 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GpsService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\GPS\\GpsService.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\GPS\\GpsService.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\GPS\\GpsService.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\GPS\\GpsService.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAqwBUBAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:47:16.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GpsTarget.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\GPS\\GpsTarget.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\GPS\\GpsTarget.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\GPS\\GpsTarget.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\GPS\\GpsTarget.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:47:03.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TaxiPointStorage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointStorage.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointStorage.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointStorage.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointStorage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:33:45.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TaxiPointConfig.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointConfig.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointConfig.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointConfig.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPointConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:33:36.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "taxi_points.json",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\taxi_points.json",
+              "RelativeDocumentMoniker": "LFSDrive\\Data\\taxi_points.json",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\taxi_points.json",
+              "RelativeToolTip": "LFSDrive\\Data\\taxi_points.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-30T12:32:38.897Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TaxiPoint.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPoint.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPoint.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiPoint.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiPoint.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:24:50.01Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CheckpointManager.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Checkpoints\\CheckpointManager.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Checkpoints\\CheckpointManager.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Checkpoints\\CheckpointManager.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Checkpoints\\CheckpointManager.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAIwDoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:20:52.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Checkpoint.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Checkpoints\\Checkpoint.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Checkpoints\\Checkpoint.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Checkpoints\\Checkpoint.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Checkpoints\\Checkpoint.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:20:12.547Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TaxiJob.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAmwGcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:17:42.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "TaxiMission.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiMission.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiMission.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiMission.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiMission.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:17:09.281Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TaxiState.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiState.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiState.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Taxi\\TaxiState.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:16:57.661Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MciHandler.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\MciHandler.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Handlers\\MciHandler.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\MciHandler.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Handlers\\MciHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:08:51.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JobManager.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobManager.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\JobManager.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobManager.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\JobManager.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAmwG0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:06:44.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IJob.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\IJob.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\IJob.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\IJob.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\IJob.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:06:28.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JobContext.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobContext.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\JobContext.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobContext.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\JobContext.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T12:06:15.269Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CommandLoader.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\CommandLoader.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Commands\\CommandLoader.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\CommandLoader.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Commands\\CommandLoader.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACQAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:37:51.301Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LeaveJobCommand.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\LeaveJobCommand.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Commands\\Jobs\\LeaveJobCommand.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\LeaveJobCommand.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Commands\\Jobs\\LeaveJobCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:37:42.747Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "JoinJobCommand.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\JoinJobCommand.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Commands\\Jobs\\JoinJobCommand.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\JoinJobCommand.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Commands\\Jobs\\JoinJobCommand.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAiwDMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:37:28.915Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "JobsCommands.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\JobsCommands.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Commands\\Jobs\\JobsCommands.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Commands\\Jobs\\JobsCommands.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Commands\\Jobs\\JobsCommands.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:37:13.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "JobService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobService.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\JobService.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobService.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\JobService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwCYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:36:53.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "JobType.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobType.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\JobType.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobType.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\JobType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T00:35:04.807Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ShopVehiclesPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAIwIwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T17:26:35.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "MenuManager.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAkwGoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T16:10:25.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "VehicleShopService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAowCcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T20:27:41.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "VehicleShopItem.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Shop\\VehicleShopItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T20:24:27.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Players\\Player.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Players\\Player.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Players\\Player.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Players\\Player.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAewBsAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T20:24:17.818Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "ConnectionHandler.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
@@ -121,25 +492,23 @@
               "RelativeToolTip": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
               "ViewState": "AgIAADsAAAAAAAAAAAAwwFQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T18:26:28.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-29T18:26:28.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 24,
               "Title": "vehicle_shop.json",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\vehicle_shop.json",
               "RelativeDocumentMoniker": "LFSDrive\\Data\\vehicle_shop.json",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\vehicle_shop.json",
               "RelativeToolTip": "LFSDrive\\Data\\vehicle_shop.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-29T18:25:14.72Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-29T18:25:14.72Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 32,
               "Title": "VehicleOwnershipService.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\VehicleOwnershipService.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\VehicleOwnershipService.cs",
@@ -147,25 +516,11 @@
               "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\VehicleOwnershipService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T17:56:07.478Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-29T17:56:07.478Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ShopVehiclesPage.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopVehiclesPage.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAA1wCMAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T17:26:35.056Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 29,
               "Title": "ShopCategoriesService.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\ShopCategoriesService.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopCategoriesService.cs",
@@ -173,12 +528,11 @@
               "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\Pages\\ShopCategoriesService.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAIwDoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T17:06:53.678Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-29T17:06:53.678Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 34,
               "Title": "MenuPage.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuPage.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuPage.cs",
@@ -190,7 +544,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 33,
               "Title": "MainMenuPage.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\MainMenuPage.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\Pages\\MainMenuPage.cs",
@@ -202,53 +556,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 25,
               "Title": "MenuRenderer.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
               "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAewFQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-29T16:13:13.213Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 1,
               "Title": "ClickIds.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\ClickIds.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
               "RelativeToolTip": "LFSDrive\\Core\\UI\\ClickIds.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAADwvysAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-29T16:12:53.771Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MenuManager.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAewB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T16:10:25.275Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "InSimClient.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "RelativeToolTip": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAEwHYAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T15:29:14.664Z",
-              "EditorCaption": ""
             }
           ]
         }

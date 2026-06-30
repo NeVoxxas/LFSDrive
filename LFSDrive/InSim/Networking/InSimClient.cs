@@ -1,7 +1,11 @@
 using LfsCruise.Core;
+using LfsCruise.Core.Checkpoints;
 using LfsCruise.Core.Commands;
 using LfsCruise.Core.Economy;
 using LfsCruise.Core.Events;
+using LfsCruise.Core.GPS;
+using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Jobs.Taxi;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.UI;
@@ -47,11 +51,19 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleShopService _vehicleShopService;
 
+    private readonly GpsService _gpsService;
+
     private readonly HudManager _hudManager; // Hudas
 
     private readonly HudUpdateLoop _hudUpdateLoop;
 
     private readonly MenuManager _menuManager; // Hudas
+
+    private readonly CheckpointManager _checkpointManager = new();
+
+    private readonly JobService _jobService = new();
+
+    private readonly JobManager _jobManager;
 
     // HANDLERIAI
 
@@ -75,42 +87,42 @@ public sealed class InSimClient : IDisposable
 
         _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
 
+        _gpsService = new GpsService(SendButtonAsync, DeleteButtonRangeAsync);
+
+        _jobManager = new JobManager(
+            _jobService,
+            _checkpointManager,
+            _gpsService,
+            _economyService,
+            _databaseService,
+            SendMessageToConnectionAsync,
+            SendButtonAsync,
+            DeleteButtonRangeAsync);
+        _jobManager.Register(new TaxiJob(new TaxiPointStorage()));
+
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
-        CommandLoader.RegisterAll(
-            _commandManager,
-            _economyService,
-            _zoneService,
-            _progressionService,
-            SendMessageToConnectionAsync);
+        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, SendMessageToConnectionAsync);
 
-        _eventBus.Subscribe(
-            new PlayerConnectedHandler(
-                _playerManager,
-                _databaseService,
-                SendMessageToConnectionAsync
-            )
-        );
+        _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
 
         var hudRenderer = new HudRenderer(SendButtonAsync);
 
-        _hudManager = new HudManager(
-            hudRenderer,
-            _progressionService);
+        _hudManager = new HudManager( hudRenderer, _progressionService);
 
         _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
         var menuRenderer = new MenuRenderer( SendButtonAsync, DeleteButtonRangeAsync);
 
-        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, SendMessageToConnectionAsync);
+         _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, SendMessageToConnectionAsync);
 
         //HANDLERIAI
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
-        _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService);
+        _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService, _gpsService ,_jobManager);
         _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
@@ -234,7 +246,7 @@ public sealed class InSimClient : IDisposable
                     continue;
 
                 case MciPacket mci:
-                    _mciHandler.Handle(mci);
+                    await _mciHandler.HandleAsync(mci, cancellationToken);
                     continue;
 
                 case NcnPacket ncn:

@@ -1,4 +1,6 @@
-﻿using LfsCruise.Core.Players;
+﻿using LfsCruise.Core.GPS;
+using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.World;
 using LfsCruise.InSim.Packets;
@@ -10,18 +12,24 @@ public sealed class MciHandler
     private readonly PlayerManager _playerManager;
     private readonly ZoneManager _zoneManager;
     private readonly ProgressionService _progressionService;
+    private readonly GpsService _gpsService;
+    private readonly JobManager _jobManager;
 
     public MciHandler(
         PlayerManager playerManager,
         ZoneManager zoneManager,
-        ProgressionService progressionService)
+        ProgressionService progressionService,
+        GpsService gpsService,
+        JobManager jobManager)
     {
         _playerManager = playerManager;
         _zoneManager = zoneManager;
         _progressionService = progressionService;
+        _gpsService = gpsService;
+        _jobManager = jobManager;
     }
 
-    public void Handle(MciPacket mci)
+    public async Task HandleAsync(MciPacket mci, CancellationToken cancellationToken)
     {
         foreach (var car in mci.Cars)
         {
@@ -59,6 +67,8 @@ public sealed class MciHandler
             player.Vehicle.Heading = car.Heading;
 
             _zoneManager.Update(player);
+            await _jobManager.OnPlayerMoveAsync(player, cancellationToken);
+            await _gpsService.UpdateAsync(player, cancellationToken);
         }
     }
 }

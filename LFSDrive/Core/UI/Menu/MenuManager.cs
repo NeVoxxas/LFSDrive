@@ -62,6 +62,8 @@ public sealed class MenuManager
             Player = player
         };
 
+
+
         await page.HandleClickAsync(this, context, clickId, cancellationToken);
     }
 
@@ -86,8 +88,29 @@ public sealed class MenuManager
             cancellationToken);
     }
 
-    public Task OpenVehicleCategoryAsync(Player player,VehicleShopCategory category,CancellationToken cancellationToken)
+    public Task OpenVehicleCategoryAsync(
+        Player player,
+        VehicleShopCategory category,
+        int page,
+        CancellationToken cancellationToken)
     {
-        return OpenPageAsync(player, new ShopVehiclesPage(category,_vehicleShopService, _ownershipService, _economyService, _databaseService, _sendMessage), cancellationToken);
+        return OpenPageAsync(
+            player,
+            new ShopVehiclesPage(
+                category,
+                _vehicleShopService,
+                _ownershipService,
+                _economyService,
+                _databaseService,
+                _sendMessage,
+                page),
+            cancellationToken);
+    }
+    public Task OpenVehicleCategoryAsync(
+    Player player,
+    VehicleShopCategory category,
+    CancellationToken cancellationToken)
+    {
+        return OpenVehicleCategoryAsync(player, category, 0, cancellationToken);
     }
 }

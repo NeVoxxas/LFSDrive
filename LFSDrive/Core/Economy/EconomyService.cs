@@ -1,9 +1,12 @@
 ﻿using LfsCruise.Core.Players;
+using LfsCruise.Database;
 
 namespace LfsCruise.Core.Economy;
 
 public sealed class EconomyService
 {
+
+
     public bool AddMoney(Player player, int amount)
     {
         if (amount <= 0)
@@ -51,4 +54,17 @@ public sealed class EconomyService
         player.Data.Money += amount;
         return true;
     }
+
+    public Task<bool> AddMoneyAsync(Player player, int amount)
+    {
+        var result = AddMoney(player, amount);
+        return Task.FromResult(result);
+    }
+
+    public Task<bool> RemoveMoneyAsync(Player player, int amount)
+    {
+        var result = RemoveMoney(player, amount);
+        return Task.FromResult(result);
+    }   
+
 }

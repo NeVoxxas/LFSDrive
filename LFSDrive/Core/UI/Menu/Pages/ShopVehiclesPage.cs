@@ -8,6 +8,8 @@ namespace LfsCruise.Core.UI.Menu.Pages;
 
 public sealed class ShopVehiclesPage : MenuPage
 {
+    private const int PageSize = 5;
+
     private readonly VehicleShopCategory _category;
     private readonly VehicleShopService _shopService;
     private readonly VehicleOwnershipService _ownershipService;
@@ -32,17 +34,13 @@ public sealed class ShopVehiclesPage : MenuPage
         _economyService = economyService;
         _databaseService = databaseService;
         _sendMessage = sendMessage;
-        _page = page;
+        _page = Math.Max(0, page);
     }
 
     public override string Title => _category.Name;
 
     public override IReadOnlyList<MenuButton> GetButtons(MenuContext context)
     {
-        const int pageSize = 5;
-        var vehicles = _category.Vehicles
-            .Skip(_page * pageSize) .Take(pageSize) .ToList();
-
         var buttons = new List<MenuButton>
         {
             new()
@@ -52,9 +50,18 @@ public sealed class ShopVehiclesPage : MenuPage
             }
         };
 
+        var totalVehicles = _category.Vehicles.Count;
+        var totalPages = Math.Max(1, (int)Math.Ceiling(totalVehicles / (double)PageSize));
+        var currentPage = Math.Clamp(_page, 0, totalPages - 1);
+
+        var pageVehicles = _category.Vehicles
+            .Skip(currentPage * PageSize)
+            .Take(PageSize)
+            .ToList();
+
         byte clickId = ClickIds.Shop.VehicleStart;
 
-        foreach (var vehicle in _category.Vehicles)
+        foreach (var vehicle in pageVehicles)
         {
             buttons.Add(new MenuButton
             {
@@ -63,32 +70,83 @@ public sealed class ShopVehiclesPage : MenuPage
             });
         }
 
-        if (_page > 0)
-            "< Ankstesnis"
-        if((_page + 1) * pageSize < _category.Vehicles.Count)
-            "Kitas >"
+        if (currentPage > 0)
+        {
+            buttons.Add(new MenuButton
+            {
+                ClickId = ClickIds.Shop.PreviousPage,
+                Text = "^7< Ankstesnis"
+            });
+        }
+
+        buttons.Add(new MenuButton
+        {
+            ClickId = ClickIds.Shop.PageInfo,
+            Text = $"^7Puslapis {currentPage + 1}/{totalPages}"
+        });
+
+        if (currentPage < totalPages - 1)
+        {
+            buttons.Add(new MenuButton
+            {
+                ClickId = ClickIds.Shop.NextPage,
+                Text = "^7Kitas >"
+            });
+        }
 
         return buttons;
     }
+
     public override async Task HandleClickAsync(
         MenuManager manager,
         MenuContext context,
         byte clickId,
         CancellationToken cancellationToken)
     {
+        var player = context.Player;
+
         if (clickId == ClickIds.Menu.Back)
         {
-            await manager.OpenShopAsync(context.Player, cancellationToken);
+            await manager.OpenShopAsync(player, cancellationToken);
             return;
         }
 
-        var index = clickId - ClickIds.Shop.VehicleStart;
+        if (clickId == ClickIds.Shop.PreviousPage)
+        {
+            await manager.OpenVehicleCategoryAsync(player, _category, _page - 1, cancellationToken);
+            return;
+        }
 
-        if (index < 0 || index >= _category.Vehicles.Count)
+        if (clickId == ClickIds.Shop.NextPage)
+        {
+            await manager.OpenVehicleCategoryAsync(player, _category, _page + 1, cancellationToken);
+            return;
+        }
+
+        if (clickId == ClickIds.Shop.PageInfo)
             return;
 
-        var vehicle = _category.Vehicles[index];
-        var player = context.Player;
+        var indexOnPage = clickId - ClickIds.Shop.VehicleStart;
+
+        if (indexOnPage < 0 || indexOnPage >= PageSize)
+            return;
+
+        var vehicleIndex = (_page * PageSize) + indexOnPage;
+
+        if (vehicleIndex < 0 || vehicleIndex >= _category.Vehicles.Count)
+            return;
+
+        var vehicle = _category.Vehicles[vehicleIndex];
+
+        if (player.License < _category.RequiredLicense)
+        {
+            await _sendMessage(
+                player.UCID,
+                $"^1Nepakanka licenzijos. Reikia: ^7{_category.RequiredLicense:0.0} ^1Tavo: ^7{player.License:0.0}",
+                cancellationToken);
+
+            return;
+        }
 
         if (await _ownershipService.OwnsVehicleAsync(player, vehicle.CarCode, cancellationToken))
         {
@@ -107,6 +165,6 @@ public sealed class ShopVehiclesPage : MenuPage
 
         await _sendMessage(player.UCID, $"^2Nusipirkai: ^7{vehicle.DisplayName} ^2uz ^7{vehicle.Price}$", cancellationToken);
 
-        await manager.OpenVehicleCategoryAsync(player, _category, cancellationToken);
+        await manager.OpenVehicleCategoryAsync(player, _category, _page, cancellationToken);
     }
 }

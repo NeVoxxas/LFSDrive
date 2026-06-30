@@ -2,6 +2,8 @@
 using LfsCruise.Core.Commands.Admin.Zones;
 using LfsCruise.Core.Commands.Economy;
 using LfsCruise.Core.Commands.General;
+using LfsCruise.Core.Commands.Jobs;
+using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Economy;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.Players;
@@ -16,6 +18,7 @@ public static class CommandLoader
         EconomyService economyService,
         ZoneService zoneService,
         ProgressionService progressionService,
+        JobManager jobManager,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         commandManager.Register(new HelpCommand(sendMessage));
@@ -29,5 +32,8 @@ public static class CommandLoader
         commandManager.Register(new ReloadZonesCommand(zoneService, sendMessage));
         commandManager.Register(new RemoveZoneCommand(zoneService, sendMessage));
         commandManager.Register(new ShowLicCommand(progressionService, sendMessage));
+        commandManager.Register(new JobsCommand(sendMessage));
+        commandManager.Register(new JoinJobCommand(jobManager, sendMessage));
+        commandManager.Register(new LeaveJobCommand(jobManager));
     }
 }
