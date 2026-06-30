@@ -235,7 +235,7 @@ public sealed class GpsService
 
         var headingRadians = HeadingToRadians(heading);
 
-        var forwardX = Math.Sin(headingRadians);
+        var forwardX = -Math.Sin(headingRadians);
         var forwardY = Math.Cos(headingRadians);
 
         var dot = forwardX * targetX + forwardY * targetY;

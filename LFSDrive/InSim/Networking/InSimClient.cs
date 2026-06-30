@@ -12,6 +12,7 @@ using LfsCruise.Core.UI;
 using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.UI.Menu;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.World;
 using LfsCruise.Database;
@@ -49,11 +50,15 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleOwnershipService _vehicleOwnershipService;
 
+    private readonly LfsModInfoService _lfsModInfoService;      // ← naujas
+
+    private readonly ModNameService _modNameService;
+
     private readonly VehicleShopService _vehicleShopService;
 
     private readonly GpsService _gpsService;
 
-    private readonly HudManager _hudManager; // Hudas
+    private readonly HudManager _hudManager; // Hudas   
 
     private readonly HudUpdateLoop _hudUpdateLoop;
 
@@ -86,6 +91,9 @@ public sealed class InSimClient : IDisposable
         _vehicleOwnershipService = new VehicleOwnershipService(databaseConfig);
 
         _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
+
+        _lfsModInfoService = new LfsModInfoService();                          // ← naujas
+        _modNameService = new ModNameService(new ModNameStorage(), _lfsModInfoService); // ← naujas
 
         _gpsService = new GpsService(SendButtonAsync, DeleteButtonRangeAsync);
 
@@ -123,7 +131,7 @@ public sealed class InSimClient : IDisposable
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
         _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService, _gpsService ,_jobManager);
-        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
+        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService ,_vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)

@@ -4,7 +4,8 @@ public sealed class NplPacket : InSimPacket
 {
     public const byte PacketType = 21;
 
-    private NplPacket(int size, byte reqI, byte plid, byte ucid, string playerName, string plate, string carName, string carCode)
+    private NplPacket(int size, byte reqI, byte plid, byte ucid, string playerName, string plate,
+        string carName, string carCode, bool isMod, string skinId)
         : base(size, PacketType, reqI)
     {
         PLID = plid;
@@ -13,6 +14,8 @@ public sealed class NplPacket : InSimPacket
         Plate = plate;
         CarName = carName;
         CarCode = carCode;
+        IsMod = isMod;
+        SkinId = skinId;
     }
 
     public byte PLID { get; }
@@ -20,7 +23,15 @@ public sealed class NplPacket : InSimPacket
     public string PlayerName { get; }
     public string Plate { get; }
     public string CarName { get; }
+
+    // Paliekam senąjį formatą - naudojamas kaip vehicle_shop.json raktas
     public string CarCode { get; }
+
+    // Nauja: ar tai mod'as, ar oficialus LFS automobilis
+    public bool IsMod { get; }
+
+    // Nauja: TIKRAS SkinID (6 hex simboliai), prasmingas tik kai IsMod == true
+    public string SkinId { get; }
 
     public static InSimPacket Parse(byte[] rawData)
     {
@@ -41,12 +52,18 @@ public sealed class NplPacket : InSimPacket
         var playerName = reader.ReadFixedAsciiString(24);
         var plate = reader.ReadFixedAsciiString(8);
 
-        var carBytes = rawData.Skip(reader.Position).Take(4).ToArray();
         var carOffset = reader.Position;
+        var carBytes = rawData.Skip(carOffset).Take(4).ToArray();
 
         var carName = reader.ReadFixedAsciiString(4);
-
         var carCode = BitConverter.ToString(rawData, carOffset, 4);
+
+        // Modas, jei BENT vienas iš pirmų 3 baitų nėra alfanumerinis
+        var isMod = !(IsAlphaNumeric(carBytes[0]) && IsAlphaNumeric(carBytes[1]) && IsAlphaNumeric(carBytes[2]));
+
+        // Tikras SkinID: 3 baitai little-endian tvarka, kaip 6 simbolių HEX
+        var skinIdValue = (carBytes[2] << 16) | (carBytes[1] << 8) | carBytes[0];
+        var skinId = skinIdValue.ToString("X6");
 
         _ = reader.ReadFixedAsciiString(16); // SName
         _ = reader.ReadByte(); // Tyre FL
@@ -69,9 +86,13 @@ public sealed class NplPacket : InSimPacket
         _ = reader.ReadByte(); // Config
         _ = reader.ReadByte(); // Fuel
 
-        Console.WriteLine(
-            $"NPL CName bytes: {BitConverter.ToString(carBytes)} | Text: '{carName}'");
+        return new NplPacket(size, reqI, plid, ucid, playerName, plate, carName, carCode, isMod, skinId);
+    }
 
-        return new NplPacket(size, reqI, plid, ucid, playerName, plate, carName, carCode);
+    private static bool IsAlphaNumeric(byte b)
+    {
+        return (b >= (byte)'0' && b <= (byte)'9')
+            || (b >= (byte)'A' && b <= (byte)'Z')
+            || (b >= (byte)'a' && b <= (byte)'z');
     }
 }
