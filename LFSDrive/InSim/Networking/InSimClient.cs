@@ -50,7 +50,7 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleOwnershipService _vehicleOwnershipService;
 
-    private readonly LfsModInfoService _lfsModInfoService;      // ← naujas
+    private readonly LfsModInfoService _lfsModInfoService;
 
     private readonly ModNameService _modNameService;
 
@@ -226,7 +226,7 @@ public sealed class InSimClient : IDisposable
                 Console.WriteLine("Initial state requested.");
             }
 
-            // Hostingo KeepAlive
+            // KeepAlive
 
             if (inSimPacket is TinyPacket tiny)
             {
