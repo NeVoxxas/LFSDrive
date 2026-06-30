@@ -12,6 +12,9 @@ public sealed class TaxiJob : IJob
     private const double DestinationDistance = 5.0;
     private const double MaxStopSpeed = 1.0;
 
+    private const int MinCooldownMinutes = 1;
+    private const int MaxCooldownMinutes = 4;
+
     public TaxiJob(TaxiPointStorage storage)
     {
         _points = storage.Load();
@@ -74,6 +77,9 @@ public sealed class TaxiJob : IJob
             case TaxiState.DrivingToDestination:
                 await HandleDestinationAsync(context, mission, cancellationToken);
                 break;
+            case TaxiState.Cooldown:
+                await HandleCooldownAsync(context, mission, cancellationToken);
+                break;
         }
     }
 
@@ -105,7 +111,7 @@ public sealed class TaxiJob : IJob
 
         await context.SendMessage(player.UCID,$"^2Keleivis islipo. Uzdirbai ^3${mission.Reward}.",cancellationToken);
 
-        await StartNextMissionAsync(context,cancellationToken);
+        await StartCooldownAsync(context, mission, cancellationToken);
     }
 
     private bool IsStoppedAtTarget(Player player,float targetX,float targetY,double maxDistance)
@@ -121,9 +127,7 @@ public sealed class TaxiJob : IJob
         return player.Vehicle.Speed <= MaxStopSpeed;
     }
 
-    private async Task StartNextMissionAsync(
-    JobContext context,
-    CancellationToken cancellationToken)
+    private async Task StartNextMissionAsync(JobContext context, CancellationToken cancellationToken)
     {
         var pickup = GetRandomPoint(_points.Pickup);
         var destination = GetRandomPoint(_points.Destination);
@@ -151,4 +155,24 @@ public sealed class TaxiJob : IJob
     {
         return points[_random.Next(points.Count)];
     }
+
+    private async Task StartCooldownAsync(JobContext context, TaxiMission mission, CancellationToken cancellationToken)
+    {
+        var cooldownMinutes = _random.Next(MinCooldownMinutes, MaxCooldownMinutes + 1);
+
+        mission.State = TaxiState.Cooldown;
+        mission.CooldownUntil = DateTime.UtcNow.AddMinutes(cooldownMinutes);
+
+        await context.GpsService.ClearTargetAsync(context.Player, cancellationToken);
+    }
+
+    private async Task HandleCooldownAsync(JobContext context, TaxiMission mission, CancellationToken cancellationToken)
+    {
+        if (DateTime.UtcNow < mission.CooldownUntil)
+            return;
+
+        await StartNextMissionAsync(context, cancellationToken);
+    }
+
+
 }

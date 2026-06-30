@@ -11,4 +11,6 @@ public sealed class TaxiMission
     public Vector3 Destination { get; set; }
 
     public int Reward { get; set; }
+
+    public DateTime CooldownUntil { get; set; }
 }

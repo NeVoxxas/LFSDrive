@@ -2,5 +2,6 @@
 {
     Idle = 0,
     DrivingToPickup = 1,
-    DrivingToDestination = 2
+    DrivingToDestination = 2,
+    Cooldown = 3
 }
