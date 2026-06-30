@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\source\\repos\\LFSDrive\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\vehicles\\mods\\lfsmodinfoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,31 +50,35 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "InSimClient.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "RelativeDocumentMoniker": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "RelativeToolTip": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAlwIUAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAAwAsBAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-29T15:29:14.664Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ConnectionHandler.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
               "RelativeToolTip": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAIwBUAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-30T19:14:58.335Z",
               "EditorCaption": ""
@@ -89,8 +93,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Mods\\LfsModInfoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:14:45.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T19:14:45.106Z"
             },
             {
               "$type": "Document",
@@ -102,8 +105,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Mods\\ModNameService.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAgwCYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:09:48.625Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T19:09:48.625Z"
             },
             {
               "$type": "Document",
@@ -115,8 +117,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Mods\\ModNameStorage.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:09:40.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T19:09:40.532Z"
             },
             {
               "$type": "Document",
@@ -128,8 +129,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Mods\\ModNameConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:09:34.418Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T19:09:34.418Z"
             },
             {
               "$type": "Document",
@@ -141,8 +141,7 @@
               "RelativeToolTip": "LFSDrive\\InSim\\Packets\\NplPacket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:08:35.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T19:08:35.969Z"
             },
             {
               "$type": "Document",
@@ -154,12 +153,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\GPS\\GpsService.cs",
               "ViewState": "AgIAANkAAAAAAAAAAAAawAABAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T19:00:50.589Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "WhenOpened": "2026-06-30T19:00:50.589Z"
             },
             {
               "$type": "Document",
@@ -171,8 +165,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Taxi\\TaxiJob.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAAawGcAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T18:54:45.422Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-30T18:54:45.422Z"
             },
             {
               "$type": "Document",

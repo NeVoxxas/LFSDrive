@@ -69,7 +69,11 @@ public sealed class ConnectionHandler
         if (player is null)
             return;
 
+
+        player.PLID = npl.PLID;
+        player.CarName = npl.CarCode;
         var vehicle = _vehicleShopService.GetVehicleByCode(npl.CarCode);
+
 
         string displayName;
         if (vehicle is not null)
