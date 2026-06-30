@@ -126,7 +126,7 @@ public sealed class InSimClient : IDisposable
 
         var menuRenderer = new MenuRenderer( SendButtonAsync, DeleteButtonRangeAsync);
 
-         _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, SendMessageToConnectionAsync);
+         _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, SendMessageToConnectionAsync);
 
         //HANDLERIAI
 

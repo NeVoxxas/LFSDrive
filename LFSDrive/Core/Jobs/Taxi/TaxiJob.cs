@@ -51,7 +51,7 @@ public sealed class TaxiJob : IJob
 
         context.GpsService.SetTarget(context.Player,"Taxi pickup",pickup.X,pickup.Y);
 
-        await context.SendMessage(context.Player.UCID,$"^2Taxi uzsakymas gautas. ^7Pickup: ^2{pickup.X:0.0}, {pickup.Y:0.0}",cancellationToken);
+        await context.SendMessage(context.Player.UCID,$"^2Taxi uzsakymas gautas.",cancellationToken);
     }
 
     public async Task OnStopAsync(JobContext context, CancellationToken cancellationToken)

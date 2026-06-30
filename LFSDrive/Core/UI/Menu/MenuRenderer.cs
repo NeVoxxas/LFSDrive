@@ -78,7 +78,7 @@ public sealed class MenuRenderer
     }
     public async Task CloseAsync(Player player, CancellationToken cancellationToken)
     {
-        for (byte id = ClickIds.Menu.Background; id <= 222; id++)
+        for (byte id = ClickIds.Menu.Background; id <= ClickIds.Jobs.Leave; id++)
         {
             await _deleteButtons(player.UCID, id, id, cancellationToken);
         }

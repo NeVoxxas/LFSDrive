@@ -1,4 +1,6 @@
-﻿namespace LfsCruise.Core.UI;
+﻿using System.Diagnostics;
+
+namespace LfsCruise.Core.UI;
 
 public static class ClickIds
 {
@@ -23,6 +25,17 @@ public static class ClickIds
         public const byte Top10 = 105;
         public const byte Statistics = 106;
         public const byte Back = 107;
+    }
+    public static class Jobs
+    {
+        public const byte Menu = 108;
+
+        public const byte Taxi = 234;
+        public const byte Delivery = 235;
+
+        public const byte Join = 236;
+        public const byte Leave = 237;
+
     }
 
     public static class Shop

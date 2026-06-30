@@ -13,7 +13,8 @@ public sealed class MainMenuPage : MenuPage
             new() { ClickId = ClickIds.Menu.Profile, Text = "Profilis" },
             new() { ClickId = ClickIds.Menu.Shop, Text = "Parduotuve" },
             new() { ClickId = ClickIds.Menu.Top10, Text = "TOP 10" },
-            new() { ClickId = ClickIds.Menu.Statistics, Text = "Statistika" }
+            new() { ClickId = ClickIds.Menu.Statistics, Text = "Statistika" },
+            new() { ClickId = ClickIds.Jobs.Menu, Text = "Darbai" }
         ];
     }
     public override Task HandleClickAsync(
@@ -25,6 +26,7 @@ public sealed class MainMenuPage : MenuPage
         return clickId switch
         {
             ClickIds.Menu.Shop => manager.OpenShopAsync(context.Player, cancellationToken),
+            ClickIds.Jobs.Menu => manager.OpenJobsAsync(context.Player, cancellationToken),
             _ => Task.CompletedTask
         };
     }

@@ -1,5 +1,6 @@
 ﻿using LfsCruise.Core.Economy;
 using LfsCruise.Core.Players;
+using LfsCruise.Core.Jobs;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Shop;
@@ -18,6 +19,9 @@ public sealed class MenuManager
     private readonly VehicleOwnershipService _ownershipService;
     private readonly EconomyService _economyService;
     private readonly DatabaseService _databaseService;
+    private readonly JobManager _jobManager;
+    private readonly JobService _jobService;
+    private readonly JobsPage _jobsPage = new();
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -26,6 +30,8 @@ public sealed class MenuManager
         VehicleOwnershipService ownershipService,
         EconomyService economyService,
         DatabaseService databaseService,
+        JobManager jobManager,
+        JobService jobService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -33,6 +39,8 @@ public sealed class MenuManager
         _ownershipService = ownershipService;
         _economyService = economyService;
         _databaseService = databaseService;
+        _jobManager = jobManager;
+        _jobService = jobService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -112,5 +120,38 @@ public sealed class MenuManager
     CancellationToken cancellationToken)
     {
         return OpenVehicleCategoryAsync(player, category, 0, cancellationToken);
+    }
+
+    public Task OpenJobsAsync(Player player, CancellationToken cancellationToken)
+    {
+        return OpenPageAsync(player, _jobsPage, cancellationToken);
+    }
+
+    public Task OpenJobDetailsAsync(
+        Player player,
+        JobType jobType,
+        CancellationToken cancellationToken)
+    {
+        return OpenPageAsync(
+            player,
+            new JobDetailsPage(jobType, _jobService),
+            cancellationToken);
+    }
+
+    public async Task JoinJobFromMenuAsync(
+        Player player,
+        JobType jobType,
+        CancellationToken cancellationToken)
+    {
+        await _jobManager.StartJobAsync(player, jobType, cancellationToken);
+        await OpenJobDetailsAsync(player, jobType, cancellationToken);
+    }
+
+    public async Task LeaveJobFromMenuAsync(
+        Player player,
+        CancellationToken cancellationToken)
+    {
+        await _jobManager.StopJobAsync(player, cancellationToken);
+        await OpenJobsAsync(player, cancellationToken);
     }
 }
