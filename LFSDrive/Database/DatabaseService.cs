@@ -7,7 +7,6 @@ public sealed class DatabaseService
 {
     private readonly DatabaseConfig _config;
 
-
     public DatabaseService(DatabaseConfig config)
     {
         _config = config;
@@ -19,7 +18,7 @@ public sealed class DatabaseService
         await connection.OpenAsync(cancellationToken);
 
         const string selectSql = """
-            SELECT id, money, bank, driven_distance
+            SELECT id, money, bank, driven_distance, last_interest_at
             FROM players
             WHERE username = @username
             LIMIT 1;
@@ -33,12 +32,17 @@ public sealed class DatabaseService
 
             if (await reader.ReadAsync(cancellationToken))
             {
+                var lastInterestOrdinal = reader.GetOrdinal("last_interest_at");
+
                 return new PlayerData
                 {
                     Id = reader.GetInt32("id"),
                     Money = reader.GetInt32("money"),
                     Bank = reader.GetInt32("bank"),
-                    DrivenDistance = reader.GetDouble("driven_distance")
+                    DrivenDistance = reader.GetDouble("driven_distance"),
+                    LastInterestAt = reader.IsDBNull(lastInterestOrdinal)
+                        ? null
+                        : reader.GetDateTime(lastInterestOrdinal)
                 };
             }
         }
@@ -60,7 +64,8 @@ public sealed class DatabaseService
         {
             Money = 5000,
             Bank = 0,
-            DrivenDistance = 0
+            DrivenDistance = 0,
+            LastInterestAt = null
         };
     }
 
@@ -83,6 +88,7 @@ public sealed class DatabaseService
 
         return result is null ? 0 : Convert.ToInt32(result);
     }
+
     public async Task SavePlayerAsync(Player player, CancellationToken cancellationToken = default)
     {
         await using var connection = new MySqlConnection(_config.ConnectionString);
@@ -94,7 +100,8 @@ public sealed class DatabaseService
             money = @money,
             bank = @bank,
             last_seen = CURRENT_TIMESTAMP,
-            driven_distance = @driven_distance
+            driven_distance = @driven_distance,
+            last_interest_at = @last_interest_at
         WHERE username = @username;
         """;
 
@@ -104,8 +111,8 @@ public sealed class DatabaseService
         command.Parameters.AddWithValue("@money", player.Data.Money);
         command.Parameters.AddWithValue("@bank", player.Data.Bank);
         command.Parameters.AddWithValue("@driven_distance", player.Data.DrivenDistance);
+        command.Parameters.AddWithValue("@last_interest_at", (object?)player.Data.LastInterestAt ?? DBNull.Value);
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
-
 }

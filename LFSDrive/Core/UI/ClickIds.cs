@@ -26,6 +26,7 @@ public static class ClickIds
         public const byte Statistics = 106;
         public const byte Back = 107;
     }
+
     public static class Jobs
     {
         public const byte Menu = 108;
@@ -35,7 +36,23 @@ public static class ClickIds
 
         public const byte Join = 236;
         public const byte Leave = 237;
+    }
+    public static class Bank
+    {
+        public const byte Menu = 109;
 
+        public const byte Balance = 110;
+        public const byte InterestInfo = 111;
+        public const byte Deposit = 112;
+        public const byte Withdraw = 113;
+        public const byte History = 114;
+
+        public const byte HistoryPrev = 115;
+        public const byte HistoryNext = 116;
+        public const byte HistoryPageInfo = 117;
+
+        public const byte HistoryEntryStart = 118;
+        public const byte HistoryEntryLast = 122; // 5 eilutės: 118-122
     }
 
     public static class Shop
@@ -52,19 +69,15 @@ public static class ClickIds
     public static class Gps
     {
         public const byte Background = 223;
-
         public const byte TopLeft = 224;
         public const byte Top = 225;
         public const byte TopRight = 226;
-
         public const byte Left = 227;
         public const byte Center = 228;
         public const byte Right = 229;
-
         public const byte BottomLeft = 230;
         public const byte Bottom = 231;
         public const byte BottomRight = 232;
-
         public const byte Info = 233;
     }
 }

@@ -11,4 +11,6 @@
     public byte Style { get; init; } = 0x20 | 0x08;
 
     public bool Enabled { get; init; } = true;
+
+    public byte TypeIn { get; init; } = 0;
 }

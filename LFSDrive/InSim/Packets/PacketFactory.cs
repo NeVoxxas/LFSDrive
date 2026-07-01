@@ -16,7 +16,8 @@ public sealed class PacketFactory
             [NplPacket.PacketType] = NplPacket.Parse,
             [PitPacket.PacketType] = PitPacket.Parse,
             [PsfPacket.PacketType] = PsfPacket.Parse,
-            [BtcPacket.PacketType] = BtcPacket.Parse
+            [BtcPacket.PacketType] = BtcPacket.Parse,
+            [BttPacket.PacketType] = BttPacket.Parse
         })
     {
     }

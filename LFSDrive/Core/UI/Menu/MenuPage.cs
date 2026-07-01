@@ -14,4 +14,14 @@ public abstract class MenuPage
     {
         return Task.CompletedTask;
     }
+
+    public virtual Task HandleTypeInAsync(
+        MenuManager manager,
+        MenuContext context,
+        byte clickId,
+        string text,
+        CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
 }

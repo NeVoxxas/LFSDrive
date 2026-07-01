@@ -101,16 +101,13 @@ Niekur kitur automobilių pavadinimai nelaikomi.
 
 ## Shop
 
-- [ ] Puslapiavimas
-- [ ] Lic tikrinimas prieš pirkimą
-- [ ] Buy dialog
-- [ ] Confirm dialog
+- [✅] Puslapiavimas
+- [✅] Lic tikrinimas prieš pirkimą
+- [✅] Buy dialog
 
 ## Garage
 
 - [ ] Mano automobiliai
-- [ ] Spawn
-- [ ] Despawn
 - [ ] Parduoti
 
 ## Profile

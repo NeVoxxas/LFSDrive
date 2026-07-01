@@ -1,6 +1,7 @@
 ﻿using LfsCruise.Core.Economy;
-using LfsCruise.Core.Players;
+using LfsCruise.Core.Economy.Bank;
 using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Shop;
@@ -22,6 +23,7 @@ public sealed class MenuManager
     private readonly JobManager _jobManager;
     private readonly JobService _jobService;
     private readonly JobsPage _jobsPage = new();
+    private readonly BankService _bankService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -32,6 +34,7 @@ public sealed class MenuManager
         DatabaseService databaseService,
         JobManager jobManager,
         JobService jobService,
+        BankService bankService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -41,6 +44,7 @@ public sealed class MenuManager
         _databaseService = databaseService;
         _jobManager = jobManager;
         _jobService = jobService;
+        _bankService = bankService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -153,5 +157,44 @@ public sealed class MenuManager
     {
         await _jobManager.StopJobAsync(player, cancellationToken);
         await OpenJobsAsync(player, cancellationToken);
+    }
+
+    public Task OpenBankAsync(Player player, bool allowTransactions, bool showBackButton, CancellationToken cancellationToken)
+    {
+        return OpenPageAsync(player, new BankMenuPage(_bankService, allowTransactions, showBackButton), cancellationToken);
+    }
+
+    public async Task OpenBankHistoryAsync(
+        Player player, bool allowTransactions, bool showBackButton, int page, CancellationToken cancellationToken)
+    {
+        var (items, totalCount) = await _bankService.GetHistoryAsync(player, page, cancellationToken);
+
+        await OpenPageAsync(
+            player,
+            new BankHistoryPage(allowTransactions, showBackButton, page, items, totalCount),
+            cancellationToken);
+    }
+
+    public async Task RefreshBankIfOpenAsync(Player player, CancellationToken cancellationToken)
+    {
+        if (_currentPages.TryGetValue(player.UCID, out var page) && page is BankMenuPage)
+        {
+            await _renderer.RenderAsync(player, page, cancellationToken);
+        }
+    }
+
+    public async Task HandleTypeInAsync(Player player, byte clickId, string text, CancellationToken cancellationToken)
+    {
+        if (!_currentPages.TryGetValue(player.UCID, out var page))
+            return;
+
+        var context = new MenuContext { Player = player };
+
+        await page.HandleTypeInAsync(this, context, clickId, text, cancellationToken);
+    }
+
+    public Task SendMessageAsync(byte ucid, string message, CancellationToken cancellationToken)
+    {
+        return _sendMessage(ucid, message, cancellationToken);
     }
 }

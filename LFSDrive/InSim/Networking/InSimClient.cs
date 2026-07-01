@@ -2,6 +2,7 @@ using LfsCruise.Core;
 using LfsCruise.Core.Checkpoints;
 using LfsCruise.Core.Commands;
 using LfsCruise.Core.Economy;
+using LfsCruise.Core.Economy.Bank;
 using LfsCruise.Core.Events;
 using LfsCruise.Core.GPS;
 using LfsCruise.Core.Jobs;
@@ -79,6 +80,14 @@ public sealed class InSimClient : IDisposable
     private readonly MciHandler _mciHandler;
     private readonly ConnectionHandler _connectionHandler;
 
+    //Bank
+
+    private readonly Core.Economy.Bank.BankTransactionStorage _bankTransactionStorage;
+    private readonly Core.Economy.Bank.BankService _bankService;
+    private readonly Core.Economy.Bank.BankZoneService _bankZoneService;
+    private readonly Core.Economy.Bank.BankInterestLoop _bankInterestLoop;
+    private readonly BankUiRefreshLoop _bankUiRefreshLoop;
+
 
     public InSimClient(ServerConfig config, PacketFactory? packetFactory = null)
     {
@@ -124,15 +133,28 @@ public sealed class InSimClient : IDisposable
 
         _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
-        var menuRenderer = new MenuRenderer( SendButtonAsync, DeleteButtonRangeAsync);
+        //Bank
 
-         _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, SendMessageToConnectionAsync);
+        _bankTransactionStorage = new Core.Economy.Bank.BankTransactionStorage(databaseConfig);
+        _bankService = new Core.Economy.Bank.BankService(_bankTransactionStorage, _databaseService);
+        _bankInterestLoop = new Core.Economy.Bank.BankInterestLoop(_playerManager, _bankService);
+
+        // Menu
+
+        var menuRenderer = new MenuRenderer(SendButtonAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
+
+        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, SendMessageToConnectionAsync);
+
+        _bankZoneService = new Core.Economy.Bank.BankZoneService(_zoneManager, _menuManager);
+
+        _bankUiRefreshLoop = new BankUiRefreshLoop(_playerManager, _menuManager);
+
 
         //HANDLERIAI
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
-        _mciHandler = new MciHandler( _playerManager, _zoneManager, _progressionService, _gpsService ,_jobManager);
+        _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService);
         _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService ,_vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
@@ -159,6 +181,8 @@ public sealed class InSimClient : IDisposable
             Console.WriteLine("IS_ISI packet sent");
 
             _ = Task.Run(() => _hudUpdateLoop.RunAsync(cancellationToken), cancellationToken);
+            _ = Task.Run(() => _bankInterestLoop.RunAsync(cancellationToken), cancellationToken);
+            _ = Task.Run(() => _bankUiRefreshLoop.RunAsync(cancellationToken), cancellationToken);
             Console.WriteLine("HUD loop started");
 
             await ReceiveLoopAsync(cancellationToken);
@@ -265,6 +289,7 @@ public sealed class InSimClient : IDisposable
 
                 case CnlPacket cnl:
                     await _connectionHandler.HandleDisconnectedAsync(cnl, cancellationToken);
+                    _bankZoneService.RemovePlayer(cnl.UCID);
                     continue;
 
                 case NplPacket npl:
@@ -293,6 +318,14 @@ public sealed class InSimClient : IDisposable
                                 await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
                                 break;
                         }
+
+                        continue;
+                    }
+                case BttPacket btt:
+                    {
+                        var player = _playerManager.Get(btt.UCID);
+                        if (player is not null)
+                            await _menuManager.HandleTypeInAsync(player, btt.ClickID, btt.Text, cancellationToken);
 
                         continue;
                     }
@@ -472,5 +505,26 @@ public sealed class InSimClient : IDisposable
         };
 
         await SendPacketAsync(packet.ToArray(), cancellationToken);
+    }
+
+    public async Task SendInputButtonAsync(
+    byte ucid, byte clickId, byte left, byte top, byte width, byte height,
+    byte maxChars, string text, CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x20 | 0x40 | 0x08,
+            TypeIn = maxChars,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
     }
 }
