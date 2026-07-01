@@ -6,10 +6,13 @@
 
 >Mašinų parduotuvė. ( Data/vehicle_shop.json )
 
->Job core
+### Job Core
+
+>Taxi ( Data/taxi_points.json )
 
 >Bankas
 
+>Zonų sistema [ !createzone, !deletezone, !savezones, !reloadzones ]
 
 # 0.0.1
 
