@@ -1,13 +1,22 @@
+# 0.0.2
+
+>HUD
+
+>Menu
+
+>Mašinų parduotuvė. ( Data/vehicle_shop.json )
+
+>Job core
+
+>Bankas
+
+
 # 0.0.1
 
 ### Sukurtas FrameWork'as
 
->Sukurtas framework bazė
+>Framework bazė
 
->Patogus komandų registravimas
+>Komandų handleris
 
->Save/Load sistema
-
->Economy sistema
-
->Patogi zonų sistemą [ !createzone , !savezones , !reloadzones , !removezone ] 
+>MySQL
