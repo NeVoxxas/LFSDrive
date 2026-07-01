@@ -1,25 +1,28 @@
-# 0.0.2
+# Changelog
 
->HUD
+## v0.0.2
+### Pridėta
 
->Menu
+-HUD
 
->Mašinų parduotuvė. ( Data/vehicle_shop.json )
+-Menu
 
-### Job Core
+-Mašinų parduotuvė. ( Data/vehicle_shop.json )
 
->Taxi ( Data/taxi_points.json )
+-Job Core
 
->Bankas
+-Taxi ( Data/taxi_points.json )
 
->Zonų sistema [ !createzone, !deletezone, !savezones, !reloadzones ]
+-Bankas
 
-# 0.0.1
+-Zonų sistema [ !createzone, !deletezone, !savezones, !reloadzones ]
 
-### Sukurtas FrameWork'as
+## v0.0.1
 
->Framework bazė
+### Initial release
 
->Komandų handleris
+-Framework
 
->MySQL
+-Komandų handleris
+
+-MySQL
