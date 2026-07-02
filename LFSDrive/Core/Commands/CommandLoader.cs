@@ -3,12 +3,14 @@ using LfsCruise.Core.Commands.Admin.Zones;
 using LfsCruise.Core.Commands.Economy;
 using LfsCruise.Core.Commands.General;
 using LfsCruise.Core.Commands.Jobs;
-using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Commands.Vehicles;
+using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Economy;
-using LfsCruise.Core.Progression;
-using LfsCruise.Core.Players;
-using LfsCruise.Core.World;
+using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Jobs.Taxi;
+using LfsCruise.Core.Players;
+using LfsCruise.Core.Progression;
+using LfsCruise.Core.World;
 
 namespace LfsCruise.Core.Commands;
 
@@ -21,6 +23,8 @@ public static class CommandLoader
         ProgressionService progressionService,
         JobManager jobManager,
         TaxiPointStorage taxiPointStorage,
+        RegitraService regitraService,
+        RegitraConfigStorage regitraConfigStorage,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         commandManager.Register(new HelpCommand(sendMessage));
@@ -38,5 +42,7 @@ public static class CommandLoader
         commandManager.Register(new JoinJobCommand(jobManager, sendMessage));
         commandManager.Register(new LeaveJobCommand(jobManager));
         commandManager.Register(new TaxiFareCommand(taxiPointStorage, sendMessage));
+        commandManager.Register(new RegitraCommand(regitraService, sendMessage));
+        commandManager.Register(new RegitraPriceCommand(regitraConfigStorage, regitraService, sendMessage));
     }
 }

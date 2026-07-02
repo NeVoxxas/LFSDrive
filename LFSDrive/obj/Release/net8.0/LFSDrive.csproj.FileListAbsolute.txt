@@ -21,3 +21,4 @@ C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Release\net8.0\LFSDrive.genruntim
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\obj\Release\net8.0\ref\LfsCruise.dll
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Release\net8.0\Data\vehicle_shop.json
 C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Release\net8.0\Data\taxi_points.json
+C:\Users\PC\source\repos\LFSDrive\LFSDrive\bin\Release\net8.0\Data\regitra.json

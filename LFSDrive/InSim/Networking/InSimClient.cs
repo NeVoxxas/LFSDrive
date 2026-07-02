@@ -14,6 +14,7 @@ using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.UI.Menu;
 using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Mods;
+using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.World;
 using LfsCruise.Database;
@@ -50,6 +51,14 @@ public sealed class InSimClient : IDisposable
     private readonly ProgressionService _progressionService = new(); // Progresas
 
     private readonly VehicleOwnershipService _vehicleOwnershipService;
+
+    // REGITRA
+
+    private readonly RegitraConfigStorage _regitraConfigStorage = new();
+    private readonly RegitraStorage _regitraStorage;
+    private readonly RegitraService _regitraService;
+
+    //
 
     private readonly LfsModInfoService _lfsModInfoService;
 
@@ -119,11 +128,14 @@ public sealed class InSimClient : IDisposable
             DeleteButtonRangeAsync);
         _jobManager.Register(new TaxiJob(_taxiPointStorage));
 
+        _regitraStorage = new RegitraStorage(databaseConfig);
+        _regitraService = new RegitraService(_regitraStorage, _regitraConfigStorage, _economyService, _vehicleOwnershipService, _databaseService);
+
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
-        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, _taxiPointStorage ,SendMessageToConnectionAsync);
+        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, _taxiPointStorage, _regitraService, _regitraConfigStorage, SendMessageToConnectionAsync);
 
         _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
 
@@ -143,7 +155,7 @@ public sealed class InSimClient : IDisposable
 
         var menuRenderer = new MenuRenderer(SendButtonAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
 
-        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, SendMessageToConnectionAsync);
+        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, _regitraService, SendMessageToConnectionAsync);
 
         _bankZoneService = new Core.Economy.Bank.BankZoneService(_zoneManager, _menuManager);
 

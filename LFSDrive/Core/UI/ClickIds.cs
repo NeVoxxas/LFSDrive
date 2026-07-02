@@ -52,7 +52,20 @@ public static class ClickIds
         public const byte HistoryPageInfo = 117;
 
         public const byte HistoryEntryStart = 118;
-        public const byte HistoryEntryLast = 122; // 5 eilutės: 118-122
+        public const byte HistoryEntryLast = 122;
+    }
+
+    public static class Regitra
+    {
+        public const byte MenuButton = 123;
+        public const byte Status = 124;
+        public const byte PlateStatus = 125;
+        public const byte BuyPlate = 126;
+        public const byte ChangePlate = 127;
+        public const byte InsuranceStatus = 128;
+        public const byte BuyInsurance = 129;
+        public const byte InspectionStatus = 130;
+        public const byte BuyInspection = 131;
     }
 
     public static class Shop

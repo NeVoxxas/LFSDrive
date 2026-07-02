@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Data\regitra.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\taxi_points.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

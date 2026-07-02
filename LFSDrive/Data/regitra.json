@@ -1,0 +1,8 @@
+{
+  "platePrice": 500,
+  "plateChangePrice": 1000,
+  "insurancePrice": 300,
+  "inspectionPrice": 200,
+  "insuranceDurationDays": 14,
+  "inspectionDurationMonths": 1
+}

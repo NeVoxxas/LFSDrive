@@ -24,13 +24,10 @@ public sealed class NplPacket : InSimPacket
     public string Plate { get; }
     public string CarName { get; }
 
-    // Paliekam senąjį formatą - naudojamas kaip vehicle_shop.json raktas
     public string CarCode { get; }
 
-    // Nauja: ar tai mod'as, ar oficialus LFS automobilis
     public bool IsMod { get; }
 
-    // Nauja: TIKRAS SkinID (6 hex simboliai), prasmingas tik kai IsMod == true
     public string SkinId { get; }
 
     public static InSimPacket Parse(byte[] rawData)
@@ -58,10 +55,8 @@ public sealed class NplPacket : InSimPacket
         var carName = reader.ReadFixedAsciiString(4);
         var carCode = BitConverter.ToString(rawData, carOffset, 4);
 
-        // Modas, jei BENT vienas iš pirmų 3 baitų nėra alfanumerinis
         var isMod = !(IsAlphaNumeric(carBytes[0]) && IsAlphaNumeric(carBytes[1]) && IsAlphaNumeric(carBytes[2]));
 
-        // Tikras SkinID: 3 baitai little-endian tvarka, kaip 6 simbolių HEX
         var skinIdValue = (carBytes[2] << 16) | (carBytes[1] << 8) | carBytes[0];
         var skinId = skinIdValue.ToString("X6");
 

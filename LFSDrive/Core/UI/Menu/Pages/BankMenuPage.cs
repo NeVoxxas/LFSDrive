@@ -103,8 +103,6 @@ public sealed class BankMenuPage : MenuPage
     {
         var player = context.Player;
 
-        // Apsauga: net jei kažkas nusiųstų IS_BTT be aktyvaus mygtuko UI-je,
-        // serveris vis tiek tikrina _allowTransactions.
         if (!_allowTransactions)
         {
             await manager.SendMessageAsync(player.UCID, "^1Sia operacija galima atlikti tik banke.", cancellationToken);

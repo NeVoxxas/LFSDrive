@@ -4,6 +4,7 @@ using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Database;
 
@@ -24,6 +25,7 @@ public sealed class MenuManager
     private readonly JobService _jobService;
     private readonly JobsPage _jobsPage = new();
     private readonly BankService _bankService;
+    private readonly RegitraService _regitraService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -35,6 +37,7 @@ public sealed class MenuManager
         JobManager jobManager,
         JobService jobService,
         BankService bankService,
+        RegitraService regitraService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -45,6 +48,7 @@ public sealed class MenuManager
         _jobManager = jobManager;
         _jobService = jobService;
         _bankService = bankService;
+        _regitraService = regitraService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -90,6 +94,8 @@ public sealed class MenuManager
         _currentPages.Remove(ucid);
     }
     
+    // VEHICLE SHOP
+
     public Task OpenShopAsync(
     Player player,
     CancellationToken cancellationToken)
@@ -131,6 +137,8 @@ public sealed class MenuManager
         return OpenPageAsync(player, _jobsPage, cancellationToken);
     }
 
+    // JOBS
+
     public Task OpenJobDetailsAsync(
         Player player,
         JobType jobType,
@@ -164,6 +172,8 @@ public sealed class MenuManager
         return OpenPageAsync(player, new BankMenuPage(_bankService, allowTransactions, showBackButton), cancellationToken);
     }
 
+    // BANK
+
     public async Task OpenBankHistoryAsync(
         Player player, bool allowTransactions, bool showBackButton, int page, CancellationToken cancellationToken)
     {
@@ -196,5 +206,49 @@ public sealed class MenuManager
     public Task SendMessageAsync(byte ucid, string message, CancellationToken cancellationToken)
     {
         return _sendMessage(ucid, message, cancellationToken);
+    }
+
+    // REGITRA
+    public Task OpenRegitraAsync(Player player, CancellationToken cancellationToken)
+    {
+        return OpenRegitraPageAsync(player, cancellationToken);
+    }
+
+    private async Task OpenRegitraPageAsync(Player player, CancellationToken cancellationToken)
+    {
+        VehicleDocuments? docs = null;
+
+        if (!string.IsNullOrEmpty(player.CarName))
+            docs = await _regitraService.GetDocumentsAsync(player, player.CarName, cancellationToken);
+
+        await OpenPageAsync(player, new RegitraMenuPage(_regitraService, docs), cancellationToken);
+    }
+
+    public async Task BuyRegitraPlateAsync(Player player, string plateNumber, CancellationToken cancellationToken)
+    {
+        var result = await _regitraService.BuyPlateAsync(player, player.CarName, plateNumber, cancellationToken);
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+        await OpenRegitraPageAsync(player, cancellationToken);
+    }
+
+    public async Task ChangeRegitraPlateAsync(Player player, string plateNumber, CancellationToken cancellationToken)
+    {
+        var result = await _regitraService.ChangePlateAsync(player, player.CarName, plateNumber, cancellationToken);
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+        await OpenRegitraPageAsync(player, cancellationToken);
+    }
+
+    public async Task BuyRegitraInsuranceAsync(Player player, CancellationToken cancellationToken)
+    {
+        var result = await _regitraService.BuyInsuranceAsync(player, player.CarName, cancellationToken);
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+        await OpenRegitraPageAsync(player, cancellationToken);
+    }
+
+    public async Task BuyRegitraInspectionAsync(Player player, CancellationToken cancellationToken)
+    {
+        var result = await _regitraService.BuyInspectionAsync(player, player.CarName, cancellationToken);
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+        await OpenRegitraPageAsync(player, cancellationToken);
     }
 }
