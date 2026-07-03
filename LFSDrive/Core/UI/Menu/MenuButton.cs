@@ -4,7 +4,7 @@
 
     public string Text { get; init; } = string.Empty;
 
-    public byte Width { get; init; } = 35;
+    public byte Width { get; init; } = 60; // buvo 100
 
     public byte Height { get; init; } = 6;
 

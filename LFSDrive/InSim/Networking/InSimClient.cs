@@ -168,7 +168,12 @@ public sealed class InSimClient : IDisposable
 
         // Menu
 
-        var menuRenderer = new MenuRenderer(SendButtonAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
+        var menuRenderer = new MenuRenderer(
+            SendButtonAsync,        // fonas (didelis panelis, kaip ir buvo)
+            SendLabelAsync,         // antraštė + info eilutės - dabar su dark fonu
+            SendMenuItemAsync,      // >> punktai / Atgal / Uzdaryti - dabar su dark fonu
+            SendInputButtonAsync,
+            DeleteButtonRangeAsync);
 
         _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, _regitraService, _marketService, SendMessageToConnectionAsync);
 
@@ -517,6 +522,48 @@ public sealed class InSimClient : IDisposable
         }.ToArray();
 
         //Console.WriteLine($"BTN -> UCID {ucid} ID {clickId} Text: {text}");
+        await SendPacketAsync(packet, cancellationToken);
+    }
+
+    public async Task SendLabelAsync(
+        byte ucid, byte clickId, byte left, byte top, byte width, byte height,
+        string text, CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x20 | 0x40, // ISB_DARK | ISB_LEFT - fonas, bet neklikinamas
+            TypeIn = 0,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
+    }
+
+    public async Task SendMenuItemAsync(
+        byte ucid, byte clickId, byte left, byte top, byte width, byte height,
+        string text, CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x20 | 0x40 | 0x08, // ISB_DARK | ISB_LEFT | ISB_CLICK - fonas + klikinamas
+            TypeIn = 0,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
         await SendPacketAsync(packet, cancellationToken);
     }
     public async Task DeleteButtonRangeAsync(
