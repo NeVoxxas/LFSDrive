@@ -7,6 +7,7 @@ using LfsCruise.Core.Events;
 using LfsCruise.Core.GPS;
 using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Jobs.Taxi;
+using LfsCruise.Core.Jobs.Delivery;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.UI;
@@ -96,12 +97,14 @@ public sealed class InSimClient : IDisposable
 
     //Bank
 
-    private readonly Core.Economy.Bank.BankTransactionStorage _bankTransactionStorage;
-    private readonly Core.Economy.Bank.BankService _bankService;
-    private readonly Core.Economy.Bank.BankZoneService _bankZoneService;
-    private readonly Core.Economy.Bank.BankInterestLoop _bankInterestLoop;
+    private readonly BankTransactionStorage _bankTransactionStorage;
+    private readonly BankService _bankService;
+    private readonly BankZoneService _bankZoneService;
+    private readonly BankInterestLoop _bankInterestLoop;
     private readonly BankUiRefreshLoop _bankUiRefreshLoop;
 
+
+    private readonly DeliveryPointStorage _deliveryPointStorage = new();
 
     public InSimClient(ServerConfig config, PacketFactory? packetFactory = null)
     {
@@ -132,6 +135,7 @@ public sealed class InSimClient : IDisposable
             SendButtonAsync,
             DeleteButtonRangeAsync);
         _jobManager.Register(new TaxiJob(_taxiPointStorage));
+        _jobManager.Register(new DeliveryJob(_deliveryPointStorage, _vehicleOwnershipService, _jobService));
 
         _regitraStorage = new RegitraStorage(databaseConfig);
         _regitraService = new RegitraService(_regitraStorage, _regitraConfigStorage, _economyService, _vehicleOwnershipService, _databaseService);
@@ -150,9 +154,9 @@ public sealed class InSimClient : IDisposable
 
         _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
 
-        var hudRenderer = new HudRenderer(SendButtonAsync);
+        var hudRenderer = new HudRenderer(SendButtonAsync, DeleteButtonRangeAsync);
 
-        _hudManager = new HudManager( hudRenderer, _progressionService);
+        _hudManager = new HudManager(hudRenderer, _progressionService, _jobService);
 
         _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
@@ -179,7 +183,7 @@ public sealed class InSimClient : IDisposable
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
         _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService, _regitraZoneService);
-        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService ,_vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
+        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService,_vehicleOwnershipService, _vehicleShopService, _jobService,SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)

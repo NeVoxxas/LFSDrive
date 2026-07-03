@@ -1,0 +1,45 @@
+{
+  "carCode": "58-D6-69-00",
+  "hq": {
+    "name": "Sandelis",
+    "x": 431.0,
+    "y": -376.8
+  },
+  "fare": {
+    "baseFare": 80,
+    "pricePerKm": 250,
+    "minReward": 150,
+    "maxReward": 2500
+  },
+  "arrivalRadius": 10.0,
+  "reverseChance": 0.3,
+  "minCooldownMinutes": 1,
+  "maxCooldownMinutes": 3,
+  "clients": [
+    {
+      "name": "Klientas A",
+      "x": 495.3,
+      "y": -277.1
+    },
+    {
+      "name": "Klientas B",
+      "x": 472.2,
+      "y": -218.3
+    },
+    {
+      "name": "Klientas C",
+      "x": 345.2,
+      "y": -155.9
+    },
+    {
+      "name": "Klientas D",
+      "x": 301.4,
+      "y": -325.1
+    },
+    {
+      "name": "Klientas E",
+      "x": 254.2,
+      "y": -341.5
+    }
+  ]
+}

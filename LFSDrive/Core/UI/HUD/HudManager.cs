@@ -1,4 +1,5 @@
-﻿using LfsCruise.Core.Players;
+﻿using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.UI.Hud.Widgets;
 using LfsCruise.Core.UI.HUD.Widgets;
@@ -8,12 +9,12 @@ namespace LfsCruise.Core.UI.HUD;
 public sealed class HudManager
 {
     private readonly HudRenderer _renderer;
-
     private readonly List<HudWidget> _widgets;
 
     public HudManager(
         HudRenderer renderer,
-        ProgressionService progressionService)
+        ProgressionService progressionService,
+        JobService jobService) // NAUJA
     {
         _renderer = renderer;
 
@@ -22,10 +23,10 @@ public sealed class HudManager
             new LicenseWidget(progressionService),
             new DistanceWidget(),
             new MoneyWidget(),
+            new JobStatusWidget(jobService), // NAUJA
             new ServerWidget(),
             new DiscordWidget(),
             new MenuWidget()
-
         ];
     }
 

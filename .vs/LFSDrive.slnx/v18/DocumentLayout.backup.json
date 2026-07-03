@@ -3,12 +3,72 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\source\\repos\\LFSDrive\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\vehicles\\market\\marketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\vehicles\\market\\marketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\data\\delivery.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\data\\delivery.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\insim\\networking\\insimclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\hud\\hudrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\hud\\hudrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\hud\\widgets\\jobstatuswidget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\hud\\widgets\\jobstatuswidget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\hud\\hudwidget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\hud\\hudwidget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\handlers\\connectionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliveryjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliveryjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\hud\\hudmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\hud\\hudmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\hud\\hudlayout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\hud\\hudlayout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\jobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\jobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliverymission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliverymission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliverystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliverystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliverypointstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliverypointstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliveryconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliveryconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliveryfareconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliveryfareconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\jobs\\delivery\\deliverypoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\jobs\\delivery\\deliverypoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Document",
@@ -28,7 +88,7 @@
               "RelativeDocumentMoniker": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "RelativeToolTip": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAwwK0AAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAJIAAAAAAAAAAADwv5wAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-30T22:48:36.149Z",
               "IsPinned": true,
@@ -36,15 +96,210 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MarketService.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Market\\MarketService.cs",
-              "RelativeDocumentMoniker": "LFSDrive\\Core\\Vehicles\\Market\\MarketService.cs",
-              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Vehicles\\Market\\MarketService.cs",
-              "RelativeToolTip": "LFSDrive\\Core\\Vehicles\\Market\\MarketService.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAtwAoAAAAiAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "HudRenderer.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudRenderer.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\HUD\\HudRenderer.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudRenderer.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\HUD\\HudRenderer.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAwGgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-02T22:42:17.062Z",
+              "WhenOpened": "2026-07-03T01:11:56.323Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HudWidget.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudWidget.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\HUD\\HudWidget.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudWidget.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\HUD\\HudWidget.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T01:11:29.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HudManager.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudManager.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\HUD\\HudManager.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudManager.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\HUD\\HudManager.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAB4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T01:05:37.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HudLayout.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudLayout.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\HUD\\HudLayout.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\HudLayout.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\HUD\\HudLayout.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T01:05:23.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ClickIds.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\ClickIds.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\ClickIds.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T01:04:50.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "JobStatusWidget.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\Widgets\\JobStatusWidget.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\HUD\\Widgets\\JobStatusWidget.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\HUD\\Widgets\\JobStatusWidget.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\HUD\\Widgets\\JobStatusWidget.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T01:04:37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ConnectionHandler.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Handlers\\ConnectionHandler.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAwHMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:56:36.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "JobService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobService.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\JobService.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\JobService.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\JobService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAwwDgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:56:11.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeliveryJob.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryJob.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryJob.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryJob.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryJob.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAiwBQBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:55:43.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DeliveryMission.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryMission.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryMission.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryMission.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryMission.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:55:37.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DeliveryState.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryState.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryState.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryState.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:55:29.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "delivery.json",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\delivery.json",
+              "RelativeDocumentMoniker": "LFSDrive\\Data\\delivery.json",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Data\\delivery.json",
+              "RelativeToolTip": "LFSDrive\\Data\\delivery.json",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-03T00:54:58.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DeliveryPointStorage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPointStorage.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPointStorage.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPointStorage.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPointStorage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:54:42.233Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DeliveryConfig.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryConfig.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryConfig.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryConfig.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:54:32.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DeliveryFareConfig.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryFareConfig.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryFareConfig.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryFareConfig.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryFareConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:54:22.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DeliveryPoint.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPoint.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPoint.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPoint.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\Jobs\\Delivery\\DeliveryPoint.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T00:54:09.61Z",
               "EditorCaption": ""
             },
             {

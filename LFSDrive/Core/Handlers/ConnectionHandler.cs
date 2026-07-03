@@ -1,4 +1,5 @@
 ﻿using LfsCruise.Core.Events;
+using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.Vehicles;
@@ -6,8 +7,6 @@ using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Database;
 using LfsCruise.InSim.Packets;
-
-namespace LfsCruise.InSim.Handlers;
 
 public sealed class ConnectionHandler
 {
@@ -18,6 +17,7 @@ public sealed class ConnectionHandler
     private readonly ModNameService _modNameService;
     private readonly VehicleOwnershipService _vehicleOwnershipService;
     private readonly VehicleShopService _vehicleShopService;
+    private readonly JobService _jobService; // NAUJA
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
     private readonly Func<string, CancellationToken, Task> _sendHostCommand;
 
@@ -29,6 +29,7 @@ public sealed class ConnectionHandler
         ModNameService modNameService,
         VehicleOwnershipService vehicleOwnershipService,
         VehicleShopService vehicleShopService,
+        JobService jobService, // NAUJA
         Func<byte, string, CancellationToken, Task> sendMessage,
         Func<string, CancellationToken, Task> sendHostCommand)
     {
@@ -39,10 +40,10 @@ public sealed class ConnectionHandler
         _modNameService = modNameService;
         _vehicleOwnershipService = vehicleOwnershipService;
         _vehicleShopService = vehicleShopService;
+        _jobService = jobService; // NAUJA
         _sendMessage = sendMessage;
         _sendHostCommand = sendHostCommand;
     }
-
 
     public Task HandleConnectedAsync(NcnPacket ncn, CancellationToken cancellationToken)
     {
@@ -69,11 +70,9 @@ public sealed class ConnectionHandler
         if (player is null)
             return;
 
-
         player.PLID = npl.PLID;
         player.CarName = npl.CarCode;
         var vehicle = _vehicleShopService.GetVehicleByCode(npl.CarCode);
-
 
         string displayName;
         if (vehicle is not null)
@@ -88,17 +87,30 @@ public sealed class ConnectionHandler
         {
             displayName = npl.CarCode;
         }
+
         var ownsVehicle = await _vehicleOwnershipService.OwnsVehicleAsync(player, npl.CarCode, cancellationToken);
 
-            if (!ownsVehicle)
-            {
-                await _sendMessage( player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{displayName}", cancellationToken);
-
-                await _sendHostCommand($"/spec {player.Username}", cancellationToken);
-
+        if (!ownsVehicle)
+        {
+            await _sendMessage(player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{displayName}", cancellationToken);
+            await _sendHostCommand($"/spec {player.Username}", cancellationToken);
             return;
-            }
-            Console.WriteLine($"PLAYER CAR: {npl.CarCode}");
+        }
+
+        // NAUJA — on-duty patikra darbo mašinoms
+        if (_jobService.TryGetRequiredJob(npl.CarCode, out var requiredJob) &&
+            _jobService.GetJob(player) != requiredJob)
+        {
+            await _sendMessage(
+                player.UCID,
+                "^1Sia masina gali naudoti tik budedamas atitinkamoje pamainoje. ^7Naudok: !joinjob delivery",
+                cancellationToken);
+
+            await _sendHostCommand($"/spec {player.Username}", cancellationToken);
+            return;
+        }
+
+        Console.WriteLine($"PLAYER CAR: {npl.CarCode}");
         Console.WriteLine($"NPL | {player.Username} -> PLID {player.PLID}, Car {player.CarName}");
     }
 }

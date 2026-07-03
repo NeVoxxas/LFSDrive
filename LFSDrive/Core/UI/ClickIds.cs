@@ -11,8 +11,8 @@ public static class ClickIds
         public const byte Money = 52;
         public const byte Discord = 53;
         public const byte Server = 54;
-
         public const byte Menu = 55;
+        public const byte JobStatus = 56;
     }
 
     public static class Menu

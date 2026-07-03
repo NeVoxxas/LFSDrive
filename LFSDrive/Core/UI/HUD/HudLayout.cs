@@ -13,4 +13,5 @@ public static class HudLayout
     public const byte MoneyWidth = 15;
     public const byte DiscordWidth = 22;
     public const byte ServerWidth = 18;
+    public const byte JobStatusWidth = 30;
 }

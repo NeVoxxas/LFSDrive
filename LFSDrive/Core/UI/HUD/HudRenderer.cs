@@ -5,13 +5,17 @@ namespace LfsCruise.Core.UI.HUD;
 public sealed class HudRenderer
 {
     private readonly Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> _sendButton;
+    private readonly Func<byte, byte, byte, CancellationToken, Task> _deleteButtons;
 
     private readonly HashSet<byte> _initializedPlayers = new();
+    private readonly Dictionary<byte, List<byte>> _lastVisibleClickIds = new();
 
     public HudRenderer(
-        Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendButton)
+        Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendButton,
+        Func<byte, byte, byte, CancellationToken, Task> deleteButtons)
     {
         _sendButton = sendButton;
+        _deleteButtons = deleteButtons;
     }
 
     public async Task RenderAsync(
@@ -19,19 +23,42 @@ public sealed class HudRenderer
         IReadOnlyList<HudWidget> widgets,
         CancellationToken cancellationToken)
     {
-        if (!_initializedPlayers.Contains(player.UCID))
+        var visibleWidgets = widgets.Where(w => w.IsVisible(player)).ToList();
+        var visibleIds = visibleWidgets.Select(w => w.ClickId).ToList();
+
+        var layoutChanged =
+            !_initializedPlayers.Contains(player.UCID) ||
+            !_lastVisibleClickIds.TryGetValue(player.UCID, out var lastIds) ||
+            !lastIds.SequenceEqual(visibleIds);
+
+        if (layoutChanged)
         {
-            await DrawFullHudAsync(player, widgets, cancellationToken);
+            // Ištriname mygtukus tų widgetų, kurie buvo matomi, bet dabar nebe
+            if (_lastVisibleClickIds.TryGetValue(player.UCID, out var previousIds))
+            {
+                foreach (var id in previousIds)
+                {
+                    if (!visibleIds.Contains(id))
+                    {
+                        await _deleteButtons(player.UCID, id, id, cancellationToken);
+                    }
+                }
+            }
+
+            await DrawFullHudAsync(player, visibleWidgets, cancellationToken);
+
             _initializedPlayers.Add(player.UCID);
+            _lastVisibleClickIds[player.UCID] = visibleIds;
             return;
         }
 
-        await UpdateHudTextAsync(player, widgets, cancellationToken);
+        await UpdateHudTextAsync(player, visibleWidgets, cancellationToken);
     }
 
     public void RemovePlayer(byte ucid)
     {
         _initializedPlayers.Remove(ucid);
+        _lastVisibleClickIds.Remove(ucid); // NAUJA
     }
 
     private async Task DrawFullHudAsync(
