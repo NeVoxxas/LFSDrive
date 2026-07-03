@@ -68,6 +68,18 @@ public static class ClickIds
         public const byte BuyInspection = 131;
     }
 
+    public static class Market
+    {
+        public const byte MenuButton = 132;
+        public const byte CategoryStart = 133;
+        public const byte CategoryEnd = 136;
+        public const byte ListingStart = 137;
+        public const byte ListingEnd = 141;
+        public const byte PrevPage = 142;
+        public const byte NextPage = 143;
+        public const byte PageInfo = 144;
+    }
+
     public static class Shop
     {
         public const byte CategoryStart = 150;

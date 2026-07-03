@@ -57,8 +57,13 @@ public sealed class InSimClient : IDisposable
     private readonly RegitraConfigStorage _regitraConfigStorage = new();
     private readonly RegitraStorage _regitraStorage;
     private readonly RegitraService _regitraService;
+    private readonly RegitraZoneService _regitraZoneService;
 
     //
+
+    private readonly Core.Vehicles.Market.MarketStorage _marketStorage;
+    private readonly Core.Vehicles.Market.MarketService _marketService;
+
 
     private readonly LfsModInfoService _lfsModInfoService;
 
@@ -134,8 +139,14 @@ public sealed class InSimClient : IDisposable
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
+        _marketStorage = new Core.Vehicles.Market.MarketStorage(databaseConfig);
+        _marketService = new Core.Vehicles.Market.MarketService(_marketStorage, _vehicleOwnershipService, _vehicleShopService, _databaseService, _playerManager);
+
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
-        CommandLoader.RegisterAll( _commandManager, _economyService, _zoneService, _progressionService, _jobManager, _taxiPointStorage, _regitraService, _regitraConfigStorage, SendMessageToConnectionAsync);
+        CommandLoader.RegisterAll(
+            _commandManager, _economyService, _zoneService, _progressionService, _jobManager,
+            _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
+            SendMessageToConnectionAsync);
 
         _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
 
@@ -147,17 +158,18 @@ public sealed class InSimClient : IDisposable
 
         //Bank
 
-        _bankTransactionStorage = new Core.Economy.Bank.BankTransactionStorage(databaseConfig);
-        _bankService = new Core.Economy.Bank.BankService(_bankTransactionStorage, _databaseService);
-        _bankInterestLoop = new Core.Economy.Bank.BankInterestLoop(_playerManager, _bankService);
+        _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
+        _bankService = new BankService(_bankTransactionStorage, _databaseService);
+        _bankInterestLoop = new BankInterestLoop(_playerManager, _bankService);
 
         // Menu
 
         var menuRenderer = new MenuRenderer(SendButtonAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
 
-        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, _regitraService, SendMessageToConnectionAsync);
+        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, _regitraService, _marketService, SendMessageToConnectionAsync);
 
-        _bankZoneService = new Core.Economy.Bank.BankZoneService(_zoneManager, _menuManager);
+        _bankZoneService = new BankZoneService(_zoneManager, _menuManager);
+        _regitraZoneService = new RegitraZoneService(_zoneManager, _menuManager);
 
         _bankUiRefreshLoop = new BankUiRefreshLoop(_playerManager, _menuManager);
 
@@ -166,7 +178,7 @@ public sealed class InSimClient : IDisposable
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
-        _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService);
+        _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService, _regitraZoneService);
         _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService ,_vehicleOwnershipService, _vehicleShopService, SendMessageToConnectionAsync, SendHostCommandAsync);
     }
 
@@ -302,6 +314,7 @@ public sealed class InSimClient : IDisposable
                 case CnlPacket cnl:
                     await _connectionHandler.HandleDisconnectedAsync(cnl, cancellationToken);
                     _bankZoneService.RemovePlayer(cnl.UCID);
+                    _regitraZoneService.RemovePlayer(cnl.UCID);
                     continue;
 
                 case NplPacket npl:

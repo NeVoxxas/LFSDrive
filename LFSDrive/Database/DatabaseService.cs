@@ -115,4 +115,22 @@ public sealed class DatabaseService
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
+
+    public async Task AddBankBalanceAsync(int playerId, int amount, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+        UPDATE players
+        SET bank = bank + @amount
+        WHERE id = @id;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@amount", amount);
+        command.Parameters.AddWithValue("@id", playerId);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
 }

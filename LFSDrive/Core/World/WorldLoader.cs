@@ -29,6 +29,9 @@ public static class WorldLoader
                 case ZoneType.Bank:
                     zoneManager.Add(new CircleZone(zone));
                     break;
+                case ZoneType.Regitra:
+                    zoneManager.Add(new CircleZone(zone));
+                    break;
 
                 default:
                     Console.WriteLine($"Unknown zone type: {zone.Type}");

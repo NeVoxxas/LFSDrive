@@ -6,6 +6,7 @@ using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
+using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Database;
 
 namespace LfsCruise.Core.UI.Menu;
@@ -26,6 +27,7 @@ public sealed class MenuManager
     private readonly JobsPage _jobsPage = new();
     private readonly BankService _bankService;
     private readonly RegitraService _regitraService;
+    private readonly MarketService _marketService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -38,6 +40,7 @@ public sealed class MenuManager
         JobService jobService,
         BankService bankService,
         RegitraService regitraService,
+        MarketService marketService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -49,6 +52,7 @@ public sealed class MenuManager
         _jobService = jobService;
         _bankService = bankService;
         _regitraService = regitraService;
+        _marketService = marketService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -250,5 +254,32 @@ public sealed class MenuManager
         var result = await _regitraService.BuyInspectionAsync(player, player.CarName, cancellationToken);
         await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
         await OpenRegitraPageAsync(player, cancellationToken);
+    }
+
+    // AUTO TURGUS
+
+    public async Task OpenMarketAsync(Player player, string categoryId, int page, CancellationToken cancellationToken)
+    {
+        var categories = _vehicleShopService.GetCategories();
+
+        if (string.IsNullOrEmpty(categoryId))
+            categoryId = categories.Count > 0 ? categories[0].Id : "D";
+
+        var (listings, totalCount) = await _marketService.GetListingsAsync(categoryId, page, cancellationToken);
+
+        await OpenPageAsync(
+            player,
+            new Pages.MarketPage(categories, categoryId, page, listings, totalCount),
+            cancellationToken);
+    }
+
+    public async Task BuyMarketListingAsync(
+        Player player, int listingId, string categoryId, int page, CancellationToken cancellationToken)
+    {
+        var result = await _marketService.BuyAsync(player, listingId, cancellationToken);
+
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        await OpenMarketAsync(player, categoryId, page, cancellationToken);
     }
 }

@@ -51,4 +51,25 @@ public sealed class VehicleOwnershipService
 
         await command.ExecuteScalarAsync(cancellationToken);
     }
+
+    public async Task TransferVehicleAsync(
+        int sellerPlayerId, int buyerPlayerId, string carCode, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+            UPDATE owned_vehicles
+            SET player_id = @buyer_id
+            WHERE player_id = @seller_id
+              AND car_code = @car_code;
+            """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@buyer_id", buyerPlayerId);
+        command.Parameters.AddWithValue("@seller_id", sellerPlayerId);
+        command.Parameters.AddWithValue("@car_code", carCode);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
 }

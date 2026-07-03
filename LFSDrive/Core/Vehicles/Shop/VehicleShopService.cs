@@ -43,4 +43,10 @@ public sealed class VehicleShopService
 
         return null;
     }
+
+    public VehicleShopCategory? GetCategoryForCarCode(string carCode)
+    {
+        return _config.Categories.FirstOrDefault(c =>
+            c.Vehicles.Any(v => v.CarCode.Equals(carCode, StringComparison.OrdinalIgnoreCase)));
+    }
 }

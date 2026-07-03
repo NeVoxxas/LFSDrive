@@ -1,0 +1,46 @@
+Reikia sukurti banko sistema.
+Kaip turi atsidaryti pagrindinis banko menu? Žaidėjas įvažiuoją į zoną, sustojus atsidaro UI
+
+Ui sudaro:
+Balansas
+Pinigų įdėjimas
+Pinigų išgryninimas
+Palūkanos
+Visą pinigų istorija
+
+Kaip veikia?
+Palūkanos. 5 % kas 60 minučių. Timeris turi neveikti kai balanse yra < 0 . 
+Tranzakcijos ( pinigų istorija ). Puslapiavimo sistema, per 1 puslapį max 5 tranzakcijos. Turi būti saugoma MySQL DB.
+
+
+Pridėti garažą į menu
+Turi rodyti žaidėjo turimas tr.priemones.
+Puslapiavimo sistema, 5 max per puslapį.
+Galimybė parduoti tr.priemone per garažą
+Tr.priemonės pardavimo galimybės:
+1. Serveriui 50% nuo kainos perkant iš salono
+2. Auto turgus. Galimybė idėti tr.priemonė į auto turgu. Kur kitas žaidėjas gali nusipirkti tr.priemonė. Max kaina 2x nuo salono kainos. Parduodant per turgu kitam žaidėjui turi išlikti - Draudimas, technikė apžiūra ir numeriai.
+
+Auto turgus.
+Turi būti pridėtas į menu.
+Mašinų skirstimas. Pirma žaidėjas mašinų kategorijas ( A, B, C ir t.t ). Pasirinkus kategoriją, turi būti galimybė surušiuoti pagal kainą.
+Kai žaidėjas nusiperka iš kito žaidėjo mašiną. Jis gauna ne tik tr. priemonę, bet ir draudimą, technike apžiūra ir numerius ( jeigu praeitas savininkas buvo nusipirkes )
+
+Regitra.
+Regitroje žaidėjas turi galėti nusipirkti - numerius, draudimą, praeiti technikę apžiūrą.
+Draudimas galioja 14 dienų
+T.A 1 mėnesį
+Numeriai visam laikui.
+Turi būti galimybė pasikeisti numerius, už papildomą kainą.
+
+Turint visus 3 išvardintus punktus. Dokumentai laikomi galiojančiais.
+
+
+
+
+Koregavimai.
+Banko UI. Turi rodyti kiek liko laiko iki palukanų. Turi rodyti atvažiavus į banką ir atsidarius per Menu
+
+Atsidarius banka per UI leidžia išgryninti pinigus.
+
+Atvažiavus į banką, pagrindiniam banko ui yra mygtukas atgal, paspaudus ji papuoli į menu. Panaikinti mygtuką atgal, kai žaidėjas ATVAŽIAVO į banką

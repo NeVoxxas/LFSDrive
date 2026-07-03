@@ -14,5 +14,7 @@ public enum ZoneType
 
     Police = 5,
 
-    Shop = 6
+    Shop = 6,
+
+    Regitra = 7
 }
