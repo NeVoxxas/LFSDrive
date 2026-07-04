@@ -7,6 +7,7 @@ using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.Vehicles.Market;
+using LfsCruise.Core.Vehicles.Starter;
 using LfsCruise.Database;
 
 namespace LfsCruise.Core.UI.Menu;
@@ -28,6 +29,7 @@ public sealed class MenuManager
     private readonly BankService _bankService;
     private readonly RegitraService _regitraService;
     private readonly MarketService _marketService;
+    private readonly StarterCarService _starterCarService; // NAUJA
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -41,6 +43,7 @@ public sealed class MenuManager
         BankService bankService,
         RegitraService regitraService,
         MarketService marketService,
+        StarterCarService starterCarService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -53,6 +56,7 @@ public sealed class MenuManager
         _bankService = bankService;
         _regitraService = regitraService;
         _marketService = marketService;
+        _starterCarService = starterCarService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -281,5 +285,29 @@ public sealed class MenuManager
         await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
 
         await OpenMarketAsync(player, categoryId, page, cancellationToken);
+    }
+
+    // STARTER CARS
+
+    public Task OpenStarterCarMenuAsync(Player player, CancellationToken cancellationToken)
+    {
+        return OpenPageAsync(player, new Pages.StarterCarPage(_starterCarService.Config), cancellationToken);
+    }
+
+    public async Task ChooseStarterCarAsync(Player player, string carCode, CancellationToken cancellationToken)
+    {
+        if (await _ownershipService.OwnsVehicleAsync(player, carCode, cancellationToken))
+        {
+            await SendMessageAsync(player.UCID, "^1Sia masina jau turi.", cancellationToken);
+            await CloseAsync(player, cancellationToken);
+            return;
+        }
+
+        await _ownershipService.AddVehicleAsync(player, carCode, cancellationToken);
+
+        var carName = _vehicleShopService.GetVehicleByCode(carCode)?.DisplayName ?? carCode;
+
+        await SendMessageAsync(player.UCID, $"^2Gavai pradine masina: ^7{carName}", cancellationToken);
+        await CloseAsync(player, cancellationToken);
     }
 }

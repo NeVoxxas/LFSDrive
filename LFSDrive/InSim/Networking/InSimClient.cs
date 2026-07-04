@@ -14,6 +14,7 @@ using LfsCruise.Core.UI;
 using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.UI.Menu;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Starter;
 using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
@@ -52,6 +53,8 @@ public sealed class InSimClient : IDisposable
     private readonly ProgressionService _progressionService = new(); // Progresas
 
     private readonly VehicleOwnershipService _vehicleOwnershipService;
+
+    private readonly StarterCarService _starterCarService; // NAUJA (pridėti prie kitų laukų)
 
     // REGITRA
 
@@ -152,30 +155,30 @@ public sealed class InSimClient : IDisposable
             _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
             SendMessageToConnectionAsync);
 
-        _eventBus.Subscribe( new PlayerConnectedHandler( _playerManager, _databaseService, SendMessageToConnectionAsync));
+        _starterCarService = new Core.Vehicles.Starter.StarterCarService(new Core.Vehicles.Starter.StarterCarStorage()); // NAUJA
 
         var hudRenderer = new HudRenderer(SendButtonAsync, DeleteButtonRangeAsync);
-
         _hudManager = new HudManager(hudRenderer, _progressionService, _jobService);
-
         _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
         //Bank
-
         _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
         _bankService = new BankService(_bankTransactionStorage, _databaseService);
         _bankInterestLoop = new BankInterestLoop(_playerManager, _bankService);
 
         // Menu
+        var menuRenderer = new MenuRenderer(SendButtonAsync, SendLabelAsync, SendMenuItemAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
+        _menuManager = new MenuManager(
+            menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService,
+            _jobManager, _jobService, _bankService, _regitraService, _marketService,
+            _starterCarService, // NAUJA
+            SendMessageToConnectionAsync);
 
-        var menuRenderer = new MenuRenderer(
-            SendButtonAsync,        // fonas (didelis panelis, kaip ir buvo)
-            SendLabelAsync,         // antraštė + info eilutės - dabar su dark fonu
-            SendMenuItemAsync,      // >> punktai / Atgal / Uzdaryti - dabar su dark fonu
-            SendInputButtonAsync,
-            DeleteButtonRangeAsync);
+        // NAUJA: perkelta žemiau, nes reikalauja _menuManager
+        _eventBus.Subscribe(new PlayerConnectedHandler(_playerManager, _databaseService, _menuManager, SendMessageToConnectionAsync));
 
-        _menuManager = new MenuManager(menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService, _jobManager, _jobService, _bankService, _regitraService, _marketService, SendMessageToConnectionAsync);
+
+        //
 
         _bankZoneService = new BankZoneService(_zoneManager, _menuManager);
         _regitraZoneService = new RegitraZoneService(_zoneManager, _menuManager);
@@ -188,7 +191,7 @@ public sealed class InSimClient : IDisposable
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
         _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService, _regitraZoneService);
-        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService,_vehicleOwnershipService, _vehicleShopService, _jobService,SendMessageToConnectionAsync, SendHostCommandAsync);
+        _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService,_vehicleOwnershipService, _vehicleShopService, _jobService,SendMessageToConnectionAsync, SendHostCommandAsync, SendJoinReplyAsync);
     }
 
     public async Task ConnectAsync(CancellationToken cancellationToken = default)
@@ -203,7 +206,7 @@ public sealed class InSimClient : IDisposable
             var isiPacket = new IsiPacket
             {
                 UDPPort = 0,
-                Flags = 0x20 | 0x0800,
+                Flags = 0x20,
                 Prefix = (byte)_config.Prefix,
                 Interval = checked((ushort)_config.Interval),
                 Admin = _config.AdminPassword,
@@ -328,8 +331,18 @@ public sealed class InSimClient : IDisposable
 
                 case NplPacket npl:
 
+                    if (npl.NumP == 0) // join request
+                    {
+                        var reply = new JrrPacket
+                        {
+                            PLID = 0,
+                            UCID = npl.UCID,
+                            JRRAction = 1 // JRR_SPAWN
+                        };
+                        await SendPacketAsync(reply.ToArray(), cancellationToken);
+                        continue;
+                    }
                     await _connectionHandler.HandleNewPlayerAsync(npl, cancellationToken);
-                    //Console.WriteLine($"NPL CAR RAW: '{npl.CarName}' LEN={npl.CarName.Length}");
                     continue;
                 case BtcPacket btc:
                     {
@@ -436,6 +449,17 @@ public sealed class InSimClient : IDisposable
         };
 
         await SendPacketAsync(packet.ToArray(), cancellationToken);
+    }
+
+    public async Task SendJoinReplyAsync(byte ucid, byte action, CancellationToken cancellationToken = default)
+    {
+        var packet = new JrrPacket
+        {
+            UCID = ucid,
+            JRRAction = action
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
     }
 
     private static async Task ReadExactAsync( NetworkStream stream, Memory<byte> buffer, CancellationToken cancellationToken)

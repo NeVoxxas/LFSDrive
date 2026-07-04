@@ -17,9 +17,10 @@ public sealed class ConnectionHandler
     private readonly ModNameService _modNameService;
     private readonly VehicleOwnershipService _vehicleOwnershipService;
     private readonly VehicleShopService _vehicleShopService;
-    private readonly JobService _jobService; // NAUJA
+    private readonly JobService _jobService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
     private readonly Func<string, CancellationToken, Task> _sendHostCommand;
+    private readonly Func<byte, byte, CancellationToken, Task> _sendJoinReply; // NAUJA
 
     public ConnectionHandler(
         PlayerManager playerManager,
@@ -29,9 +30,10 @@ public sealed class ConnectionHandler
         ModNameService modNameService,
         VehicleOwnershipService vehicleOwnershipService,
         VehicleShopService vehicleShopService,
-        JobService jobService, // NAUJA
+        JobService jobService,
         Func<byte, string, CancellationToken, Task> sendMessage,
-        Func<string, CancellationToken, Task> sendHostCommand)
+        Func<string, CancellationToken, Task> sendHostCommand,
+        Func<byte, byte, CancellationToken, Task> sendJoinReply) // NAUJA
     {
         _playerManager = playerManager;
         _databaseService = databaseService;
@@ -40,9 +42,10 @@ public sealed class ConnectionHandler
         _modNameService = modNameService;
         _vehicleOwnershipService = vehicleOwnershipService;
         _vehicleShopService = vehicleShopService;
-        _jobService = jobService; // NAUJA
+        _jobService = jobService;
         _sendMessage = sendMessage;
         _sendHostCommand = sendHostCommand;
+        _sendJoinReply = sendJoinReply; // NAUJA
     }
 
     public Task HandleConnectedAsync(NcnPacket ncn, CancellationToken cancellationToken)
@@ -65,6 +68,15 @@ public sealed class ConnectionHandler
 
     public async Task HandleNewPlayerAsync(NplPacket npl, CancellationToken cancellationToken)
     {
+        // NAUJA: join request (ISF_REQ_JOIN) - automatiškai patvirtiname, kad žaidėjas
+        // iškart atsispawnintų garaže, be "prisijungti" ekrano.
+        if (npl.IsJoinRequest)
+        {
+            await _sendJoinReply(npl.UCID, JrrPacket.ActionSpawn, cancellationToken);
+            Console.WriteLine($"JOIN REQUEST | UCID {npl.UCID} -> auto JRR_SPAWN");
+            return;
+        }
+
         var player = _playerManager.Get(npl.UCID);
 
         if (player is null)
@@ -97,7 +109,6 @@ public sealed class ConnectionHandler
             return;
         }
 
-        // NAUJA — on-duty patikra darbo mašinoms
         if (_jobService.TryGetRequiredJob(npl.CarCode, out var requiredJob) &&
             _jobService.GetJob(player) != requiredJob)
         {

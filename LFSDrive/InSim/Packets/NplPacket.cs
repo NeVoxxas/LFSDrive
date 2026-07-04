@@ -4,12 +4,13 @@ public sealed class NplPacket : InSimPacket
 {
     public const byte PacketType = 21;
 
-    private NplPacket(int size, byte reqI, byte plid, byte ucid, string playerName, string plate,
+    private NplPacket(int size, byte reqI, byte plid, byte ucid, byte numP, string playerName, string plate,
         string carName, string carCode, bool isMod, string skinId)
         : base(size, PacketType, reqI)
     {
         PLID = plid;
         UCID = ucid;
+        NumP = numP;
         PlayerName = playerName;
         Plate = plate;
         CarName = carName;
@@ -20,14 +21,17 @@ public sealed class NplPacket : InSimPacket
 
     public byte PLID { get; }
     public byte UCID { get; }
+    public byte NumP { get; }   // 0 = join request
+
+
+    // Pagal InSim.txt: "A join request is seen as an IS_NPL packet with ZERO in the NumP field"
+    public bool IsJoinRequest => NumP == 0;
+
     public string PlayerName { get; }
     public string Plate { get; }
     public string CarName { get; }
-
     public string CarCode { get; }
-
     public bool IsMod { get; }
-
     public string SkinId { get; }
 
     public static InSimPacket Parse(byte[] rawData)
@@ -77,11 +81,11 @@ public sealed class NplPacket : InSimPacket
         _ = reader.ReadByte(); // Sp3
 
         _ = reader.ReadByte(); // SetF
-        _ = reader.ReadByte(); // NumP
+        var numP = reader.ReadByte(); // NumP
         _ = reader.ReadByte(); // Config
         _ = reader.ReadByte(); // Fuel
 
-        return new NplPacket(size, reqI, plid, ucid, playerName, plate, carName, carCode, isMod, skinId);
+        return new NplPacket(size, reqI, plid, ucid, numP, playerName, plate, carName, carCode, isMod, skinId);
     }
 
     private static bool IsAlphaNumeric(byte b)

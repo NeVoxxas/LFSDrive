@@ -80,6 +80,12 @@ public static class ClickIds
         public const byte PageInfo = 144;
     }
 
+    public static class Starter
+    {
+        public const byte CarStart = 145;
+        public const byte CarEnd = 149;
+    }
+
     public static class Shop
     {
         public const byte CategoryStart = 150;

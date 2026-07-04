@@ -12,17 +12,19 @@ public sealed class DatabaseService
         _config = config;
     }
 
-    public async Task<PlayerData> GetOrCreatePlayerAsync(Player player, CancellationToken cancellationToken = default)
+
+
+    public async Task<(PlayerData Data, bool IsNew)> GetOrCreatePlayerAsync(Player player, CancellationToken cancellationToken = default)
     {
         await using var connection = new MySqlConnection(_config.ConnectionString);
         await connection.OpenAsync(cancellationToken);
 
         const string selectSql = """
-            SELECT id, money, bank, driven_distance, last_interest_at
-            FROM players
-            WHERE username = @username
-            LIMIT 1;
-            """;
+        SELECT id, money, bank, driven_distance, last_interest_at
+        FROM players
+        WHERE username = @username
+        LIMIT 1;
+        """;
 
         await using (var selectCommand = new MySqlCommand(selectSql, connection))
         {
@@ -34,7 +36,7 @@ public sealed class DatabaseService
             {
                 var lastInterestOrdinal = reader.GetOrdinal("last_interest_at");
 
-                return new PlayerData
+                var existingData = new PlayerData
                 {
                     Id = reader.GetInt32("id"),
                     Money = reader.GetInt32("money"),
@@ -44,13 +46,15 @@ public sealed class DatabaseService
                         ? null
                         : reader.GetDateTime(lastInterestOrdinal)
                 };
+
+                return (existingData, false);
             }
         }
 
         const string insertSql = """
-            INSERT INTO players (username, nickname, money, bank, driven_distance)
-            VALUES (@username, @nickname, 5000, 0, 0);
-            """;
+        INSERT INTO players (username, nickname, money, bank, driven_distance)
+        VALUES (@username, @nickname, 5000, 0, 0);
+        """;
 
         await using (var insertCommand = new MySqlCommand(insertSql, connection))
         {
@@ -60,13 +64,15 @@ public sealed class DatabaseService
             await insertCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
-        return new PlayerData
+        var newData = new PlayerData
         {
             Money = 5000,
             Bank = 0,
             DrivenDistance = 0,
             LastInterestAt = null
         };
+
+        return (newData, true);
     }
 
     public async Task<int> GetAdminLevelAsync(string username, CancellationToken cancellationToken = default)

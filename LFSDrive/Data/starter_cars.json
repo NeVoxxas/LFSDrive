@@ -1,0 +1,20 @@
+{
+  "cars": [
+    {
+      "carCode": "5E-5D-C5-00",
+      "displayName": "BMW E46 Compact 2L I4 114 kW"
+    },
+    {
+      "carCode": "9D-F8-98-00",
+      "displayName": "Audi 80 2L I4 103 kW"
+    },
+    {
+      "carCode": "D4-73-F2-00",
+      "displayName": "Skoda Octavia Mk3 2L I4 112 kW"
+    },
+    {
+      "carCode": "7C-C4-CF-00",
+      "displayName": "VW Golf Mk2 1.8L I4 104 kW"
+    }
+  ]
+}
