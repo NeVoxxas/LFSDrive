@@ -242,18 +242,17 @@ public sealed class MenuRenderer
 
         return $"^7>> {button.Text}";
     }
-
     public async Task CloseAsync(Player player, CancellationToken cancellationToken)
     {
-        for (byte id = ClickIds.Menu.Background; id <= ClickIds.Jobs.Leave; id++)
+        for (byte id = ClickIds.Menu.Background; id <= ClickIds.Regitra.MenuButton; id++)
         {
             await _deleteButtons(player.UCID, id, id, cancellationToken);
         }
 
         await _deleteButtons(
-            player.UCID, ClickIds.MenuCategory.Start, ClickIds.MenuCategory.End, cancellationToken);
+            player.UCID, ClickIds.Content.Start, ClickIds.Content.End, cancellationToken);
 
         await _deleteButtons(
-            player.UCID, ClickIds.Garage.MenuButton, ClickIds.Garage.SellOnMarket, cancellationToken); // NAUJA
+            player.UCID, ClickIds.MenuCategory.Start, ClickIds.MenuCategory.End, cancellationToken);
     }
 }

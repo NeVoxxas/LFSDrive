@@ -24,7 +24,7 @@ public sealed class JobDetailsPage : MenuPage
         var buttons = new List<MenuButton>
         {
             new() { ClickId = ClickIds.Menu.Back, Text = "^7< Atgal" },
-            new() { ClickId = ClickIds.Shop.PageInfo, Text = GetDescription(_jobType) }
+            new() { ClickId = ClickIds.Jobs.Description, Text = GetDescription(_jobType) }
         };
 
         if (currentJob == _jobType)

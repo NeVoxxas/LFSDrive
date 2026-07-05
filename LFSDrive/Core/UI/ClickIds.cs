@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace LfsCruise.Core.UI;
+﻿namespace LfsCruise.Core.UI;
 
 public static class ClickIds
 {
@@ -9,6 +7,7 @@ public static class ClickIds
         public const byte Start = 1;
         public const byte End = 8;
     }
+
     public static class Hud
     {
         public const byte License = 50;
@@ -19,113 +18,132 @@ public static class ClickIds
         public const byte Menu = 55;
         public const byte JobStatus = 56;
     }
-
-    public static class Garage
-    {
-        public const byte MenuButton = 57;
-        public const byte VehicleStart = 58;
-        public const byte VehicleEnd = 62;   // PageSize = 5
-        public const byte PrevPage = 63;
-        public const byte NextPage = 64;
-        public const byte PageInfo = 65;
-        public const byte SellToServer = 66;
-        public const byte SellOnMarket = 67;
-    }
-
     public static class Menu
     {
-        public const byte Background = 100;
-        public const byte Title = 101;
-        public const byte Close = 102;
-        public const byte Profile = 103;
-        public const byte Shop = 104;
-        public const byte Top10 = 105;
-        public const byte Statistics = 106;
-        public const byte Back = 107;
+        public const byte Background = 60;
+        public const byte Title = 61;
+        public const byte Close = 62;
+        public const byte Back = 63;
+
+        public const byte Profile = 64;
+        public const byte Shop = 65;
+        public const byte Top10 = 66;
+        public const byte Statistics = 67;
     }
-
-    public static class Jobs
+    public static class Content
     {
-        public const byte Menu = 108;
+        public const byte Start = 80;
+        public const byte End = 119;
 
-        public const byte Taxi = 234;
-        public const byte Delivery = 235;
-
-        public const byte Join = 236;
-        public const byte Leave = 237;
-    }
-    public static class Bank
-    {
-        public const byte Menu = 109;
-
-        public const byte Balance = 110;
-        public const byte InterestInfo = 111;
-        public const byte Deposit = 112;
-        public const byte Withdraw = 113;
-        public const byte History = 114;
-
-        public const byte HistoryPrev = 115;
-        public const byte HistoryNext = 116;
-        public const byte HistoryPageInfo = 117;
-
-        public const byte HistoryEntryStart = 118;
-        public const byte HistoryEntryLast = 122;
-    }
-
-    public static class Regitra
-    {
-        public const byte MenuButton = 123;
-        public const byte Status = 124;
-        public const byte PlateStatus = 125;
-        public const byte BuyPlate = 126;
-        public const byte ChangePlate = 127;
-        public const byte InsuranceStatus = 128;
-        public const byte BuyInsurance = 129;
-        public const byte InspectionStatus = 130;
-        public const byte BuyInspection = 131;
-    }
-
-    public static class Market
-    {
-        public const byte MenuButton = 132;
-        public const byte CategoryStart = 133;
-        public const byte CategoryEnd = 136;
-        public const byte ListingStart = 137;
-        public const byte ListingEnd = 141;
-        public const byte PrevPage = 142;
-        public const byte NextPage = 143;
-        public const byte PageInfo = 144;
-    }
-
-    public static class Starter
-    {
-        public const byte CarStart = 145;
-        public const byte CarEnd = 149;
+        public const byte PrevPage = 110;
+        public const byte NextPage = 111;
+        public const byte PageInfo = 112;
     }
 
     public static class Shop
     {
-        public const byte CategoryStart = 150;
-        public const byte CategoryEnd = 179;
-        public const byte VehicleStart = 180;
-        public const byte VehicleEnd = 219;
-        public const byte PreviousPage = 220;
-        public const byte NextPage = 221;
-        public const byte PageInfo = 222;
+        public const byte CategoryStart = Content.Start;
+        public const byte CategoryEnd = 99;
+
+        public const byte VehicleStart = Content.Start;
+        public const byte VehicleEnd = 84;
+
+        public const byte PreviousPage = Content.PrevPage;
+        public const byte NextPage = Content.NextPage;
+        public const byte PageInfo = Content.PageInfo;
     }
 
+    public static class Bank
+    {
+        public const byte Menu = 69;
+
+        public const byte Balance = Content.Start;
+        public const byte InterestInfo = 81;
+        public const byte Deposit = 82;
+        public const byte Withdraw = 83;
+        public const byte History = 84;
+
+        public const byte HistoryEntryStart = 85;
+        public const byte HistoryEntryLast = 89;
+
+        public const byte HistoryPrev = Content.PrevPage;
+        public const byte HistoryNext = Content.NextPage;
+        public const byte HistoryPageInfo = Content.PageInfo;
+    }
+
+    public static class Regitra
+    {
+        public const byte MenuButton = 72;
+
+        public const byte Status = Content.Start;
+        public const byte PlateStatus = 81;
+        public const byte BuyPlate = 82;
+        public const byte ChangePlate = 83;
+        public const byte InsuranceStatus = 84;
+        public const byte BuyInsurance = 85;
+        public const byte InspectionStatus = 86;
+        public const byte BuyInspection = 87;
+    }
+
+    public static class Market
+    {
+        public const byte MenuButton = 70;
+
+        public const byte CategoryStart = Content.Start;
+        public const byte CategoryEnd = 83;
+
+        public const byte ListingStart = 84;
+        public const byte ListingEnd = 88;
+
+        public const byte PrevPage = Content.PrevPage;
+        public const byte NextPage = Content.NextPage;
+        public const byte PageInfo = Content.PageInfo;
+    }
+
+    public static class Starter
+    {
+        public const byte CarStart = Content.Start;
+        public const byte CarEnd = 89;
+    }
+
+    public static class Jobs
+    {
+        public const byte Menu = 71;
+
+        public const byte Taxi = Content.Start;
+        public const byte Delivery = 81;
+
+        public const byte Join = 82;
+        public const byte Leave = 83;
+        public const byte Description = 84;
+    }
+
+    public static class Garage
+    {
+        public const byte MenuButton = 68;
+
+        public const byte VehicleStart = Content.Start;
+        public const byte VehicleEnd = 84;
+
+        public const byte PrevPage = Content.PrevPage;
+        public const byte NextPage = Content.NextPage;
+        public const byte PageInfo = Content.PageInfo;
+
+        public const byte SellToServer = 82;
+        public const byte SellOnMarket = 83;
+    }
     public static class Gps
     {
-        public const byte Background = 223;
-        public const byte TopLeft = 224;
-        public const byte Top = 225;
-        public const byte TopRight = 226;
-        public const byte Left = 227;
-        public const byte Center = 228;
-        public const byte Right = 229;
-        public const byte BottomLeft = 230;
-        public const byte Bottom = 231;
-        public const byte BottomRight = 232;
-        public const byte Info = 233;
+        public const byte Background = 130;
+        public const byte TopLeft = 131;
+        public const byte Top = 132;
+        public const byte TopRight = 133;
+        public const byte Left = 134;
+        public const byte Center = 135;
+        public const byte Right = 136;
+        public const byte BottomLeft = 137;
+        public const byte Bottom = 138;
+        public const byte BottomRight = 139;
+        public const byte Info = 140;
     }
 }

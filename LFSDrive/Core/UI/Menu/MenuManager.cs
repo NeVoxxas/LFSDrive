@@ -89,7 +89,12 @@ public sealed class MenuManager
     public async Task HandleClickAsync(Player player, byte clickId, CancellationToken cancellationToken)
     {
         if (!_currentPages.TryGetValue(player.UCID, out var page))
+        {
+            Console.WriteLine($"[MenuManager] No current page for player {player.Username} (UCID: {player.UCID} ");
             return;
+        }
+
+        Console.WriteLine($"[MenuManager] UCID={player.UCID} clickID={clickId} currentPage{page.GetType().Name}");
 
         var context = new MenuContext
         {
@@ -337,17 +342,24 @@ public sealed class MenuManager
 
     public async Task OpenGarageAsync(Player player, int page, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"Garage start {player.Username}");
+
         var carCodes = await _ownershipService.GetOwnedVehiclesAsync(player, cancellationToken);
+        Console.WriteLine($"Garage: {player.Username} owns {carCodes.Count} cars.");
 
         var vehicles = new List<(string CarCode, string DisplayName)>();
 
         foreach (var carCode in carCodes)
         {
+            Console.WriteLine($"Resolving display name for {carCode}...");
             var name = await ResolveVehicleDisplayNameAsync(carCode, cancellationToken);
+            Console.WriteLine($"Resolved display name for {carCode}: {name}");
             vehicles.Add((carCode, name));
         }
 
+        Console.WriteLine($"Garage: Opening page with {vehicles.Count}");
         await OpenPageAsync(player, new GaragePage(vehicles, page), cancellationToken);
+        Console.WriteLine($"Garage: Opened");
     }
 
     public async Task OpenGarageSellChoiceAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)

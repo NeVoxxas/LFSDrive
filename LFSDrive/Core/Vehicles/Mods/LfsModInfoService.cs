@@ -5,7 +5,10 @@ namespace LfsCruise.Core.Vehicles.Mods;
 
 public sealed class LfsModInfoService
 {
-    private readonly HttpClient _httpClient = new();
+    private readonly HttpClient _httpClient = new()
+    {
+        Timeout = TimeSpan.FromSeconds(5)
+    };
     private static readonly Regex TitleRegex = new(@"<title>(.*?)</title>", RegexOptions.Compiled | RegexOptions.Singleline);
 
     public async Task<string?> FetchModNameAsync(string skinId, CancellationToken cancellationToken = default)

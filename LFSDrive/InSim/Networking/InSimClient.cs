@@ -28,6 +28,7 @@ using LfsCruise.InSim.Packets;
 using LfsCruise.Utils;
 using System.Net.Sockets;
 using System.Numerics;
+using System.Linq.Expressions;
 
 
 namespace LfsCruise.InSim.Networking;
@@ -110,7 +111,7 @@ public sealed class InSimClient : IDisposable
 
     // GARAZ
 
-    private readonly GarageService _garageService; // NAUJA
+    private readonly GarageService _garageService;
 
 
     private readonly DeliveryPointStorage _deliveryPointStorage = new();
@@ -178,7 +179,8 @@ public sealed class InSimClient : IDisposable
 
         // Menu
         var menuRenderer = new MenuRenderer(
-            SendButtonAsync, SendLabelAsync, SendMenuItemAsync, SendInputButtonAsync,
+            SendPanelBackgroundAsync,
+            SendLabelAsync, SendMenuItemAsync, SendInputButtonAsync,
             DeleteButtonRangeAsync, SendCategoryHeaderAsync);
 
         _menuManager = new MenuManager(
@@ -357,37 +359,58 @@ public sealed class InSimClient : IDisposable
                     await _connectionHandler.HandleNewPlayerAsync(npl, cancellationToken);
                     continue;
                 case BtcPacket btc:
-                    {
+                {
+                    Console.WriteLine($"[BTC] UCID {btc.UCID} ClickID {btc.ClickID} Inst={btc.Inst} CFlags={btc.CFlags}");
+
                         var player = _playerManager.Get(btc.UCID);
 
-                        if (player is null)
+                    if (player is null)
                             continue;
 
+                    try
+                    {
                         switch (btc.ClickID)
                         {
                             case ClickIds.Hud.Menu:
                                 await _menuManager.OpenMainMenuAsync(player, cancellationToken);
                                 break;
-
+                        
                             case ClickIds.Menu.Close:
                                 await _menuManager.CloseAsync(player, cancellationToken);
                                 break;
-
+                        
                             default:
                                 await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
                                 break;
                         }
-
-                        continue;
                     }
+                    catch (Exception ex)
+                        {
+                            Console.WriteLine($"[BTC ERROR] UCID {btc.UCID} ClickID {btc.ClickID}: {ex}");
+                            await SendMessageToConnectionAsync(player.UCID, "^1Klaida atidarant meniu.", cancellationToken);
+                        }
+
+                    continue;
+                }
                 case BttPacket btt:
-                    {
-                        var player = _playerManager.Get(btt.UCID);
-                        if (player is not null)
-                            await _menuManager.HandleTypeInAsync(player, btt.ClickID, btt.Text, cancellationToken);
-
+                {
+                    var player = _playerManager.Get(btt.UCID);
+                
+                    if (player is null)
                         continue;
+                
+                    try
+                    {
+                        await _menuManager.HandleTypeInAsync(player, btt.ClickID, btt.Text, cancellationToken);
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[BTT ERROR] UCID {btt.UCID} ClickID {btt.ClickID}: {ex}");
+                        await SendMessageToConnectionAsync(player.UCID, "^1Klaida.", cancellationToken);
+                    }
+                
+                    continue;
+                }
 
             }
 
@@ -651,6 +674,27 @@ public sealed class InSimClient : IDisposable
             Inst = 0,
             BStyle = 0x20 | 0x40 | 0x08,
             TypeIn = maxChars,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
+    }
+
+    public async Task SendPanelBackgroundAsync(
+        byte ucid, byte clickId, byte left, byte top, byte width, byte height,
+        string text, CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x20 | 0x40,
+            TypeIn = 0,
             L = left,
             T = top,
             W = width,
