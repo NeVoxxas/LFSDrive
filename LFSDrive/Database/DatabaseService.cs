@@ -56,16 +56,21 @@ public sealed class DatabaseService
         VALUES (@username, @nickname, 5000, 0, 0);
         """;
 
+        int newId;
+
         await using (var insertCommand = new MySqlCommand(insertSql, connection))
         {
             insertCommand.Parameters.AddWithValue("@username", player.Username);
             insertCommand.Parameters.AddWithValue("@nickname", player.Nickname);
 
             await insertCommand.ExecuteNonQueryAsync(cancellationToken);
+
+            newId = (int)insertCommand.LastInsertedId;
         }
 
         var newData = new PlayerData
         {
+            Id = newId,
             Money = 5000,
             Bank = 0,
             DrivenDistance = 0,

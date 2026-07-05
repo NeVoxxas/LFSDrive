@@ -18,6 +18,8 @@ using LfsCruise.Core.Vehicles.Starter;
 using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
+using LfsCruise.Core.Vehicles.Market;
+using LfsCruise.Core.Vehicles.Garage;
 using LfsCruise.Core.World;
 using LfsCruise.Database;
 using LfsCruise.InSim.Enums;
@@ -65,8 +67,8 @@ public sealed class InSimClient : IDisposable
 
     //
 
-    private readonly Core.Vehicles.Market.MarketStorage _marketStorage;
-    private readonly Core.Vehicles.Market.MarketService _marketService;
+    private readonly MarketStorage _marketStorage;
+    private readonly MarketService _marketService;
 
 
     private readonly LfsModInfoService _lfsModInfoService;
@@ -105,6 +107,10 @@ public sealed class InSimClient : IDisposable
     private readonly BankZoneService _bankZoneService;
     private readonly BankInterestLoop _bankInterestLoop;
     private readonly BankUiRefreshLoop _bankUiRefreshLoop;
+
+    // GARAZ
+
+    private readonly GarageService _garageService; // NAUJA
 
 
     private readonly DeliveryPointStorage _deliveryPointStorage = new();
@@ -146,8 +152,8 @@ public sealed class InSimClient : IDisposable
         _zoneService = new ZoneService(_zoneManager, new ZoneStorage());
         _zoneService.Load();
 
-        _marketStorage = new Core.Vehicles.Market.MarketStorage(databaseConfig);
-        _marketService = new Core.Vehicles.Market.MarketService(_marketStorage, _vehicleOwnershipService, _vehicleShopService, _databaseService, _playerManager);
+        _marketStorage = new MarketStorage(databaseConfig);
+        _marketService = new MarketService(_marketStorage, _vehicleOwnershipService, _vehicleShopService, _databaseService, _playerManager);
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
         CommandLoader.RegisterAll(
@@ -155,7 +161,7 @@ public sealed class InSimClient : IDisposable
             _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
             SendMessageToConnectionAsync);
 
-        _starterCarService = new Core.Vehicles.Starter.StarterCarService(new Core.Vehicles.Starter.StarterCarStorage()); // NAUJA
+        _starterCarService = new StarterCarService(new StarterCarStorage());
 
         var hudRenderer = new HudRenderer(SendButtonAsync, DeleteButtonRangeAsync);
         _hudManager = new HudManager(hudRenderer, _progressionService, _jobService);
@@ -166,15 +172,21 @@ public sealed class InSimClient : IDisposable
         _bankService = new BankService(_bankTransactionStorage, _databaseService);
         _bankInterestLoop = new BankInterestLoop(_playerManager, _bankService);
 
+        //Garazas
+
+        _garageService = new GarageService(_vehicleOwnershipService, _vehicleShopService, _marketStorage, _economyService, _databaseService);
+
         // Menu
-        var menuRenderer = new MenuRenderer(SendButtonAsync, SendLabelAsync, SendMenuItemAsync, SendInputButtonAsync, DeleteButtonRangeAsync);
+        var menuRenderer = new MenuRenderer(
+            SendButtonAsync, SendLabelAsync, SendMenuItemAsync, SendInputButtonAsync,
+            DeleteButtonRangeAsync, SendCategoryHeaderAsync);
+
         _menuManager = new MenuManager(
             menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService,
             _jobManager, _jobService, _bankService, _regitraService, _marketService,
-            _starterCarService, // NAUJA
+            _starterCarService, _modNameService, _garageService,
             SendMessageToConnectionAsync);
 
-        // NAUJA: perkelta žemiau, nes reikalauja _menuManager
         _eventBus.Subscribe(new PlayerConnectedHandler(_playerManager, _databaseService, _menuManager, SendMessageToConnectionAsync));
 
 
@@ -559,6 +571,27 @@ public sealed class InSimClient : IDisposable
             ClickID = clickId,
             Inst = 0,
             BStyle = 0x20 | 0x40, // ISB_DARK | ISB_LEFT - fonas, bet neklikinamas
+            TypeIn = 0,
+            L = left,
+            T = top,
+            W = width,
+            H = height,
+            Text = text
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
+    }
+
+    public async Task SendCategoryHeaderAsync(
+    byte ucid, byte clickId, byte left, byte top, byte width, byte height,
+    string text, CancellationToken cancellationToken = default)
+    {
+        var packet = new BtnPacket
+        {
+            UCID = ucid,
+            ClickID = clickId,
+            Inst = 0,
+            BStyle = 0x10 | 0x40, // ISB_LEFT tik - BE ISB_DARK => šviesiai pilkas fonas (kontrastas su tamsiais mygtukais)
             TypeIn = 0,
             L = left,
             T = top,

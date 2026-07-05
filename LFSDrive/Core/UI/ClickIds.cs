@@ -4,6 +4,11 @@ namespace LfsCruise.Core.UI;
 
 public static class ClickIds
 {
+    public static class MenuCategory
+    {
+        public const byte Start = 1;
+        public const byte End = 8;
+    }
     public static class Hud
     {
         public const byte License = 50;
@@ -13,6 +18,18 @@ public static class ClickIds
         public const byte Server = 54;
         public const byte Menu = 55;
         public const byte JobStatus = 56;
+    }
+
+    public static class Garage
+    {
+        public const byte MenuButton = 57;
+        public const byte VehicleStart = 58;
+        public const byte VehicleEnd = 62;   // PageSize = 5
+        public const byte PrevPage = 63;
+        public const byte NextPage = 64;
+        public const byte PageInfo = 65;
+        public const byte SellToServer = 66;
+        public const byte SellOnMarket = 67;
     }
 
     public static class Menu

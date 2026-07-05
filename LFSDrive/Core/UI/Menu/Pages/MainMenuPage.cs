@@ -10,13 +10,17 @@ public sealed class MainMenuPage : MenuPage
     {
         return
         [
-            new() { ClickId = ClickIds.Menu.Profile, Text = "Profilis" },
-        new() { ClickId = ClickIds.Menu.Shop, Text = "Parduotuve" },
-        new() { ClickId = ClickIds.Bank.Menu, Text = "Bankas" },
-        new() { ClickId = ClickIds.Market.MenuButton, Text = "Auto turgus" },
-        new() { ClickId = ClickIds.Menu.Top10, Text = "TOP 10" },
-        new() { ClickId = ClickIds.Menu.Statistics, Text = "Statistika" },
-        new() { ClickId = ClickIds.Jobs.Menu, Text = "Darbai" }
+            new() { ClickId = ClickIds.Menu.Profile, Text = "Profilis", Category = "ZAIDEJAS", Column = MenuColumn.Left },
+            new() { ClickId = ClickIds.Menu.Statistics, Text = "Statistika", Category = "ZAIDEJAS", Column = MenuColumn.Right },
+            new() { ClickId = ClickIds.Garage.MenuButton, Text = "Mano garazas", Category = "ZAIDEJAS", Column = MenuColumn.Left },
+
+            new() { ClickId = ClickIds.Menu.Shop, Text = "Parduotuve", Category = "EKONOMIKA", Column = MenuColumn.Left },
+            new() { ClickId = ClickIds.Bank.Menu, Text = "Bankas", Category = "EKONOMIKA", Column = MenuColumn.Right },
+            new() { ClickId = ClickIds.Market.MenuButton, Text = "Auto turgus", Category = "EKONOMIKA", Column = MenuColumn.Left },
+
+            new() { ClickId = ClickIds.Jobs.Menu, Text = "Darbai", Category = "DARBAS", Column = MenuColumn.Left },
+
+            new() { ClickId = ClickIds.Menu.Top10, Text = "TOP 10", Category = "KITA", Column = MenuColumn.Left },
         ];
     }
 
@@ -25,6 +29,7 @@ public sealed class MainMenuPage : MenuPage
         return clickId switch
         {
             ClickIds.Menu.Shop => manager.OpenShopAsync(context.Player, cancellationToken),
+            ClickIds.Garage.MenuButton => manager.OpenGarageAsync(context.Player, 0, cancellationToken),
             ClickIds.Bank.Menu => manager.OpenBankAsync(context.Player, allowTransactions: false, showBackButton: true, cancellationToken),
             ClickIds.Market.MenuButton => manager.OpenMarketAsync(context.Player, string.Empty, 0, cancellationToken),
             ClickIds.Jobs.Menu => manager.OpenJobsAsync(context.Player, cancellationToken),

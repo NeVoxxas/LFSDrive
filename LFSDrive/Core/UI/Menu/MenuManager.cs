@@ -4,11 +4,14 @@ using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Market;
+using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
-using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Starter;
+using LfsCruise.Core.Vehicles.Garage;
 using LfsCruise.Database;
+using LfsCruise.Utils;
 
 namespace LfsCruise.Core.UI.Menu;
 
@@ -30,6 +33,9 @@ public sealed class MenuManager
     private readonly RegitraService _regitraService;
     private readonly MarketService _marketService;
     private readonly StarterCarService _starterCarService; // NAUJA
+    private readonly ModNameService _modNameService; // NAUJA
+    private readonly GarageService _garageService; // NAUJA
+
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public MenuManager(
@@ -44,6 +50,8 @@ public sealed class MenuManager
         RegitraService regitraService,
         MarketService marketService,
         StarterCarService starterCarService,
+        ModNameService modNameService, // NAUJA
+        GarageService garageService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -57,6 +65,8 @@ public sealed class MenuManager
         _regitraService = regitraService;
         _marketService = marketService;
         _starterCarService = starterCarService;
+        _modNameService = modNameService; // NAUJA
+        _garageService = garageService; // NAUJA
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -305,9 +315,73 @@ public sealed class MenuManager
 
         await _ownershipService.AddVehicleAsync(player, carCode, cancellationToken);
 
-        var carName = _vehicleShopService.GetVehicleByCode(carCode)?.DisplayName ?? carCode;
+        var carName = await ResolveVehicleDisplayNameAsync(carCode, cancellationToken);
 
         await SendMessageAsync(player.UCID, $"^2Gavai pradine masina: ^7{carName}", cancellationToken);
         await CloseAsync(player, cancellationToken);
+    }
+
+    private async Task<string> ResolveVehicleDisplayNameAsync(string carCode, CancellationToken cancellationToken)
+    {
+        // 1) Jei mašina yra ir Parduotuvėje - naudojam ten priskirtą pavadinimą.
+        var shopVehicle = _vehicleShopService.GetVehicleByCode(carCode);
+
+        if (shopVehicle is not null)
+            return shopVehicle.DisplayName;
+
+        // 2) Kitu atveju tai mod'as - traukiam tikra pavadinimą iš lfs.net (su cache).
+        var skinId = LfsCarCode.ToSkinId(carCode);
+
+        return await _modNameService.ResolveNameAsync(skinId, cancellationToken);
+    }
+
+    public async Task OpenGarageAsync(Player player, int page, CancellationToken cancellationToken)
+    {
+        var carCodes = await _ownershipService.GetOwnedVehiclesAsync(player, cancellationToken);
+
+        var vehicles = new List<(string CarCode, string DisplayName)>();
+
+        foreach (var carCode in carCodes)
+        {
+            var name = await ResolveVehicleDisplayNameAsync(carCode, cancellationToken);
+            vehicles.Add((carCode, name));
+        }
+
+        await OpenPageAsync(player, new GaragePage(vehicles, page), cancellationToken);
+    }
+
+    public async Task OpenGarageSellChoiceAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
+    {
+        var displayName = await ResolveVehicleDisplayNameAsync(carCode, cancellationToken);
+        var shopPrice = _garageService.GetShopPrice(carCode);
+
+        await OpenPageAsync(
+            player,
+            new GarageSellChoicePage(carCode, displayName, shopPrice, originPage),
+            cancellationToken);
+    }
+
+    public async Task SellVehicleToServerAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
+    {
+        var result = await _garageService.SellToServerAsync(player, carCode, cancellationToken);
+
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        await OpenGarageAsync(player, originPage, cancellationToken);
+    }
+
+    public async Task ListVehicleOnMarketAsync(Player player, string carCode, string priceText, int originPage, CancellationToken cancellationToken)
+    {
+        if (!int.TryParse(priceText, out var price) || price <= 0)
+        {
+            await SendMessageAsync(player.UCID, "^1Neteisinga kaina.", cancellationToken);
+            return;
+        }
+
+        var result = await _marketService.CreateListingForCarAsync(player, carCode, price, cancellationToken);
+
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        await OpenGarageAsync(player, originPage, cancellationToken);
     }
 }

@@ -72,4 +72,51 @@ public sealed class VehicleOwnershipService
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
+
+    public async Task<List<string>> GetOwnedVehiclesAsync(Player player, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+        SELECT car_code
+        FROM owned_vehicles
+        WHERE player_id = @player_id
+        ORDER BY car_code;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@player_id", player.Data.Id);
+
+        var result = new List<string>();
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result.Add(reader.GetString(0));
+        }
+
+        return result;
+    }
+
+    public async Task<bool> RemoveVehicleAsync(Player player, string carCode, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+        DELETE FROM owned_vehicles
+        WHERE player_id = @player_id
+          AND car_code = @car_code;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@player_id", player.Data.Id);
+        command.Parameters.AddWithValue("@car_code", carCode);
+
+        var affected = await command.ExecuteNonQueryAsync(cancellationToken);
+
+        return affected > 0;
+    }
 }
