@@ -33,6 +33,9 @@
     <None Update="Data\vehicle_shop.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\vehicle_demand.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\zones.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

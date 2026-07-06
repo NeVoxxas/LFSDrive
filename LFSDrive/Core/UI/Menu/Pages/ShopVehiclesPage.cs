@@ -1,6 +1,7 @@
 ﻿using LfsCruise.Core.Economy;
 using LfsCruise.Core.UI;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Database;
 
@@ -15,6 +16,7 @@ public sealed class ShopVehiclesPage : MenuPage
     private readonly VehicleOwnershipService _ownershipService;
     private readonly EconomyService _economyService;
     private readonly DatabaseService _databaseService;
+    private readonly VehicleDemandService _demandService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     private readonly int _page;
@@ -25,6 +27,7 @@ public sealed class ShopVehiclesPage : MenuPage
         VehicleOwnershipService ownershipService,
         EconomyService economyService,
         DatabaseService databaseService,
+        VehicleDemandService demandService,
         Func<byte, string, CancellationToken, Task> sendMessage,
         int page = 0)
     {
@@ -33,6 +36,7 @@ public sealed class ShopVehiclesPage : MenuPage
         _ownershipService = ownershipService;
         _economyService = economyService;
         _databaseService = databaseService;
+        _demandService = demandService;
         _sendMessage = sendMessage;
         _page = Math.Max(0, page);
     }
@@ -63,10 +67,13 @@ public sealed class ShopVehiclesPage : MenuPage
 
         foreach (var vehicle in pageVehicles)
         {
+            var price = _demandService.GetCurrentPrice(vehicle);
+            var tag = FormatPriceTag(vehicle, price);
+
             buttons.Add(new MenuButton
             {
                 ClickId = clickId++,
-                Text = $"^2{vehicle.DisplayName} ^7- ${vehicle.Price}"
+                Text = $"^2{vehicle.DisplayName} ^7- ${price}{tag}"
             });
         }
 
@@ -154,17 +161,32 @@ public sealed class ShopVehiclesPage : MenuPage
             return;
         }
 
-        if (!_economyService.RemoveMoney(player, vehicle.Price))
+        var price = _demandService.GetCurrentPrice(vehicle);
+
+        if (!_economyService.RemoveMoney(player, price))
         {
-            await _sendMessage(player.UCID, $"^1Nepakanka pinigu. Kaina: ^7{vehicle.Price}$", cancellationToken);
+            await _sendMessage(player.UCID, $"^1Nepakanka pinigu. Kaina: ^7{price}$", cancellationToken);
             return;
         }
 
         await _ownershipService.AddVehicleAsync(player, vehicle.CarCode, cancellationToken);
         await _databaseService.SavePlayerAsync(player, cancellationToken);
 
-        await _sendMessage(player.UCID, $"^2Nusipirkai: ^7{vehicle.DisplayName} ^2uz ^7{vehicle.Price}$", cancellationToken);
+        _demandService.RegisterPurchase(vehicle);
+
+        await _sendMessage(player.UCID, $"^2Nusipirkai: ^7{vehicle.DisplayName} ^2uz ^7{price}$", cancellationToken);
 
         await manager.OpenVehicleCategoryAsync(player, _category, _page, cancellationToken);
+    }
+
+    private static string FormatPriceTag(VehicleShopItem vehicle, int currentPrice)
+    {
+        if (currentPrice > vehicle.Price)
+            return " ^1[Karsta]";
+
+        if (currentPrice < vehicle.Price)
+            return " ^3[Akcija]";
+
+        return string.Empty;
     }
 }

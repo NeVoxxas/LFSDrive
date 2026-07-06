@@ -1,5 +1,6 @@
 ﻿using LfsCruise.Core.Economy;
 using LfsCruise.Core.Players;
+using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Database;
@@ -16,24 +17,29 @@ public sealed class GarageService
     private readonly MarketStorage _marketStorage;
     private readonly EconomyService _economyService;
     private readonly DatabaseService _databaseService;
+    private readonly VehicleDemandService _demandService;
 
     public GarageService(
         VehicleOwnershipService ownershipService,
         VehicleShopService shopService,
         MarketStorage marketStorage,
         EconomyService economyService,
-        DatabaseService databaseService)
+        DatabaseService databaseService,
+        VehicleDemandService demandService)
     {
         _ownershipService = ownershipService;
         _shopService = shopService;
         _marketStorage = marketStorage;
         _economyService = economyService;
         _databaseService = databaseService;
+        _demandService = demandService;
     }
 
+    // Grazina DABARTINE (paklausos pakoreguota) parduotuves kaina, ne baze.
     public int? GetShopPrice(string carCode)
     {
-        return _shopService.GetVehicleByCode(carCode)?.Price;
+        var vehicle = _shopService.GetVehicleByCode(carCode);
+        return vehicle is null ? null : _demandService.GetCurrentPrice(vehicle);
     }
 
     public static int GetServerSellPrice(int shopPrice) => (int)Math.Round(shopPrice * ServerSellRate);
@@ -63,6 +69,9 @@ public sealed class GarageService
 
         _economyService.AddMoney(player, sellPrice);
         await _databaseService.SavePlayerAsync(player, cancellationToken);
+
+        // Parduota atgal serveriui = padidina rinkos pasiula -> paklausa/kaina truputi krenta.
+        _demandService.RegisterSaleToServer(carCode);
 
         return GarageResult.Ok($"Transporto priemone parduota serveriui uz {sellPrice}$.");
     }

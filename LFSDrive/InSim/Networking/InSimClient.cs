@@ -15,6 +15,7 @@ using LfsCruise.Core.UI.HUD;
 using LfsCruise.Core.UI.Menu;
 using LfsCruise.Core.Vehicles;
 using LfsCruise.Core.Vehicles.Starter;
+using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
@@ -78,6 +79,11 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleShopService _vehicleShopService;
 
+    // DINAMINE PAKLAUSOS KAINA
+
+    private readonly VehicleDemandStorage _vehicleDemandStorage = new();
+    private readonly VehicleDemandService _vehicleDemandService;
+
     private readonly GpsService _gpsService;
 
     private readonly HudManager _hudManager; // Hudas   
@@ -130,6 +136,8 @@ public sealed class InSimClient : IDisposable
 
         _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
 
+        _vehicleDemandService = new VehicleDemandService(_vehicleDemandStorage);
+
         _lfsModInfoService = new LfsModInfoService();
         _modNameService = new ModNameService(new ModNameStorage(), _lfsModInfoService);
 
@@ -154,12 +162,13 @@ public sealed class InSimClient : IDisposable
         _zoneService.Load();
 
         _marketStorage = new MarketStorage(databaseConfig);
-        _marketService = new MarketService(_marketStorage, _vehicleOwnershipService, _vehicleShopService, _databaseService, _playerManager);
+        _marketService = new MarketService(_marketStorage, _vehicleOwnershipService, _vehicleShopService, _vehicleDemandService, _databaseService, _playerManager);
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
         CommandLoader.RegisterAll(
             _commandManager, _economyService, _zoneService, _progressionService, _jobManager,
             _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
+            _vehicleShopService, _vehicleDemandService,
             SendMessageToConnectionAsync);
 
         _starterCarService = new StarterCarService(new StarterCarStorage());
@@ -175,7 +184,7 @@ public sealed class InSimClient : IDisposable
 
         //Garazas
 
-        _garageService = new GarageService(_vehicleOwnershipService, _vehicleShopService, _marketStorage, _economyService, _databaseService);
+        _garageService = new GarageService(_vehicleOwnershipService, _vehicleShopService, _marketStorage, _economyService, _databaseService, _vehicleDemandService);
 
         // Menu
         var menuRenderer = new MenuRenderer(
@@ -186,7 +195,7 @@ public sealed class InSimClient : IDisposable
         _menuManager = new MenuManager(
             menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService,
             _jobManager, _jobService, _bankService, _regitraService, _marketService,
-            _starterCarService, _modNameService, _garageService,
+            _starterCarService, _modNameService, _garageService, _vehicleDemandService,
             SendMessageToConnectionAsync);
 
         _eventBus.Subscribe(new PlayerConnectedHandler(_playerManager, _databaseService, _menuManager, SendMessageToConnectionAsync));

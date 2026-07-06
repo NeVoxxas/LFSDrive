@@ -1,6 +1,7 @@
 ﻿using LfsCruise.Core.Players;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.Vehicles.Garage;
+using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Database;
 using System.Numerics;
 
@@ -14,6 +15,7 @@ public sealed class MarketService
     private readonly MarketStorage _storage;
     private readonly VehicleOwnershipService _ownershipService;
     private readonly VehicleShopService _shopService;
+    private readonly VehicleDemandService _demandService;
     private readonly DatabaseService _databaseService;
     private readonly PlayerManager _playerManager;
 
@@ -21,12 +23,14 @@ public sealed class MarketService
         MarketStorage storage,
         VehicleOwnershipService ownershipService,
         VehicleShopService shopService,
+        VehicleDemandService demandService,
         DatabaseService databaseService,
         PlayerManager playerManager)
     {
         _storage = storage;
         _ownershipService = ownershipService;
         _shopService = shopService;
+        _demandService = demandService;
         _databaseService = databaseService;
         _playerManager = playerManager;
     }
@@ -49,7 +53,7 @@ public sealed class MarketService
             return MarketResult.Fail("Tu nesi sio automobilio savininkas.");
 
         if (await _storage.IsCarListedAsync(player.Data.Id, player.CarName, cancellationToken))
-            return MarketResult.Fail("Sis automobilis jau iskeltas i turgu.");
+            return MarketResult.Fail("Sis automobilis jau iskeltas i turga.");
 
         var category = _shopService.GetCategoryForCarCode(player.CarName)
             ?? _shopService.GetCategories().OrderBy(c => c.RequiredLicense).FirstOrDefault();
@@ -142,7 +146,10 @@ public sealed class MarketService
         if (shopVehicle is null)
             return MarketResult.Fail("Si transporto priemone neturi nustatytos bazines kainos.");
 
-        var maxPrice = GarageService.GetMaxMarketPrice(shopVehicle.Price);
+        // Naudojam DABARTINE (paklausos pakoreguota) kaina, ne baze - kad
+        // maksimali turgaus kaina sektu su gyva parduotuves kaina.
+        var currentShopPrice = _demandService.GetCurrentPrice(shopVehicle);
+        var maxPrice = GarageService.GetMaxMarketPrice(currentShopPrice);
 
         if (price > maxPrice)
             return MarketResult.Fail($"Maksimali kaina siai masinai: {maxPrice}$.");
@@ -166,4 +173,3 @@ public sealed class MarketService
         return MarketResult.Ok($"Automobilis {shopVehicle.DisplayName} iskeltas i turga uz {price}$.");
     }
 }
-

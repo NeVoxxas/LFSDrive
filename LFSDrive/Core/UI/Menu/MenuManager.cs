@@ -4,6 +4,7 @@ using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
+using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Mods;
 using LfsCruise.Core.Vehicles.Regitra;
@@ -35,6 +36,7 @@ public sealed class MenuManager
     private readonly StarterCarService _starterCarService; // NAUJA
     private readonly ModNameService _modNameService; // NAUJA
     private readonly GarageService _garageService; // NAUJA
+    private readonly VehicleDemandService _demandService; // NAUJA
 
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
@@ -52,6 +54,7 @@ public sealed class MenuManager
         StarterCarService starterCarService,
         ModNameService modNameService, // NAUJA
         GarageService garageService,
+        VehicleDemandService demandService, // NAUJA
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -67,6 +70,7 @@ public sealed class MenuManager
         _starterCarService = starterCarService;
         _modNameService = modNameService; // NAUJA
         _garageService = garageService; // NAUJA
+        _demandService = demandService; // NAUJA
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -143,6 +147,7 @@ public sealed class MenuManager
                 _ownershipService,
                 _economyService,
                 _databaseService,
+                _demandService,
                 _sendMessage,
                 page),
             cancellationToken);
