@@ -293,7 +293,7 @@ public sealed class MenuManager
 
         await OpenPageAsync(
             player,
-            new Pages.MarketPage(categories, categoryId, page, listings, totalCount),
+            new MarketPage(categories, categoryId, page, listings, totalCount, player.Data.Bank),
             cancellationToken);
     }
 

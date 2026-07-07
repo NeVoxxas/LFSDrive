@@ -224,7 +224,7 @@
     {
       "id": "A",
       "name": "A kategorija",
-      "requiredLicense": 500,
+      "requiredLicense": 300,
       "vehicles": [
 
       ]
@@ -232,7 +232,7 @@
     {
       "id": "S",
       "name": "S kategorija",
-      "requiredLicense": 1000,
+      "requiredLicense": 750,
       "vehicles": [
 
       ]

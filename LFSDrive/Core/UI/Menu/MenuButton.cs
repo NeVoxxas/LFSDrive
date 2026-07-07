@@ -17,6 +17,9 @@
     public string? Category { get; init; }
 
     public MenuColumn Column { get; init; } = MenuColumn.Left;
+    public byte? Left { get; init; }
+
+    public byte? Top { get; init; }
 }
 
 public enum MenuColumn
