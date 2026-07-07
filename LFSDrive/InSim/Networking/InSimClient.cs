@@ -188,6 +188,7 @@ public sealed class InSimClient : IDisposable
 
         var hudRenderer = new HudRenderer(SendButtonAsync, SendLabelAsync, DeleteButtonRangeAsync);
         _hudManager = new HudManager(hudRenderer, _progressionService, _jobService, _towService);
+        _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
         //Bank
         _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
@@ -409,7 +410,7 @@ public sealed class InSimClient : IDisposable
                                  await _towService.TowPlayerAsync(player, cancellationToken);
                                  break;
 
-                                default:
+                            default:
                                 await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
                                 break;
                         }
@@ -528,15 +529,15 @@ public sealed class InSimClient : IDisposable
     }
 
     public async Task SendCarResetAsync(byte plid, CancellationToken cancellationToken = default)
+{
+    var packet = new JrrPacket
     {
-        var packet = new JrrPacket
-        {
-            PLID = plid,
-            JRRAction = JrrPacket.ActionReset
-        }.ToArray();
+        PLID = plid,
+        JRRAction = JrrPacket.ActionReset
+    }.ToArray();
 
-        await SendPacketAsync(packet, cancellationToken);
-    }
+    await SendPacketAsync(packet, cancellationToken);
+}
     private static async Task ReadExactAsync( NetworkStream stream, Memory<byte> buffer, CancellationToken cancellationToken)
     {
         var totalBytesRead = 0;
