@@ -119,4 +119,50 @@ public sealed class VehicleOwnershipService
 
         return affected > 0;
     }
+
+    // NAUJA - reikalinga VehicleDemandService: visu masinu savininku skaiciai vienu kartu
+    // (naudojama periodiniam cache refresh, kad nereiktu N atskiru uzklausu).
+    public async Task<Dictionary<string, int>> GetOwnerCountsAsync(CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+            SELECT car_code, COUNT(*) AS owner_count
+            FROM owned_vehicles
+            GROUP BY car_code;
+            """;
+
+        await using var command = new MySqlCommand(sql, connection);
+
+        var result = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result[reader.GetString(0)] = reader.GetInt32(1);
+        }
+
+        return result;
+    }
+
+    // NAUJA - reikalinga VehicleDemandService: vienos konkrecios masinos savininku
+    // skaicius (naudojama iskart po pirkimo/pardavimo, kad kaina atsinaujintu greitai).
+    public async Task<int> GetOwnerCountAsync(string carCode, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+            SELECT COUNT(*)
+            FROM owned_vehicles
+            WHERE car_code = @car_code;
+            """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@car_code", carCode);
+
+        return Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken));
+    }
 }

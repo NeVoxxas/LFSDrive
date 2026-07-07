@@ -17,6 +17,7 @@ public static class ClickIds
         public const byte Server = 54;
         public const byte Menu = 55;
         public const byte JobStatus = 56;
+        public const byte GarageTow = 57;
     }
     public static class Menu
     {

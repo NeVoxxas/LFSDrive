@@ -172,7 +172,9 @@ public sealed class ShopVehiclesPage : MenuPage
         await _ownershipService.AddVehicleAsync(player, vehicle.CarCode, cancellationToken);
         await _databaseService.SavePlayerAsync(player, cancellationToken);
 
-        _demandService.RegisterPurchase(vehicle);
+        // Iskart perskaiciuojam sitos vienos masinos savininku skaiciu,
+        // kad kaina puslapyje atsinaujintu be laukimo kito periodinio refresh.
+        await _demandService.RefreshOneAsync(vehicle.CarCode, cancellationToken);
 
         await _sendMessage(player.UCID, $"^2Nusipirkai: ^7{vehicle.DisplayName} ^2uz ^7{price}$", cancellationToken);
 

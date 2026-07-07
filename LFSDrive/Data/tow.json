@@ -1,0 +1,8 @@
+{
+  "garageX": 0,
+  "garageY": 0,
+  "baseFare": 50,
+  "pricePerKm": 20,
+  "minPrice": 50,
+  "maxPrice": 500
+}

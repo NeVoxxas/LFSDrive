@@ -21,7 +21,7 @@ public sealed class VehicleDemandCommand : ICommand
     }
 
     public string Name => "demand";
-    public string Description => "Rodo automobilio dabartine paklausos kaina.";
+    public string Description => "Rodo automobilio paklausos busena (savininku sk. / kaina).";
     public bool AdminOnly => true;
 
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
@@ -41,12 +41,13 @@ public sealed class VehicleDemandCommand : ICommand
             return;
         }
 
+        var ownerCount = _demandService.GetOwnerCount(carCode);
         var multiplier = _demandService.GetCurrentMultiplier(carCode);
         var currentPrice = _demandService.GetCurrentPrice(vehicle);
 
         await _sendMessage(
             player.UCID,
-            $"^7{vehicle.DisplayName}: baze ^2{vehicle.Price}$ ^7-> dabar ^3{currentPrice}$ ^7(x{multiplier:0.00})",
+            $"^7{vehicle.DisplayName}: savininku ^3{ownerCount} ^7| baze ^2{vehicle.Price}$ ^7-> dabar ^3{currentPrice}$ ^7(x{multiplier:0.00})",
             cancellationToken);
     }
 }

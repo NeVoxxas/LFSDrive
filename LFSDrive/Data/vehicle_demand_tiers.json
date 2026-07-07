@@ -1,0 +1,9 @@
+{
+  "tiers": [
+    { "minOwners": 0, "multiplier": 1.00 },
+    { "minOwners": 4, "multiplier": 1.10 },
+    { "minOwners": 11, "multiplier": 1.20 },
+    { "minOwners": 26, "multiplier": 1.35 },
+    { "minOwners": 51, "multiplier": 1.50 }
+  ]
+}

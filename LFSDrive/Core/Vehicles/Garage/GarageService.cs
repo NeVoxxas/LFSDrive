@@ -70,8 +70,9 @@ public sealed class GarageService
         _economyService.AddMoney(player, sellPrice);
         await _databaseService.SavePlayerAsync(player, cancellationToken);
 
-        // Parduota atgal serveriui = padidina rinkos pasiula -> paklausa/kaina truputi krenta.
-        _demandService.RegisterSaleToServer(carCode);
+        // Vienu savininku maziau - iskart perskaiciuojam sitos masinos paklausa,
+        // kad naujoji (zemesne) kaina matytusi be laukimo kito periodinio refresh.
+        await _demandService.RefreshOneAsync(carCode, cancellationToken);
 
         return GarageResult.Ok($"Transporto priemone parduota serveriui uz {sellPrice}$.");
     }

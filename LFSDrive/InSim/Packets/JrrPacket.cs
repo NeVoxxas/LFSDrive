@@ -4,10 +4,13 @@ public sealed class JrrPacket : InSimPacket
 {
     public const byte PacketType = 58; // ISP_JRR
 
-    public const byte ActionReject = 0; // JRR_REJECT
-    public const byte ActionSpawn = 1;  // JRR_SPAWN
+    public const byte ActionReject = 0;         // JRR_REJECT
+    public const byte ActionSpawn = 1;          // JRR_SPAWN
+    public const byte ActionReset = 4;          // JRR_RESET
 
-    public byte PLID { get; init; }      // 0 kai atsakoma į join request
+    // PLID = 0   -> atsakymas i join request (naudoja UCID)
+    // PLID != 0  -> perkelti ESAMA automobili (UCID ignoruojamas)
+    public byte PLID { get; init; }
     public byte UCID { get; init; }
     public byte JRRAction { get; init; } = ActionSpawn;
 
@@ -17,20 +20,20 @@ public sealed class JrrPacket : InSimPacket
 
     public byte[] ToArray()
     {
-        var packet = new byte[16];
+        return
+        [
+            4,          // Size / 4 = 16 / 4
+            PacketType, // ISP_JRR
+            0,          // ReqI
+            PLID,       // PATAISYTA: anksciau visada buvo 0
 
-        packet[0] = 4;          // Size / 4 = 16 / 4
-        packet[1] = PacketType; // ISP_JRR
-        packet[2] = 0;          // ReqI
-        packet[3] = 0;          // PLID - ZERO, nes tai atsakymas į join request
+            UCID,
+            JRRAction,
+            0, // Sp2
+            0, // Sp3
 
-        packet[4] = UCID;
-        packet[5] = JRRAction;
-        packet[6] = 0; // Sp2
-        packet[7] = 0; // Sp3
-
-        // StartPos (ObjectInfo, 8 baitai) - visi nuliai = naudoti default start point
-
-        return packet;
+            // StartPos (ObjectInfo, 8 baitu) - visi nuliai = LFS default start point
+            0, 0, 0, 0, 0, 0, 0, 0
+        ];
     }
 }

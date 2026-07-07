@@ -9,10 +9,9 @@ using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Jobs.Taxi;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
-using LfsCruise.Core.Vehicles.Demand;
 using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Regitra;
-using LfsCruise.Core.Vehicles.Shop;
+using LfsCruise.Core.Vehicles.Tow;
 using LfsCruise.Core.World;
 
 namespace LfsCruise.Core.Commands;
@@ -29,8 +28,8 @@ public static class CommandLoader
         RegitraService regitraService,
         RegitraConfigStorage regitraConfigStorage,
         MarketService marketService,
-        VehicleShopService vehicleShopService,
-        VehicleDemandService vehicleDemandService,
+        TowService towService,
+        TowConfigStorage towConfigStorage,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         commandManager.Register(new HelpCommand(sendMessage));
@@ -51,6 +50,7 @@ public static class CommandLoader
         commandManager.Register(new RegitraCommand(regitraService, sendMessage));
         commandManager.Register(new RegitraPriceCommand(regitraConfigStorage, regitraService, sendMessage));
         commandManager.Register(new SellCarCommand(marketService, sendMessage));
-        commandManager.Register(new VehicleDemandCommand(vehicleShopService, vehicleDemandService, sendMessage));
+        commandManager.Register(new TowCommand(towService));
+        commandManager.Register(new SetGaragePosCommand(towConfigStorage, towService, sendMessage));
     }
 }

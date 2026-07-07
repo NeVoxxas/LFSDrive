@@ -21,6 +21,7 @@ using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Shop;
 using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Garage;
+using LfsCruise.Core.Vehicles.Tow;
 using LfsCruise.Core.World;
 using LfsCruise.Database;
 using LfsCruise.InSim.Enums;
@@ -79,10 +80,14 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleShopService _vehicleShopService;
 
-    // DINAMINE PAKLAUSOS KAINA
+    private readonly TowConfigStorage _towConfigStorage = new();
+    private readonly TowService _towService;
 
-    private readonly VehicleDemandStorage _vehicleDemandStorage = new();
+    // DINAMINE PAKLAUSOS KAINA (pagal gyva savininku skaiciu is DB)
+
+    private readonly VehicleDemandConfigStorage _vehicleDemandConfigStorage = new();
     private readonly VehicleDemandService _vehicleDemandService;
+    private readonly VehicleDemandRefreshLoop _vehicleDemandRefreshLoop;
 
     private readonly GpsService _gpsService;
 
@@ -136,7 +141,15 @@ public sealed class InSimClient : IDisposable
 
         _vehicleShopService = new VehicleShopService(new VehicleShopStorage());
 
-        _vehicleDemandService = new VehicleDemandService(_vehicleDemandStorage);
+        _towService = new TowService(
+            _towConfigStorage,
+            _economyService,
+            _databaseService,
+            SendMessageToConnectionAsync,
+            SendCarResetAsync);
+
+        _vehicleDemandService = new VehicleDemandService(_vehicleOwnershipService, _vehicleDemandConfigStorage);
+        _vehicleDemandRefreshLoop = new VehicleDemandRefreshLoop(_vehicleDemandService);
 
         _lfsModInfoService = new LfsModInfoService();
         _modNameService = new ModNameService(new ModNameStorage(), _lfsModInfoService);
@@ -168,14 +181,13 @@ public sealed class InSimClient : IDisposable
         CommandLoader.RegisterAll(
             _commandManager, _economyService, _zoneService, _progressionService, _jobManager,
             _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
-            _vehicleShopService, _vehicleDemandService,
+            _towService, _towConfigStorage,
             SendMessageToConnectionAsync);
 
         _starterCarService = new StarterCarService(new StarterCarStorage());
 
-        var hudRenderer = new HudRenderer(SendButtonAsync, DeleteButtonRangeAsync);
-        _hudManager = new HudManager(hudRenderer, _progressionService, _jobService);
-        _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
+        var hudRenderer = new HudRenderer(SendButtonAsync, SendLabelAsync, DeleteButtonRangeAsync);
+        _hudManager = new HudManager(hudRenderer, _progressionService, _jobService, _towService);
 
         //Bank
         _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
@@ -239,9 +251,15 @@ public sealed class InSimClient : IDisposable
             await SendPacketAsync(isiPacket, cancellationToken);
             Console.WriteLine("IS_ISI packet sent");
 
+            // Uzpildom paklausos cache is karto per starta, kad pirmas parduotuves
+            // atidarymas jau matytu teisingas (ne baze 1.0x) kainas.
+            await _vehicleDemandService.RefreshAsync(cancellationToken);
+            Console.WriteLine("Vehicle demand cache warmed up");
+
             _ = Task.Run(() => _hudUpdateLoop.RunAsync(cancellationToken), cancellationToken);
             _ = Task.Run(() => _bankInterestLoop.RunAsync(cancellationToken), cancellationToken);
             _ = Task.Run(() => _bankUiRefreshLoop.RunAsync(cancellationToken), cancellationToken);
+            _ = Task.Run(() => _vehicleDemandRefreshLoop.RunAsync(cancellationToken), cancellationToken);
             Console.WriteLine("HUD loop started");
 
             await ReceiveLoopAsync(cancellationToken);
@@ -387,8 +405,11 @@ public sealed class InSimClient : IDisposable
                             case ClickIds.Menu.Close:
                                 await _menuManager.CloseAsync(player, cancellationToken);
                                 break;
-                        
-                            default:
+                            case ClickIds.Hud.GarageTow:
+                                 await _towService.TowPlayerAsync(player, cancellationToken);
+                                 break;
+
+                                default:
                                 await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
                                 break;
                         }
@@ -506,6 +527,16 @@ public sealed class InSimClient : IDisposable
         await SendPacketAsync(packet, cancellationToken);
     }
 
+    public async Task SendCarResetAsync(byte plid, CancellationToken cancellationToken = default)
+    {
+        var packet = new JrrPacket
+        {
+            PLID = plid,
+            JRRAction = JrrPacket.ActionReset
+        }.ToArray();
+
+        await SendPacketAsync(packet, cancellationToken);
+    }
     private static async Task ReadExactAsync( NetworkStream stream, Memory<byte> buffer, CancellationToken cancellationToken)
     {
         var totalBytesRead = 0;
