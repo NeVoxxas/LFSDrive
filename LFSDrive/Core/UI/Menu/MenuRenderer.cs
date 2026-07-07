@@ -9,7 +9,7 @@ public sealed class MenuRenderer
     private readonly Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> _sendItem;
     private readonly Func<byte, byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> _sendInputButton;
     private readonly Func<byte, byte, byte, CancellationToken, Task> _deleteButtons;
-    private readonly Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> _sendCategoryHeader; // NAUJA
+    private readonly Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> _sendCategoryHeader;
 
     private const byte Left = 72;
     private const byte PanelWidth = 65;
@@ -29,14 +29,14 @@ public sealed class MenuRenderer
         Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendItem,
         Func<byte, byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendInputButton,
         Func<byte, byte, byte, CancellationToken, Task> deleteButtons,
-        Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendCategoryHeader) // NAUJA
+        Func<byte, byte, byte, byte, byte, byte, string, CancellationToken, Task> sendCategoryHeader)
     {
         _sendPanel = sendPanel;
         _sendLabel = sendLabel;
         _sendItem = sendItem;
         _sendInputButton = sendInputButton;
         _deleteButtons = deleteButtons;
-        _sendCategoryHeader = sendCategoryHeader; // NAUJA
+        _sendCategoryHeader = sendCategoryHeader;
     }
 
     public async Task RenderAsync(Player player, MenuPage page, CancellationToken cancellationToken)

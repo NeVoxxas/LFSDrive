@@ -9,6 +9,6 @@ public abstract class HudWidget
     public abstract string GetText(Player player);
     public virtual bool IsVisible(Player player) => true;
 
-    // NAUJA - jei false, widget'as siunciamas kaip neklikinamas label'is
+    // jei false, widget'as siunciamas kaip neklikinamas label'is
     public virtual bool IsInteractive(Player player) => true;
 }

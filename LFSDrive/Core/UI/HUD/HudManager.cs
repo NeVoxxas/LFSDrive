@@ -16,7 +16,7 @@ public sealed class HudManager
         HudRenderer renderer,
         ProgressionService progressionService,
         JobService jobService,
-        TowService towService) // NAUJA
+        TowService towService)
     {
         _renderer = renderer;
 
@@ -25,9 +25,9 @@ public sealed class HudManager
             new LicenseWidget(progressionService),
             new DistanceWidget(),
             new MoneyWidget(),
-            new JobStatusWidget(jobService),
-            new GarageTowWidget(towService), // NAUJA
             new ServerWidget(),
+            new JobStatusWidget(jobService),
+            new GarageTowWidget(towService),
             new DiscordWidget(),
             new MenuWidget()
         ];

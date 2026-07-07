@@ -33,10 +33,10 @@ public sealed class MenuManager
     private readonly BankService _bankService;
     private readonly RegitraService _regitraService;
     private readonly MarketService _marketService;
-    private readonly StarterCarService _starterCarService; // NAUJA
-    private readonly ModNameService _modNameService; // NAUJA
-    private readonly GarageService _garageService; // NAUJA
-    private readonly VehicleDemandService _demandService; // NAUJA
+    private readonly StarterCarService _starterCarService;
+    private readonly ModNameService _modNameService;
+    private readonly GarageService _garageService;
+    private readonly VehicleDemandService _demandService;
 
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
@@ -52,9 +52,9 @@ public sealed class MenuManager
         RegitraService regitraService,
         MarketService marketService,
         StarterCarService starterCarService,
-        ModNameService modNameService, // NAUJA
+        ModNameService modNameService,
         GarageService garageService,
-        VehicleDemandService demandService, // NAUJA
+        VehicleDemandService demandService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -68,9 +68,9 @@ public sealed class MenuManager
         _regitraService = regitraService;
         _marketService = marketService;
         _starterCarService = starterCarService;
-        _modNameService = modNameService; // NAUJA
-        _garageService = garageService; // NAUJA
-        _demandService = demandService; // NAUJA
+        _modNameService = modNameService;
+        _garageService = garageService;
+        _demandService = demandService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);

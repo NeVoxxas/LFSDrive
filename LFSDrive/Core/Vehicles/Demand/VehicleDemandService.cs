@@ -2,17 +2,13 @@
 
 namespace LfsCruise.Core.Vehicles.Demand;
 
-// Dinamine parduotuves kaina pagal TAI, kiek zaideju SIUO METU turi masina
-// (owned_vehicles lentele), ne pagal irasytus pirkimo/pardavimo ivykius.
+// Dinamine parduotuves kaina pagal TAI, kiek zaideju SIUO METU turi tam tikra masina (owned_vehicles lentele)
 //
-// Kuo daugiau savininku - tuo brangesne masina (populiarumo/hype mokestis).
-// Kuo maziau - tuo pigesne (paskatinti pirkti nepopuliaria masina).
+// Kuo daugiau savininku - tuo brangesne masina.
+// Kuo maziau - tuo pigesne.
 //
-// Savininku skaiciai laikomi atmintyje (cache), nes DB uzklausa kiekvienam
-// parduotuves puslapio atvaizdavimui butu per brangu. Cache atnaujinamas:
-//   - periodiskai fone (VehicleDemandRefreshLoop, kas kelias minutes)
-//   - iskart po konkretaus pirkimo/pardavimo (RefreshOneAsync), kad UI
-//     atsinaujintu greitai, ne palaukus kito periodinio ciklo
+// Savininku skaiciai laikomi cache, DB uzklausa kiekvienam
+// parduotuves atnaujinimui privestu prie perfomance loss.
 public sealed class VehicleDemandService
 {
     private readonly VehicleOwnershipService _ownershipService;
@@ -30,7 +26,7 @@ public sealed class VehicleDemandService
         _tiers = LoadSortedTiers();
     }
 
-    // Leidzia perkrauti pakopu konfiguracija be serverio restart (pvz. is admin komandos).
+    // Perkraunam configa be restarto
     public void ReloadTiersConfig()
     {
         _tiers = LoadSortedTiers();
@@ -44,15 +40,14 @@ public sealed class VehicleDemandService
             .ToList();
     }
 
-    // Perkrauna VISU masinu savininku skaicius is DB. Kviesti periodiskai fone.
+    // Atnaujina kiekviena savininka is DB fone.
     public async Task RefreshAsync(CancellationToken cancellationToken = default)
     {
         var counts = await _ownershipService.GetOwnerCountsAsync(cancellationToken);
         _ownerCounts = counts;
     }
 
-    // Perkrauna VIENOS masinos savininku skaiciu - naudinga iskart po pirkimo/pardavimo,
-    // kad kaina UI atsinaujintu be laukimo kito periodinio refresh.
+    // Perkraunam vienos masinos savininku skaiciu. ( po pirkimo/pardavimo )
     public async Task RefreshOneAsync(string carCode, CancellationToken cancellationToken = default)
     {
         var count = await _ownershipService.GetOwnerCountAsync(carCode, cancellationToken);

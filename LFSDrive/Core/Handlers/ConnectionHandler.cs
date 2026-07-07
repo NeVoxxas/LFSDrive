@@ -20,7 +20,7 @@ public sealed class ConnectionHandler
     private readonly JobService _jobService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
     private readonly Func<string, CancellationToken, Task> _sendHostCommand;
-    private readonly Func<byte, byte, CancellationToken, Task> _sendJoinReply; // NAUJA
+    private readonly Func<byte, byte, CancellationToken, Task> _sendJoinReply;
 
     public ConnectionHandler(
         PlayerManager playerManager,
@@ -33,7 +33,7 @@ public sealed class ConnectionHandler
         JobService jobService,
         Func<byte, string, CancellationToken, Task> sendMessage,
         Func<string, CancellationToken, Task> sendHostCommand,
-        Func<byte, byte, CancellationToken, Task> sendJoinReply) // NAUJA
+        Func<byte, byte, CancellationToken, Task> sendJoinReply)
     {
         _playerManager = playerManager;
         _databaseService = databaseService;
@@ -45,7 +45,7 @@ public sealed class ConnectionHandler
         _jobService = jobService;
         _sendMessage = sendMessage;
         _sendHostCommand = sendHostCommand;
-        _sendJoinReply = sendJoinReply; // NAUJA
+        _sendJoinReply = sendJoinReply;
     }
 
     public Task HandleConnectedAsync(NcnPacket ncn, CancellationToken cancellationToken)
@@ -68,7 +68,7 @@ public sealed class ConnectionHandler
 
     public async Task HandleNewPlayerAsync(NplPacket npl, CancellationToken cancellationToken)
     {
-        // NAUJA: join request (ISF_REQ_JOIN) - automatiškai patvirtiname, kad žaidėjas
+        // join request (ISF_REQ_JOIN) - automatiškai patvirtiname, kad žaidėjas
         // iškart atsispawnintų garaže, be "prisijungti" ekrano.
         if (npl.IsJoinRequest)
         {

@@ -120,7 +120,7 @@ public sealed class VehicleOwnershipService
         return affected > 0;
     }
 
-    // NAUJA - reikalinga VehicleDemandService: visu masinu savininku skaiciai vienu kartu
+    // reikalinga VehicleDemandService: visu masinu savininku skaiciai vienu kartu
     // (naudojama periodiniam cache refresh, kad nereiktu N atskiru uzklausu).
     public async Task<Dictionary<string, int>> GetOwnerCountsAsync(CancellationToken cancellationToken = default)
     {
@@ -147,7 +147,7 @@ public sealed class VehicleOwnershipService
         return result;
     }
 
-    // NAUJA - reikalinga VehicleDemandService: vienos konkrecios masinos savininku
+    // reikalinga VehicleDemandService: vienos konkrecios masinos savininku
     // skaicius (naudojama iskart po pirkimo/pardavimo, kad kaina atsinaujintu greitai).
     public async Task<int> GetOwnerCountAsync(string carCode, CancellationToken cancellationToken = default)
     {

@@ -51,6 +51,5 @@ public static class CommandLoader
         commandManager.Register(new RegitraPriceCommand(regitraConfigStorage, regitraService, sendMessage));
         commandManager.Register(new SellCarCommand(marketService, sendMessage));
         commandManager.Register(new TowCommand(towService));
-        commandManager.Register(new SetGaragePosCommand(towConfigStorage, towService, sendMessage));
     }
 }

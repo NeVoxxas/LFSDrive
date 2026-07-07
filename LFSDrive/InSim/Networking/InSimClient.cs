@@ -59,7 +59,7 @@ public sealed class InSimClient : IDisposable
 
     private readonly VehicleOwnershipService _vehicleOwnershipService;
 
-    private readonly StarterCarService _starterCarService; // NAUJA (pridėti prie kitų laukų)
+    private readonly StarterCarService _starterCarService;
 
     // REGITRA
 
@@ -146,7 +146,7 @@ public sealed class InSimClient : IDisposable
             _economyService,
             _databaseService,
             SendMessageToConnectionAsync,
-            SendCarResetAsync);
+            SendHostCommandAsync);
 
         _vehicleDemandService = new VehicleDemandService(_vehicleOwnershipService, _vehicleDemandConfigStorage);
         _vehicleDemandRefreshLoop = new VehicleDemandRefreshLoop(_vehicleDemandService);
@@ -190,12 +190,12 @@ public sealed class InSimClient : IDisposable
         _hudManager = new HudManager(hudRenderer, _progressionService, _jobService, _towService);
         _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
 
-        //Bank
+        // Bank
         _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
         _bankService = new BankService(_bankTransactionStorage, _databaseService);
         _bankInterestLoop = new BankInterestLoop(_playerManager, _bankService);
 
-        //Garazas
+        // Garazas
 
         _garageService = new GarageService(_vehicleOwnershipService, _vehicleShopService, _marketStorage, _economyService, _databaseService, _vehicleDemandService);
 
@@ -213,8 +213,7 @@ public sealed class InSimClient : IDisposable
 
         _eventBus.Subscribe(new PlayerConnectedHandler(_playerManager, _databaseService, _menuManager, SendMessageToConnectionAsync));
 
-
-        //
+        // Zonos
 
         _bankZoneService = new BankZoneService(_zoneManager, _menuManager);
         _regitraZoneService = new RegitraZoneService(_zoneManager, _menuManager);
@@ -222,7 +221,7 @@ public sealed class InSimClient : IDisposable
         _bankUiRefreshLoop = new BankUiRefreshLoop(_playerManager, _menuManager);
 
 
-        //HANDLERIAI
+        //Handleriai
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
@@ -249,7 +248,7 @@ public sealed class InSimClient : IDisposable
                 IName = _config.InSimName
             }.ToArray();
 
-            await SendPacketAsync(isiPacket, cancellationToken);
+            await SendPacketAsync(isiPacket, cancellationToken); // Siunciam alive packeta atgal
             Console.WriteLine("IS_ISI packet sent");
 
             // Uzpildom paklausos cache is karto per starta, kad pirmas parduotuves
@@ -527,17 +526,6 @@ public sealed class InSimClient : IDisposable
 
         await SendPacketAsync(packet, cancellationToken);
     }
-
-    public async Task SendCarResetAsync(byte plid, CancellationToken cancellationToken = default)
-{
-    var packet = new JrrPacket
-    {
-        PLID = plid,
-        JRRAction = JrrPacket.ActionReset
-    }.ToArray();
-
-    await SendPacketAsync(packet, cancellationToken);
-}
     private static async Task ReadExactAsync( NetworkStream stream, Memory<byte> buffer, CancellationToken cancellationToken)
     {
         var totalBytesRead = 0;

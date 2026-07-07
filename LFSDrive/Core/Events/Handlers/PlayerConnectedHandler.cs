@@ -10,18 +10,18 @@ public sealed class PlayerConnectedHandler
 {
     private readonly PlayerManager _playerManager;
     private readonly DatabaseService _databaseService;
-    private readonly MenuManager _menuManager; // NAUJA
+    private readonly MenuManager _menuManager;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
     public PlayerConnectedHandler(
         PlayerManager playerManager,
         DatabaseService databaseService,
-        MenuManager menuManager, // NAUJA
+        MenuManager menuManager,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _playerManager = playerManager;
         _databaseService = databaseService;
-        _menuManager = menuManager; // NAUJA
+        _menuManager = menuManager;
         _sendMessage = sendMessage;
     }
 

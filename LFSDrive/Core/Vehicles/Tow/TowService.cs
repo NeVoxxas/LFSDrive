@@ -3,6 +3,7 @@ using LfsCruise.Core.Players;
 using LfsCruise.Database;
 
 namespace LfsCruise.Core.Vehicles.Tow;
+
 public sealed class TowService
 {
     public const double MaxStopSpeedKmh = 1.0;
@@ -11,7 +12,7 @@ public sealed class TowService
     private readonly EconomyService _economyService;
     private readonly DatabaseService _databaseService;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
-    private readonly Func<byte, CancellationToken, Task> _sendCarReset;
+    private readonly Func<string, CancellationToken, Task> _sendHostCommand;
 
     private TowConfig _config;
 
@@ -20,13 +21,13 @@ public sealed class TowService
         EconomyService economyService,
         DatabaseService databaseService,
         Func<byte, string, CancellationToken, Task> sendMessage,
-        Func<byte, CancellationToken, Task> sendCarReset)
+        Func<string, CancellationToken, Task> sendHostCommand)
     {
         _configStorage = configStorage;
         _economyService = economyService;
         _databaseService = databaseService;
         _sendMessage = sendMessage;
-        _sendCarReset = sendCarReset;
+        _sendHostCommand = sendHostCommand;
 
         _config = _configStorage.Load();
     }
@@ -65,7 +66,7 @@ public sealed class TowService
 
         await _databaseService.SavePlayerAsync(player, cancellationToken);
 
-        await _sendCarReset(player.PLID, cancellationToken);
+        await _sendHostCommand($"/pitlane {player.Username}", cancellationToken);
 
         await _sendMessage(player.UCID, $"^2Vilkikas atvyko! Nuskaiciuota: ^7{price}$", cancellationToken);
 

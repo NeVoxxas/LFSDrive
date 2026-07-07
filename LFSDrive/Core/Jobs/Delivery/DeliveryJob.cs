@@ -62,7 +62,7 @@ public sealed class DeliveryJob : IJob
     {
         _missions.Remove(context.Player.UCID);
         await context.GpsService.ClearTargetAsync(context.Player, cancellationToken);
-        context.JobService.ClearStatus(context.Player); // NAUJA
+        context.JobService.ClearStatus(context.Player);
         await context.SendMessage(context.Player.UCID, "^1Kurjerio darbas baigtas.", cancellationToken);
     }
 
@@ -110,7 +110,7 @@ public sealed class DeliveryJob : IJob
         _missions[context.Player.UCID] = mission;
 
         context.GpsService.SetTarget(context.Player, "Sandelis", _config.Hq.X, _config.Hq.Y);
-        context.JobService.SetStatus(context.Player, "^7DPD: -> Sandelis"); // NAUJA
+        context.JobService.SetStatus(context.Player, "^7DPD: -> Sandelis");
     }
 
     private async Task HandleHqLoadAsync(JobContext context, DeliveryMission mission, CancellationToken cancellationToken)
@@ -125,7 +125,7 @@ public sealed class DeliveryJob : IJob
         mission.Target = client;
 
         context.GpsService.SetTarget(context.Player, client.Name, client.X, client.Y);
-        context.JobService.SetStatus(context.Player, $"^7DPD: {mission.RemainingDeliveries}/5"); // NAUJA
+        context.JobService.SetStatus(context.Player, $"^7DPD: {mission.RemainingDeliveries}/5");
 
         await context.SendMessage(
             context.Player.UCID,
@@ -153,7 +153,7 @@ public sealed class DeliveryJob : IJob
             mission.Target = next;
 
             context.GpsService.SetTarget(context.Player, next.Name, next.X, next.Y);
-            context.JobService.SetStatus(context.Player, $"^7DPD: {mission.RemainingDeliveries}/5"); // NAUJA
+            context.JobService.SetStatus(context.Player, $"^7DPD: {mission.RemainingDeliveries}/5");
 
             await context.SendMessage(
                 context.Player.UCID,
@@ -173,7 +173,7 @@ public sealed class DeliveryJob : IJob
             mission.Target = pickup;
 
             context.GpsService.SetTarget(context.Player, pickup.Name, pickup.X, pickup.Y);
-            context.JobService.SetStatus(context.Player, "^3DPD: pasiimt siunta"); // NAUJA
+            context.JobService.SetStatus(context.Player, "^3DPD: pasiimt siunta");
 
             await context.SendMessage(
                 context.Player.UCID,
@@ -201,7 +201,7 @@ public sealed class DeliveryJob : IJob
         mission.Target = _config.Hq;
 
         context.GpsService.SetTarget(context.Player, "Sandelis", _config.Hq.X, _config.Hq.Y);
-        context.JobService.SetStatus(context.Player, "^3DPD: grazinam i sandeli"); // NAUJA
+        context.JobService.SetStatus(context.Player, "^3DPD: grazinam i sandeli");
 
         await context.SendMessage(context.Player.UCID, "^2Siunta pasiimta. ^7Grazink i sandeli.", cancellationToken);
     }
@@ -242,7 +242,7 @@ public sealed class DeliveryJob : IJob
         mission.CooldownUntil = DateTime.UtcNow.AddMinutes(cooldownMinutes);
 
         await context.GpsService.ClearTargetAsync(context.Player, cancellationToken);
-        context.JobService.SetStatus(context.Player, "^1DPD: laukiam"); // NAUJA
+        context.JobService.SetStatus(context.Player, "^1DPD: laukiam");
     }
 
     private int CalculateReward(DeliveryPoint from, DeliveryPoint to)
