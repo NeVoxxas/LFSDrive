@@ -1,8 +1,8 @@
 {
-  "garageX": 0,
-  "garageY": 0,
-  "baseFare": 50,
-  "pricePerKm": 20,
-  "minPrice": 50,
+  "garageX": 233.6,
+  "garageY": 85.2,
+  "baseFare": 0,
+  "pricePerKm": 100,
+  "minPrice": 0,
   "maxPrice": 500
 }

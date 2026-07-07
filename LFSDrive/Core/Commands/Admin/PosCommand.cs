@@ -4,15 +4,9 @@ namespace LfsCruise.Core.Commands.Admin;
 
 public sealed class PosCommand : ICommand
 {
-    /*public enum CommandPermission
-    {
-        Player,
-        Admin,
-        Moderator,
-        Developer
-    }*/
-
     public bool AdminOnly => true;
+
+    public AdminRank RequiredRank => AdminRank.Moderator;
 
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 

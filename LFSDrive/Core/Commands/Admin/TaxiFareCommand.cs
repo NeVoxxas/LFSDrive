@@ -22,6 +22,8 @@ public sealed class TaxiFareCommand : ICommand
 
     public bool AdminOnly => true;
 
+    public AdminRank RequiredRank => AdminRank.Moderator;
+
     public async Task ExecuteAsync(
         Player player,
         string[] args,

@@ -6,9 +6,69 @@
       "requiredLicense": 0,
       "vehicles": [
         {
-          "carCode": "58-46-47-0",
-          "displayName": "XF GTI",
-          "price": 0
+          "carCode": "39-0B-8B-00",
+          "displayName": "Opel Zafira 1.6l 76kW",
+          "price": 1680
+        },
+        {
+          "carCode": "7C-C4-CF-00",
+          "displayName": "VW Golf Mk2 1.8l 104 kW",
+          "price": 2000
+        },
+        {
+          "carCode": "5E-5D-C5-00",
+          "displayName": "BMW E46 Compact 2.0l 114 kW",
+          "price": 2200
+        },
+        {
+          "carCode": "9D-F8-98-00",
+          "displayName": "Audi 80 2.0l 103 kW",
+          "price": 2400
+        },
+        {
+          "carCode": "D4-73-F2-00",
+          "displayName": "Skoda Octavia Mk3 2.0l 112 kW",
+          "price": 2900
+        },
+        {
+          "carCode": "69-93-7B-00",
+          "displayName": "BMW F30 1.6l 145kW",
+          "price": 3700
+        },
+        {
+          "carCode": "CE-19-97-00",
+          "displayName": "Ford Sierra 2.0l 167kW",
+          "price": 4250
+        },
+        {
+          "carCode": "16-17-72-00",
+          "displayName": "Nissan Silvia 2.0l 173kW",
+          "price": 4350
+        },
+        {
+          "carCode": "04-F1-C3-00",
+          "displayName": "Honda Civic 2.0l 164kW",
+          "price": 5400
+        },
+        {
+          "carCode": "32-AF-33-00",
+          "displayName": "BMW F10 530D 3.0l 182kW",
+          "price": 5600
+        },
+        {
+          "carCode": "41-DF-5F-00",
+          "displayName": "Mercedes Benz C220d 2.1l 189kW",
+          "price": 5000
+        },
+        {
+          "carCode": "11-D6-54-00",
+          "displayName": "Audi B6 3.0l 191kW",
+          "price": 6756
+        },
+        {
+          "carCode": "FC-1A-E7-00",
+          "displayName": "Mercedes E-Class 3.0l 198kW",
+          "price": 7000
         }
       ]
     },
@@ -16,7 +76,88 @@
       "id": "C",
       "name": "C kategorija",
       "requiredLicense": 50,
-      "vehicles": []
+      "vehicles": [
+        {
+          "carCode": "13-8C-16-00",
+          "displayName": "BMW E36 2.5l 224kW",
+          "price": 10000
+        },
+        {
+          "carCode": "81-DE-81-00",
+          "displayName": "Audi A6 B6 3.0l 224kW",
+          "price": 10000
+        },
+        {
+          "carCode": "1F-74-C5-00",
+          "displayName": "Renault Megane RS 2.0l 224kW",
+          "price": 10000
+        },
+        {
+          "carCode": "12-2E-F3-00",
+          "displayName": "Honda Civic 1.8l 232kW",
+          "price": 10000
+        },
+        {
+          "carCode": "54-21-3D-00",
+          "displayName": "VW Golf 7 GTI 2.0l 216kW",
+          "price": 10000
+        },
+        {
+          "carCode": "5C-D7-E0-00",
+          "displayName": "BMW E87 120D 2.0l 250kW",
+          "price": 10000
+        },
+        {
+          "carCode": "9A-8E-E2-00",
+          "displayName": "BMW E46 3.2l 252kW",
+          "price": 10000
+        },
+        {
+          "carCode": "AC-E6-75-00",
+          "displayName": "Porsche 718 Boxter S 2.5l 261kW",
+          "price": 10000
+        },
+        {
+          "carCode": "BA-2F-54-00",
+          "displayName": "Mercedes Benz C-Class 3.0l 271kW",
+          "price": 10000
+        },
+        {
+          "carCode": "3E-8C-88-00",
+          "displayName": "BMW E38 5.4l 240kW",
+          "price": 10000
+        },
+        {
+          "carCode": "B7-01-51-00",
+          "displayName": "BMW E63 650 4.8l 278kW",
+          "price": 10000
+        },
+        {
+          "carCode": "8D-9C-BB-00",
+          "displayName": "Nissan 370Z 3.7l 277kW",
+          "price": 10000
+        },
+        {
+          "carCode": "3A-54-47-00",
+          "displayName": "Audi A4 B8 2.0l 298kW",
+          "price": 10000
+        },
+        {
+          "carCode": "99-29-DB-00",
+          "displayName": "BMW 320 Touring 224kW",
+          "price": 10000
+        },
+        {
+          "carCode": "96-BF-FC-00",
+          "displayName": "BMW M3 E36 3.2l 233kW",
+          "price": 10000
+        },
+        {
+          "carCode": "1C-90-AC-00",
+          "displayName": "Audi A5 2.7l 298kW",
+          "price": 10000
+        }
+      ]
     },
     {
       "id": "B",
@@ -25,7 +166,57 @@
       "vehicles": [
         {
           "carCode": "36-11-DB-00",
-          "displayName": "BMW M5 E60",
+          "displayName": "BMW M5 E60 5.0l 378kW",
+          "price": 59000
+        },
+        {
+          "carCode": "B2-30-DE-00",
+          "displayName": "VW Golf 4 R32 3.2l 375kW",
+          "price": 59000
+        },
+        {
+          "carCode": "F4-05-87-00",
+          "displayName": "SEAT Ibiza 1.9l 373kW",
+          "price": 59000
+        },
+        {
+          "carCode": "90-B7-19-00",
+          "displayName": "BMW G20 3.0l 360kW",
+          "price": 59000
+        },
+        {
+          "carCode": "E3-25-4F-00",
+          "displayName": "Porsche Cargo GTS 3.0l 358kW",
+          "price": 59000
+        },
+        {
+          "carCode": "58-C0-DD-00",
+          "displayName": "BMW M3 E46 5.0l 345kW",
+          "price": 59000
+        },
+        {
+          "carCode": "84-5A-85-00",
+          "displayName": "BMW M3 E90 4.0l 308kW",
+          "price": 59000
+        },
+        {
+          "carCode": "FE-66-90-00",
+          "displayName": "Audi RS4 2.7l 309kW",
+          "price": 59000
+        },
+        {
+          "carCode": "A0-9D-12-00",
+          "displayName": "Audi S3 2.5l 320kW",
+          "price": 59000
+        },
+        {
+          "carCode": "95-C7-A6-00",
+          "displayName": "Nissan Silvia 2.2l 335kW",
+          "price": 59000
+        },
+        {
+          "carCode": "E6-76-10-00",
+          "displayName": "Mercedes-Benz W204 C63 380kW",
           "price": 59000
         }
       ]
@@ -34,7 +225,17 @@
       "id": "A",
       "name": "A kategorija",
       "requiredLicense": 500,
-      "vehicles": []
+      "vehicles": [
+
+      ]
+    },
+    {
+      "id": "S",
+      "name": "S kategorija",
+      "requiredLicense": 1000,
+      "vehicles": [
+
+      ]
     }
   ]
 }

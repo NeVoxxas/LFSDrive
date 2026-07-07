@@ -127,6 +127,24 @@ public sealed class DatabaseService
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
 
+    public async Task SetAdminLevelAsync(string username, int level, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+             INSERT INTO admins (username, level)
+             VALUES (@username, @level)
+             ON DUPLICATE KEY UPDATE level = @level;
+             """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@username", username);
+        command.Parameters.AddWithValue("@level", level);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+
     public async Task AddBankBalanceAsync(int playerId, int amount, CancellationToken cancellationToken = default)
     {
         await using var connection = new MySqlConnection(_config.ConnectionString);

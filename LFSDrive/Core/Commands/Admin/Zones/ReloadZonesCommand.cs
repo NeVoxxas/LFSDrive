@@ -20,6 +20,8 @@ public sealed class ReloadZonesCommand : ICommand
     public string Description => "Reload all zones.";
     public bool AdminOnly => true;
 
+    public AdminRank RequiredRank => AdminRank.Moderator;
+
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {
         _zoneService.Reload();

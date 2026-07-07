@@ -13,6 +13,7 @@ using LfsCruise.Core.Vehicles.Market;
 using LfsCruise.Core.Vehicles.Regitra;
 using LfsCruise.Core.Vehicles.Tow;
 using LfsCruise.Core.World;
+using LfsCruise.Database;
 
 namespace LfsCruise.Core.Commands;
 
@@ -20,6 +21,8 @@ public static class CommandLoader
 {
     public static void RegisterAll(
         CommandManager commandManager,
+        PlayerManager playerManager,
+        DatabaseService databaseService,
         EconomyService economyService,
         ZoneService zoneService,
         ProgressionService progressionService,
@@ -51,5 +54,6 @@ public static class CommandLoader
         commandManager.Register(new RegitraPriceCommand(regitraConfigStorage, regitraService, sendMessage));
         commandManager.Register(new SellCarCommand(marketService, sendMessage));
         commandManager.Register(new TowCommand(towService));
+        commandManager.Register(new SetRankCommand(playerManager, databaseService, sendMessage));
     }
 }

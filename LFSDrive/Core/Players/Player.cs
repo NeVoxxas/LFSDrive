@@ -16,6 +16,8 @@ public sealed class Player
 
     public int AdminLevel { get; set; }
 
+    public AdminRank Rank => (AdminRank)Math.Clamp(AdminLevel, 0, (int)AdminRank.Developer);
+
     public bool IsAdmin => AdminLevel > 0;
 
     public byte TotalConnections { get; set; }

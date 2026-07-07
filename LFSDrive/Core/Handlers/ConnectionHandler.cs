@@ -105,7 +105,7 @@ public sealed class ConnectionHandler
         if (!ownsVehicle)
         {
             await _sendMessage(player.UCID, $"^1Tu nesi nusipirkes sios masinos: ^7{displayName}", cancellationToken);
-            await _sendHostCommand($"/spec {player.Username}", cancellationToken);
+            //await _sendHostCommand($"/spec {player.Username}", cancellationToken);
             return;
         }
 

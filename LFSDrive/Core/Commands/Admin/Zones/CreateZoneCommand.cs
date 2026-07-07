@@ -19,6 +19,7 @@ public sealed class CreateZoneCommand : ICommand
     public string Name => "createzone";
     public string Description => "Creates a zone at your current position.";
     public bool AdminOnly => true;
+    public AdminRank RequiredRank => AdminRank.Moderator;
 
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {

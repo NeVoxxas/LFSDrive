@@ -20,6 +20,8 @@ public sealed class SaveZonesCommand : ICommand
     public string Description => "Save all zones.";
     public bool AdminOnly => true;
 
+    public AdminRank RequiredRank => AdminRank.Moderator;
+
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {
         _zoneService.Save();

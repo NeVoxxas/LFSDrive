@@ -179,9 +179,9 @@ public sealed class InSimClient : IDisposable
 
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
         CommandLoader.RegisterAll(
-            _commandManager, _economyService, _zoneService, _progressionService, _jobManager,
+            _commandManager, _playerManager, _databaseService, _economyService, _zoneService, _progressionService, _jobManager,
             _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
-            _towService, _towConfigStorage,
+            _towService, _towConfigStorage, 
             SendMessageToConnectionAsync);
 
         _starterCarService = new StarterCarService(new StarterCarStorage());

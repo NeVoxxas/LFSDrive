@@ -30,7 +30,7 @@ public sealed class CommandManager
 
         if (_commands.TryGetValue(commandName, out var command))
         {
-            if (command.AdminOnly && !player.IsAdmin)
+            if (player.Rank < command.RequiredRank)
             {
                 await _sendMessage(
                     player.UCID,

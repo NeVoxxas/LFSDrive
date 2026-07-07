@@ -23,6 +23,7 @@ public sealed class VehicleDemandCommand : ICommand
     public string Name => "demand";
     public string Description => "Rodo automobilio paklausos busena (savininku sk. / kaina).";
     public bool AdminOnly => true;
+    public AdminRank RequiredRank => AdminRank.Moderator;
 
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {

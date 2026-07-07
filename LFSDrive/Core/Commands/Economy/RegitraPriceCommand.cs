@@ -23,6 +23,8 @@ public sealed class RegitraPriceCommand : ICommand
     public string Description => "Keicia Regitros kainas.";
     public bool AdminOnly => true;
 
+    public AdminRank RequiredRank => AdminRank.Moderator;
+
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {
         var config = _storage.Load();

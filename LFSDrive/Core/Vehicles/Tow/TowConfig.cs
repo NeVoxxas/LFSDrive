@@ -12,8 +12,8 @@ public sealed class TowConfig
     public double GarageX { get; set; }
     public double GarageY{ get; set; }
 
-    public int BaseFare { get; set; } = 50;
-    public int PricePerKm { get; set; } = 10;
-    public int MinPrice { get; set; } = 50;
+    public int BaseFare { get; set; } = 0;
+    public int PricePerKm { get; set; } = 100;
+    public int MinPrice { get; set; } = 0;
     public int MaxPrice { get; set; } = 500;
 }

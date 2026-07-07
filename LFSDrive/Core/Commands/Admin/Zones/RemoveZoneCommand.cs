@@ -19,6 +19,7 @@ public sealed class RemoveZoneCommand : ICommand
     public string Name => "removezone";
     public string Description => "Removes a zone by name.";
     public bool AdminOnly => true;
+    public AdminRank RequiredRank => AdminRank.Moderator;
 
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {
