@@ -93,8 +93,13 @@ public static class ClickIds
         public const byte CategoryStart = Content.Start;
         public const byte CategoryEnd = 83;
 
-        public const byte ListingStart = 84;
-        public const byte ListingEnd = 88;
+        // NAUJA - atskiri ID intervalai info tekstui ir "Pirkti" mygtukui,
+        // kad jie nebeperrasytu vienas kito (LFS ClickId = unikalus mygtuko slotas).
+        public const byte ListingInfoStart = 84;
+        public const byte ListingInfoEnd = 88;   // 5 vietos (PageSize=5)
+
+        public const byte ListingBuyStart = 89;
+        public const byte ListingBuyEnd = 93;    // 5 vietos (PageSize=5)
 
         public const byte PrevPage = Content.PrevPage;
         public const byte NextPage = Content.NextPage;

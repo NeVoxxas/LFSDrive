@@ -7,19 +7,21 @@ public sealed class MarketPage : MenuPage
 {
     private const int PageSize = 5;
 
-    // Layout konstantos - pozicionuoto rezimo panelis. MenuRenderer pats
-    // apskaiciuoja fono ribas is siu mygtuku bounding box, tad cia tik
-    // apibreziam kur ka piesti.
-    private const byte PanelLeft = 25;
-    private const byte HeaderTop = 46;   // pirma turinio eilute (po pavadinimo)
-    private const byte RowHeight = 7;
-    private const byte CategoryRowWidth = 150;
-    private const byte RowWidth = 150;
+    // Layout konstantos - viskas 0-200 LFS UI vienetu skaleje (ne pikseliais!).
+    // Palyginimui - senas Legacy stilius naudoja PanelWidth=65, Wide (MainMenuPage)
+    // naudoja 90. Cia laikomes panasaus mastelio.
+    private const byte PanelLeft = 45;
+    private const byte HeaderTop = 46;
+    private const byte RowHeight = 6;
+    private const byte ContentWidth = 100;
 
-    // Stulpeliu plociai vienoje prekes eiluteje
-    private const byte InfoWidth = 120;
-    private const byte BuyButtonLeft = PanelLeft + InfoWidth + 2;
-    private const byte BuyButtonWidth = 26;
+    private const byte InfoWidth = 74;
+    private const byte BuyButtonWidth = 24;
+    private const byte BuyButtonGap = 2;
+    private const byte BuyButtonLeft = PanelLeft + InfoWidth + BuyButtonGap;
+
+    private const byte NavButtonWidth = 23;
+    private const byte NavButtonGap = 2;
 
     private readonly IReadOnlyList<VehicleShopCategory> _categories;
     private readonly string _categoryId;
@@ -44,12 +46,7 @@ public sealed class MarketPage : MenuPage
         _playerBankBalance = playerBankBalance;
     }
 
-    public override string Title => FormatTitle();
-
-    private string FormatTitle()
-    {
-        return $"AUTO TURGUS ({_listings.Count}/{_totalCount})";
-    }
+    public override string Title => $"AUTO TURGUS ({_listings.Count}/{_totalCount})";
 
     public override IReadOnlyList<MenuButton> GetButtons(MenuContext context)
     {
@@ -57,11 +54,11 @@ public sealed class MarketPage : MenuPage
 
         var top = HeaderTop;
 
-        // --- Kategoriju juosta (horizontaliai, kaip D | C | B | A | S) ---
+        // --- Kategoriju juosta (D | C | B | A | S) ---
         var visibleCategories = _categories.Take(ClickIds.Market.CategoryEnd - ClickIds.Market.CategoryStart + 1).ToList();
         var tabWidth = visibleCategories.Count > 0
-            ? (byte)(CategoryRowWidth / visibleCategories.Count)
-            : CategoryRowWidth;
+            ? (byte)(ContentWidth / visibleCategories.Count)
+            : ContentWidth;
 
         byte categoryClickId = ClickIds.Market.CategoryStart;
         byte tabLeft = PanelLeft;
@@ -69,7 +66,7 @@ public sealed class MarketPage : MenuPage
         foreach (var category in visibleCategories)
         {
             var isSelected = category.Id.Equals(_categoryId, StringComparison.OrdinalIgnoreCase);
-            var label = $"{category.Name} ({category.RequiredLicense:0}lic)";
+            var label = $"{category.Id} ({category.RequiredLicense:0}lic)";
 
             buttons.Add(new MenuButton
             {
@@ -87,16 +84,15 @@ public sealed class MarketPage : MenuPage
         top += RowHeight;
 
         // --- Skelbimu eilutes (info + atskiras "Pirkti") ---
-        byte listingClickId = ClickIds.Market.ListingStart;
 
         if (_listings.Count == 0)
         {
             buttons.Add(new MenuButton
             {
-                ClickId = ClickIds.Market.ListingStart,
+                ClickId = ClickIds.Market.ListingInfoStart,
                 Left = PanelLeft,
                 Top = top,
-                Width = RowWidth,
+                Width = ContentWidth,
                 Height = RowHeight,
                 Text = "^7Sioje kategorijoje skelbimu nera",
                 Enabled = false
@@ -106,27 +102,27 @@ public sealed class MarketPage : MenuPage
         }
         else
         {
+            byte infoClickId = ClickIds.Market.ListingInfoStart;
+            byte buyClickId = ClickIds.Market.ListingBuyStart;
+
             foreach (var listing in _listings)
             {
-                // TODO: "km" siuo metu placeholder 0.0 - projekte dar nera
-                // sekamas individualaus automobilio odometras (tik bendra
-                // zaidejo rida). Kai atsiras - pakeisti sita reiksme.
-                var kmText = "0.0km";
+                const string kmText = "0.0km";
 
                 buttons.Add(new MenuButton
                 {
-                    ClickId = listingClickId,
+                    ClickId = infoClickId,
                     Left = PanelLeft,
                     Top = top,
                     Width = InfoWidth,
                     Height = RowHeight,
                     Enabled = false,
-                    Text = $"^3{listing.CarCode} ^7{listing.DisplayName} ^8{kmText} ^2${listing.Price}"
+                    Text = $"^7{listing.DisplayName} ^8{kmText} ^2${listing.Price}"
                 });
 
                 buttons.Add(new MenuButton
                 {
-                    ClickId = listingClickId, // TA PATI ClickId - viena "eilute", du mygtukai
+                    ClickId = buyClickId,
                     Left = BuyButtonLeft,
                     Top = top,
                     Width = BuyButtonWidth,
@@ -134,7 +130,8 @@ public sealed class MarketPage : MenuPage
                     Text = "^2Pirkti"
                 });
 
-                listingClickId++;
+                infoClickId++;
+                buyClickId++;
                 top += RowHeight;
             }
         }
@@ -148,7 +145,7 @@ public sealed class MarketPage : MenuPage
             ClickId = ClickIds.Market.PageInfo,
             Left = PanelLeft,
             Top = top,
-            Width = RowWidth,
+            Width = ContentWidth,
             Height = RowHeight,
             Enabled = false,
             Text = $"^7Psl {currentPage + 1}/{totalPages} ^8. ^7Mokejimas is banko ^8. ^7Bankas: ^2${_playerBankBalance}"
@@ -157,14 +154,13 @@ public sealed class MarketPage : MenuPage
         top += RowHeight;
 
         // --- Navigacijos eilute (Atgal | Psl navigacija | Uzdaryti) ---
-        const byte navButtonWidth = 40;
-
         buttons.Add(new MenuButton
         {
             ClickId = ClickIds.Menu.Back,
             Left = PanelLeft,
             Top = top,
-            Width = navButtonWidth,
+            Width = NavButtonWidth,
+            Height = RowHeight,
             Text = "^7< Atgal"
         });
 
@@ -173,9 +169,10 @@ public sealed class MarketPage : MenuPage
             buttons.Add(new MenuButton
             {
                 ClickId = ClickIds.Market.PrevPage,
-                Left = (byte)(PanelLeft + navButtonWidth + 2),
+                Left = (byte)(PanelLeft + NavButtonWidth + NavButtonGap),
                 Top = top,
-                Width = navButtonWidth,
+                Width = NavButtonWidth,
+                Height = RowHeight,
                 Text = "^7< Psl"
             });
         }
@@ -185,9 +182,10 @@ public sealed class MarketPage : MenuPage
             buttons.Add(new MenuButton
             {
                 ClickId = ClickIds.Market.NextPage,
-                Left = (byte)(PanelLeft + (navButtonWidth + 2) * 2),
+                Left = (byte)(PanelLeft + (NavButtonWidth + NavButtonGap) * 2),
                 Top = top,
-                Width = navButtonWidth,
+                Width = NavButtonWidth,
+                Height = RowHeight,
                 Text = "^7Psl >"
             });
         }
@@ -195,9 +193,10 @@ public sealed class MarketPage : MenuPage
         buttons.Add(new MenuButton
         {
             ClickId = ClickIds.Menu.Close,
-            Left = (byte)(PanelLeft + RowWidth - navButtonWidth),
+            Left = (byte)(PanelLeft + ContentWidth - NavButtonWidth),
             Top = top,
-            Width = navButtonWidth,
+            Width = NavButtonWidth,
+            Height = RowHeight,
             Text = "^1Uzdaryti"
         });
 
@@ -237,7 +236,7 @@ public sealed class MarketPage : MenuPage
         if (clickId == ClickIds.Market.PageInfo)
             return Task.CompletedTask;
 
-        var listingIndex = clickId - ClickIds.Market.ListingStart;
+        var listingIndex = clickId - ClickIds.Market.ListingBuyStart;
 
         if (listingIndex < 0 || listingIndex >= _listings.Count)
             return Task.CompletedTask;

@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\pages\\marketpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\clickids.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menurenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|c:\\users\\pc\\source\\repos\\lfsdrive\\lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{35D49131-B439-34B6-85C8-496DDD2D00B4}|LFSDrive\\LFSDrive.csproj|solutionrelative:lfsdrive\\core\\ui\\menu\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,11 +34,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "InSimClient.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\InSim\\Networking\\InSimClient.cs",
               "RelativeDocumentMoniker": "LFSDrive\\InSim\\Networking\\InSimClient.cs",
@@ -43,7 +51,37 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClickIds.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\ClickIds.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\ClickIds.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\ClickIds.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAuwGoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-08T03:36:40.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "MenuRenderer.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
+              "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
+              "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuRenderer.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwCUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-08T03:19:47.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MenuButton.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuButton.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuButton.cs",
@@ -51,8 +89,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuButton.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-07T21:32:28.778Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-07T21:32:28.778Z"
             },
             {
               "$type": "Document",
@@ -62,14 +99,14 @@
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\Pages\\MarketPage.cs",
               "ToolTip": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\Pages\\MarketPage.cs",
               "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\Pages\\MarketPage.cs",
-              "ViewState": "AgIAAN0AAAAAAAAAAAAswPgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAcwHcAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-07T21:32:14.466Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "MenuManager.cs",
               "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\LFSDrive\\LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
               "RelativeDocumentMoniker": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
@@ -77,12 +114,7 @@
               "RelativeToolTip": "LFSDrive\\Core\\UI\\Menu\\MenuManager.cs",
               "ViewState": "AgIAACsBAAAAAAAAAAAmwD8BAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-07T21:31:52.195Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "WhenOpened": "2026-07-07T21:31:52.195Z"
             }
           ]
         }

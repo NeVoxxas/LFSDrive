@@ -44,9 +44,14 @@ public sealed class MenuRenderer
         var context = new MenuContext { Player = player };
         var buttons = page.GetButtons(context);
 
-        var isCategorized = buttons.Any(b => b.Category is not null);
+        var isPositioned = buttons.Any(b => b.Left.HasValue && b.Top.HasValue);
+        var isCategorized = !isPositioned && buttons.Any(b => b.Category is not null);
 
-        if (isCategorized)
+        if (isPositioned)
+        {
+            await RenderPositionedAsync(player, page, buttons, cancellationToken);
+        }
+        else if (isCategorized)
         {
             await RenderCategorizedAsync(player, page, buttons, cancellationToken);
         }
@@ -57,7 +62,7 @@ public sealed class MenuRenderer
     }
 
     // ============================================================
-    // SENAS STILIUS - Shop, Bank, Jobs, Regitra, Market...
+    // SENAS STILIUS - Shop, Bank, Jobs, Regitra...
     // ============================================================
     private async Task RenderLegacyAsync(
         Player player,
@@ -203,6 +208,66 @@ public sealed class MenuRenderer
             "^1Uzdaryti", cancellationToken);
     }
 
+    // ============================================================
+    // NAUJAS STILIUS - LAISVAS POZICIONAVIMAS (MarketPage ir panasus)
+    // ============================================================
+    private async Task RenderPositionedAsync(
+        Player player,
+        MenuPage page,
+        IReadOnlyList<MenuButton> buttons,
+        CancellationToken cancellationToken)
+    {
+        const byte padding = 3;
+        const byte titleHeight = 6;
+
+        var minLeft = buttons.Min(b => b.Left ?? 0);
+        var maxRight = buttons.Max(b => (byte)((b.Left ?? 0) + b.Width));
+        var minTop = buttons.Min(b => b.Top ?? 0);
+        var maxBottom = buttons.Max(b => (byte)((b.Top ?? 0) + b.Height));
+
+        var panelLeft = (byte)Math.Max(0, minLeft - padding);
+        var panelTop = (byte)Math.Max(0, minTop - padding - titleHeight);
+        var panelWidth = (byte)Math.Min(255, maxRight - minLeft + padding * 2);
+        var panelHeight = (byte)Math.Min(255, maxBottom - minTop + padding * 2 + titleHeight);
+
+        await _sendPanel(
+            player.UCID, ClickIds.Menu.Background,
+            panelLeft, panelTop, panelWidth, panelHeight,
+            "", cancellationToken);
+
+        await _sendLabel(
+            player.UCID, ClickIds.Menu.Title,
+            minLeft, (byte)(minTop - titleHeight), panelWidth, titleHeight,
+            $"^3{page.Title}", cancellationToken);
+
+        foreach (var button in buttons)
+        {
+            var left = button.Left ?? minLeft;
+            var top = button.Top ?? minTop;
+
+            var text = button.Text;
+
+            if (button.TypeIn > 0)
+            {
+                await _sendInputButton(
+                    player.UCID, button.ClickId, left, top, button.Width, button.Height,
+                    button.TypeIn, text, cancellationToken);
+            }
+            else if (button.Enabled)
+            {
+                await _sendItem(
+                    player.UCID, button.ClickId, left, top, button.Width, button.Height,
+                    text, cancellationToken);
+            }
+            else
+            {
+                await _sendLabel(
+                    player.UCID, button.ClickId, left, top, button.Width, button.Height,
+                    text, cancellationToken);
+            }
+        }
+    }
+
     private Task RenderCellAsync(
         Player player,
         MenuButton button,
@@ -242,6 +307,7 @@ public sealed class MenuRenderer
 
         return $"^7>> {button.Text}";
     }
+
     public async Task CloseAsync(Player player, CancellationToken cancellationToken)
     {
         for (byte id = ClickIds.Menu.Background; id <= ClickIds.Regitra.MenuButton; id++)
