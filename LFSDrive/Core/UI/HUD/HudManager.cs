@@ -1,4 +1,5 @@
 ﻿using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Jobs.Police;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.UI.Hud.Widgets;
@@ -16,7 +17,8 @@ public sealed class HudManager
         HudRenderer renderer,
         ProgressionService progressionService,
         JobService jobService,
-        TowService towService)
+        TowService towService,
+        PursuitService pursuitService)
     {
         _renderer = renderer;
 
@@ -28,6 +30,7 @@ public sealed class HudManager
             new ServerWidget(),
             new JobStatusWidget(jobService),
             new GarageTowWidget(towService),
+            new WantedWidget(pursuitService),
             new DiscordWidget(),
             new MenuWidget()
         ];

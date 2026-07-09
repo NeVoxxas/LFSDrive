@@ -6,10 +6,10 @@ public sealed class GaragePage : MenuPage
 {
     private const int PageSize = 5;
 
-    private readonly IReadOnlyList<(string CarCode, string DisplayName)> _vehicles;
+    private readonly IReadOnlyList<(string CarCode, string DisplayName, bool IsListed)> _vehicles;
     private readonly int _page;
 
-    public GaragePage(IReadOnlyList<(string CarCode, string DisplayName)> vehicles, int page)
+    public GaragePage(IReadOnlyList<(string CarCode, string DisplayName, bool IsListed)> vehicles, int page)
     {
         _vehicles = vehicles;
         _page = Math.Max(0, page);
@@ -48,10 +48,14 @@ public sealed class GaragePage : MenuPage
 
         foreach (var vehicle in pageVehicles)
         {
+            var text = vehicle.IsListed
+                ? $"^2{vehicle.DisplayName} ^7- ^3[Turguje] ^1Atsiimti"
+                : $"^2{vehicle.DisplayName} ^7- ^1Parduoti";
+
             buttons.Add(new MenuButton
             {
                 ClickId = clickId++,
-                Text = $"^2{vehicle.DisplayName} ^7- ^1Parduoti"
+                Text = text
             });
         }
 
@@ -107,6 +111,9 @@ public sealed class GaragePage : MenuPage
             return Task.CompletedTask;
 
         var vehicle = _vehicles[vehicleIndex];
+
+        if (vehicle.IsListed)
+            return manager.CancelMarketListingAsync(context.Player, vehicle.CarCode, currentPage, cancellationToken);
 
         return manager.OpenGarageSellChoiceAsync(context.Player, vehicle.CarCode, currentPage, cancellationToken);
     }

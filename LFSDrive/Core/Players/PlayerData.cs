@@ -13,4 +13,6 @@
     public double DrivenDistance { get; set; }
 
     public DateTime? LastInterestAt { get; set; }
+
+    public bool IsPoliceAuthorized { get; set; }
 }

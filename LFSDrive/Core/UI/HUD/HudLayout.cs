@@ -15,4 +15,5 @@ public static class HudLayout
     public const byte ServerWidth = 18;
     public const byte JobStatusWidth = 30;
     public const byte GarageTowWidth = 24;
+    public const byte WantedWidth = 45;
 }

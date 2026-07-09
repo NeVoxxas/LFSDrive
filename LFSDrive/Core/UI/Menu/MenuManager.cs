@@ -347,24 +347,18 @@ public sealed class MenuManager
 
     public async Task OpenGarageAsync(Player player, int page, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"Garage start {player.Username}");
-
         var carCodes = await _ownershipService.GetOwnedVehiclesAsync(player, cancellationToken);
-        Console.WriteLine($"Garage: {player.Username} owns {carCodes.Count} cars.");
+        var listedCarCodes = await _marketService.GetListedCarCodesAsync(player.Data.Id, cancellationToken);
 
-        var vehicles = new List<(string CarCode, string DisplayName)>();
+        var vehicles = new List<(string CarCode, string DisplayName, bool IsListed)>();
 
         foreach (var carCode in carCodes)
         {
-            Console.WriteLine($"Resolving display name for {carCode}...");
             var name = await ResolveVehicleDisplayNameAsync(carCode, cancellationToken);
-            Console.WriteLine($"Resolved display name for {carCode}: {name}");
-            vehicles.Add((carCode, name));
+            vehicles.Add((carCode, name, listedCarCodes.Contains(carCode)));
         }
 
-        Console.WriteLine($"Garage: Opening page with {vehicles.Count}");
         await OpenPageAsync(player, new GaragePage(vehicles, page), cancellationToken);
-        Console.WriteLine($"Garage: Opened");
     }
 
     public async Task OpenGarageSellChoiceAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
@@ -381,6 +375,15 @@ public sealed class MenuManager
     public async Task SellVehicleToServerAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
     {
         var result = await _garageService.SellToServerAsync(player, carCode, cancellationToken);
+
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        await OpenGarageAsync(player, originPage, cancellationToken);
+    }
+
+    public async Task CancelMarketListingAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
+    {
+        var result = await _marketService.CancelListingAsync(player, carCode, cancellationToken);
 
         await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
 

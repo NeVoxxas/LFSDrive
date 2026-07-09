@@ -12,15 +12,13 @@ public sealed class DatabaseService
         _config = config;
     }
 
-
-
     public async Task<(PlayerData Data, bool IsNew)> GetOrCreatePlayerAsync(Player player, CancellationToken cancellationToken = default)
     {
         await using var connection = new MySqlConnection(_config.ConnectionString);
         await connection.OpenAsync(cancellationToken);
 
         const string selectSql = """
-        SELECT id, money, bank, driven_distance, last_interest_at
+        SELECT id, money, bank, driven_distance, last_interest_at, is_police_authorized
         FROM players
         WHERE username = @username
         LIMIT 1;
@@ -44,7 +42,8 @@ public sealed class DatabaseService
                     DrivenDistance = reader.GetDouble("driven_distance"),
                     LastInterestAt = reader.IsDBNull(lastInterestOrdinal)
                         ? null
-                        : reader.GetDateTime(lastInterestOrdinal)
+                        : reader.GetDateTime(lastInterestOrdinal),
+                    IsPoliceAuthorized = reader.GetBoolean("is_police_authorized")
                 };
 
                 return (existingData, false);
@@ -74,7 +73,8 @@ public sealed class DatabaseService
             Money = 5000,
             Bank = 0,
             DrivenDistance = 0,
-            LastInterestAt = null
+            LastInterestAt = null,
+            IsPoliceAuthorized = false
         };
 
         return (newData, true);
@@ -112,7 +112,8 @@ public sealed class DatabaseService
             bank = @bank,
             last_seen = CURRENT_TIMESTAMP,
             driven_distance = @driven_distance,
-            last_interest_at = @last_interest_at
+            last_interest_at = @last_interest_at,
+            is_police_authorized = @is_police_authorized
         WHERE username = @username;
         """;
 
@@ -123,6 +124,7 @@ public sealed class DatabaseService
         command.Parameters.AddWithValue("@bank", player.Data.Bank);
         command.Parameters.AddWithValue("@driven_distance", player.Data.DrivenDistance);
         command.Parameters.AddWithValue("@last_interest_at", (object?)player.Data.LastInterestAt ?? DBNull.Value);
+        command.Parameters.AddWithValue("@is_police_authorized", player.Data.IsPoliceAuthorized);
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
@@ -141,6 +143,24 @@ public sealed class DatabaseService
         await using var command = new MySqlCommand(sql, connection);
         command.Parameters.AddWithValue("@username", username);
         command.Parameters.AddWithValue("@level", level);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+
+    public async Task SetPoliceAuthorizationAsync(string username, bool authorized, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+        UPDATE players
+        SET is_police_authorized = @authorized
+        WHERE username = @username;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@username", username);
+        command.Parameters.AddWithValue("@authorized", authorized);
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }

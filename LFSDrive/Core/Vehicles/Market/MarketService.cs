@@ -172,4 +172,21 @@ public sealed class MarketService
 
         return MarketResult.Ok($"Automobilis {shopVehicle.DisplayName} iskeltas i turga uz {price}$.");
     }
+
+    public Task<HashSet<string>> GetListedCarCodesAsync(
+        int sellerPlayerId, CancellationToken cancellationToken = default)
+    {
+        return _storage.GetListedCarCodesAsync(sellerPlayerId, cancellationToken);
+    }
+    
+    public async Task<MarketResult> CancelListingAsync(
+        Player player, string carCode, CancellationToken cancellationToken = default)
+    {
+        var removed = await _storage.RemoveByOwnerAndCarCodeAsync(player.Data.Id, carCode, cancellationToken);
+
+        if(!removed)
+            return MarketResult.Fail("Sis automobilis nera iskeltas i turgu.");
+
+        return MarketResult.Ok($"Automobilis pasalintas is turgaus");
+    }
 }

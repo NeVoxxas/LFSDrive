@@ -21,6 +21,9 @@
     <None Update="Data\delivery.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\police.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\regitra.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -8,6 +8,7 @@ using LfsCruise.Core.GPS;
 using LfsCruise.Core.Jobs;
 using LfsCruise.Core.Jobs.Taxi;
 using LfsCruise.Core.Jobs.Delivery;
+using LfsCruise.Core.Jobs.Police;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.UI;
@@ -105,6 +106,10 @@ public sealed class InSimClient : IDisposable
 
     private readonly TaxiPointStorage _taxiPointStorage = new();
 
+    private readonly PoliceConfigStorage _policeConfigStorage = new();
+    private readonly PursuitService _pursuitService;
+    private readonly PoliceRadarService _policeRadarService;
+
     // HANDLERIAI
 
     private readonly ChatHandler _chatHandler;
@@ -156,6 +161,11 @@ public sealed class InSimClient : IDisposable
 
         _gpsService = new GpsService(SendButtonAsync, DeleteButtonRangeAsync);
 
+        _pursuitService = new PursuitService(_playerManager, SendMessageToConnectionAsync);
+        _policeRadarService = new PoliceRadarService(
+            _playerManager, _jobService, _pursuitService,
+            SendMessageToConnectionAsync, SendButtonAsync, DeleteButtonRangeAsync);
+
         _jobManager = new JobManager(
             _jobService,
             _checkpointManager,
@@ -167,6 +177,12 @@ public sealed class InSimClient : IDisposable
             DeleteButtonRangeAsync);
         _jobManager.Register(new TaxiJob(_taxiPointStorage));
         _jobManager.Register(new DeliveryJob(_deliveryPointStorage, _vehicleOwnershipService, _jobService));
+        _jobManager.Register(new PoliceJob(_policeConfigStorage, _pursuitService));
+
+        foreach (var carCode in _policeConfigStorage.Load().CarCodes)
+        {
+            _jobService.RegisterJobVehicle(carCode, JobType.Police);
+        }
 
         _regitraStorage = new RegitraStorage(databaseConfig);
         _regitraService = new RegitraService(_regitraStorage, _regitraConfigStorage, _economyService, _vehicleOwnershipService, _databaseService);
@@ -180,15 +196,15 @@ public sealed class InSimClient : IDisposable
         _commandManager = new CommandManager(SendMessageToConnectionAsync);
         CommandLoader.RegisterAll(
             _commandManager, _playerManager, _databaseService, _economyService, _zoneService, _progressionService, _jobManager,
-            _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
-            _towService, _towConfigStorage, 
+            _jobService, _taxiPointStorage, _regitraService, _regitraConfigStorage, _marketService,
+            _towService, _towConfigStorage, _pursuitService,
             SendMessageToConnectionAsync);
 
         _starterCarService = new StarterCarService(new StarterCarStorage());
 
         var hudRenderer = new HudRenderer(SendButtonAsync, SendLabelAsync, DeleteButtonRangeAsync);
-        _hudManager = new HudManager(hudRenderer, _progressionService, _jobService, _towService);
-        _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager);
+        _hudManager = new HudManager(hudRenderer, _progressionService, _jobService, _towService, _pursuitService);
+        _hudUpdateLoop = new HudUpdateLoop(_playerManager, _hudManager, _policeRadarService);
 
         // Bank
         _bankTransactionStorage = new BankTransactionStorage(databaseConfig);
@@ -225,7 +241,7 @@ public sealed class InSimClient : IDisposable
 
         _chatHandler = new ChatHandler(_playerManager, _commandManager);
         _pitHandler = new PitHandler(_playerManager, _economyService, _databaseService, SendMessageToConnectionAsync);
-        _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService, _regitraZoneService);
+        _mciHandler = new MciHandler(_playerManager, _zoneManager, _progressionService, _gpsService, _jobManager, _bankZoneService, _regitraZoneService, _pursuitService);
         _connectionHandler = new ConnectionHandler(_playerManager, _databaseService, _eventBus, _hudManager, _modNameService,_vehicleOwnershipService, _vehicleShopService, _jobService,SendMessageToConnectionAsync, SendHostCommandAsync, SendJoinReplyAsync);
     }
 
@@ -368,6 +384,7 @@ public sealed class InSimClient : IDisposable
                     await _connectionHandler.HandleDisconnectedAsync(cnl, cancellationToken);
                     _bankZoneService.RemovePlayer(cnl.UCID);
                     _regitraZoneService.RemovePlayer(cnl.UCID);
+                    _policeRadarService.RemovePlayer(cnl.UCID);
                     continue;
 
                 case NplPacket npl:
@@ -410,9 +427,12 @@ public sealed class InSimClient : IDisposable
                                  break;
 
                             default:
-                                await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
-                                break;
-                        }
+                                 if (await _policeRadarService.HandleClickAsync(player, btc.ClickID, cancellationToken))
+                                    break;
+
+                                 await _menuManager.HandleClickAsync(player, btc.ClickID, cancellationToken);
+                                    break;
+                            }
                     }
                     catch (Exception ex)
                         {

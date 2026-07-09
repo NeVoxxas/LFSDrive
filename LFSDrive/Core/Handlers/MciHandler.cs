@@ -1,6 +1,7 @@
 ﻿using LfsCruise.Core.Economy.Bank;
 using LfsCruise.Core.GPS;
 using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Jobs.Police;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
 using LfsCruise.Core.Vehicles.Regitra;
@@ -18,6 +19,7 @@ public sealed class MciHandler
     private readonly JobManager _jobManager;
     private readonly BankZoneService _bankZoneService;
     private readonly RegitraZoneService _regitraZoneService;
+    private readonly PursuitService _pursuitService;
 
     public MciHandler(
         PlayerManager playerManager,
@@ -26,7 +28,8 @@ public sealed class MciHandler
         GpsService gpsService,
         JobManager jobManager,
         BankZoneService bankZoneService,
-        RegitraZoneService regitraZoneService)
+        RegitraZoneService regitraZoneService,
+        PursuitService pursuitService)
     {
         _playerManager = playerManager;
         _zoneManager = zoneManager;
@@ -35,6 +38,7 @@ public sealed class MciHandler
         _jobManager = jobManager;
         _bankZoneService = bankZoneService;
         _regitraZoneService = regitraZoneService;
+        _pursuitService = pursuitService;
     }
 
     public async Task HandleAsync(MciPacket mci, CancellationToken cancellationToken)
@@ -79,6 +83,7 @@ public sealed class MciHandler
             await _regitraZoneService.OnPlayerMoveAsync(player, cancellationToken);
             await _jobManager.OnPlayerMoveAsync(player, cancellationToken);
             await _gpsService.UpdateAsync(player, cancellationToken);
+            await _pursuitService.OnPlayerMoveAsync(player, cancellationToken);
         }
     }
 }

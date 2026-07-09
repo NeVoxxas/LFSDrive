@@ -18,6 +18,8 @@ public static class ClickIds
         public const byte Menu = 55;
         public const byte JobStatus = 56;
         public const byte GarageTow = 57;
+        public const byte Wanted = 58;
+
     }
     public static class Menu
     {
@@ -151,5 +153,12 @@ public static class ClickIds
         public const byte Bottom = 138;
         public const byte BottomRight = 139;
         public const byte Info = 140;
+    }
+
+    public static class Police
+    {
+        public const byte RadarBackground = 160;
+        public const byte RadarRowStart = 161;
+        public const byte RadarRowEnd = 163; // 3 vietos - tiek telpa i pazymeta plotą
     }
 }

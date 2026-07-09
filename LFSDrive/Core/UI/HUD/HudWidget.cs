@@ -8,7 +8,10 @@ public abstract class HudWidget
     public abstract byte Width { get; }
     public abstract string GetText(Player player);
     public virtual bool IsVisible(Player player) => true;
-
-    // jei false, widget'as siunciamas kaip neklikinamas label'is
     public virtual bool IsInteractive(Player player) => true;
+
+    // NAUJA - jei nustatyta, widget'as "iskrenta" is auto-stack eilutes ir
+    // piesamas TIKSLIAI sioje pozicijoje (kaip MenuButton.Left/Top).
+    public virtual byte? Left => null;
+    public virtual byte? Top => null;
 }

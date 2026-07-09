@@ -1,5 +1,4 @@
-﻿using LfsCruise.Core.Jobs;
-using LfsCruise.Core.Players;
+﻿using LfsCruise.Core.Players;
 
 namespace LfsCruise.Core.Commands.Jobs;
 
@@ -18,7 +17,7 @@ public sealed class JobsCommand : ICommand
 
     public async Task ExecuteAsync(Player player, string[] args, CancellationToken cancellationToken)
     {
-        await _sendMessage(player.UCID, "^2Darbai: ^7taxi, delivery, bus", cancellationToken);
+        await _sendMessage(player.UCID, "^2Darbai: ^7taxi, delivery, bus, police", cancellationToken);
         await _sendMessage(player.UCID, "^7Naudok: ^2!joinjob taxi", cancellationToken);
     }
 }

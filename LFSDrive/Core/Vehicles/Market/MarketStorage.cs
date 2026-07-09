@@ -3,7 +3,6 @@ using MySqlConnector;
 
 namespace LfsCruise.Core.Vehicles.Market;
 
-// Reikalinga lentelė (sukurti rankiniu būdu, kaip ir kitos lentelės šiame projekte):
 //
 // CREATE TABLE market_listings (
 //   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -151,6 +150,52 @@ public sealed class MarketStorage
         return (items, totalCount);
     }
 
+    public async Task<bool> RemoveByOwnerAndCarCodeAsync(
+        int sellerPlayerId, string carCode, CancellationToken cancellationToken= default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+            DELETE FROM market_listings
+            WHERE seller_player_id = @seller_player_id
+              AND car_code = @car_code;
+            """;
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@seller_player_id", sellerPlayerId);
+        command.Parameters.AddWithValue("@car_code", carCode);
+
+        var effected = await command.ExecuteNonQueryAsync(cancellationToken);
+
+        return effected > 0;
+    }
+
+    public async Task<HashSet<string>> GetListedCarCodesAsync(
+        int sellerPlayerId, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new MySqlConnection(_config.ConnectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        const string sql = """
+            SELECT car_code
+            FROM market_listings
+            WHERE seller_player_id = @seller_player_id;
+            """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@seller_player_id", sellerPlayerId);
+
+        var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            result.Add(reader.GetString(0));
+        }
+
+        return result;
+    }
     private static MarketListing Read(MySqlDataReader reader)
     {
         return new MarketListing

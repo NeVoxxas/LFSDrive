@@ -71,12 +71,17 @@ public sealed class HudRenderer
         IReadOnlyList<HudWidget> widgets,
         CancellationToken cancellationToken)
     {
-        var left = HudLayout.StartLeft;
+        var autoLeft = HudLayout.StartLeft;
 
         foreach (var widget in widgets)
         {
-            await SendWidgetAsync(player, widget, left, cancellationToken);
-            left += (byte)(widget.Width + HudLayout.Spacing);
+            var left = widget.Left ?? autoLeft;
+            var top = widget.Top ?? HudLayout.Top;
+
+            await SendWidgetAsync(player, widget, left, top, cancellationToken);
+
+            if (widget.Left is null)
+                autoLeft += (byte)(widget.Width + HudLayout.Spacing);
         }
     }
 
@@ -90,10 +95,13 @@ public sealed class HudRenderer
             : new Dictionary<byte, bool>();
 
         var newState = new Dictionary<byte, bool>();
-        var left = HudLayout.StartLeft;
+        var autoLeft = HudLayout.StartLeft;
 
         foreach (var widget in widgets)
         {
+            var left = widget.Left ?? autoLeft;
+            var top = widget.Top ?? HudLayout.Top;
+
             var isInteractive = widget.IsInteractive(player);
             newState[widget.ClickId] = isInteractive;
 
@@ -103,25 +111,26 @@ public sealed class HudRenderer
 
             if (interactivityChanged)
             {
-                await SendWidgetAsync(player, widget, left, cancellationToken);
+                await SendWidgetAsync(player, widget, left, top, cancellationToken);
             }
             else
             {
                 await SendTextOnlyAsync(player, widget, cancellationToken);
             }
 
-            left += (byte)(widget.Width + HudLayout.Spacing);
+            if (widget.Left is null)
+                autoLeft += (byte)(widget.Width + HudLayout.Spacing);
         }
 
         _lastInteractiveState[player.UCID] = newState;
     }
 
-    private Task SendWidgetAsync(Player player, HudWidget widget, byte left, CancellationToken cancellationToken)
+    private Task SendWidgetAsync(Player player, HudWidget widget, byte left, byte top, CancellationToken cancellationToken)
     {
         var send = widget.IsInteractive(player) ? _sendButton : _sendLabel;
 
         return send(
-            player.UCID, widget.ClickId, left, HudLayout.Top, widget.Width, HudLayout.Height,
+            player.UCID, widget.ClickId, left, top, widget.Width, HudLayout.Height,
             widget.GetText(player), cancellationToken);
     }
 

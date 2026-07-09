@@ -30,7 +30,7 @@ public sealed class JoinJobCommand : ICommand
 
         if (!TryParseJob(args[0], out var job))
         {
-            await _sendMessage(player.UCID, "^1Tokio darbo nera. Darbai: ^7taxi, delivery, bus", cancellationToken);
+            await _sendMessage(player.UCID, "^1Tokio darbo nera. Darbai: ^7taxi, delivery, bus, police", cancellationToken);
             return;
         }
 
@@ -44,6 +44,7 @@ public sealed class JoinJobCommand : ICommand
             "taxi" => JobType.Taxi,
             "delivery" => JobType.Delivery,
             "bus" => JobType.Bus,
+            "police" => JobType.Police,
             _ => JobType.None
         };
 

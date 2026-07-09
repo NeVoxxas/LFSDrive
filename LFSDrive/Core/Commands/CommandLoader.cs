@@ -3,9 +3,11 @@ using LfsCruise.Core.Commands.Admin.Zones;
 using LfsCruise.Core.Commands.Economy;
 using LfsCruise.Core.Commands.General;
 using LfsCruise.Core.Commands.Jobs;
+using LfsCruise.Core.Commands.Police;
 using LfsCruise.Core.Commands.Vehicles;
 using LfsCruise.Core.Economy;
 using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Jobs.Police;
 using LfsCruise.Core.Jobs.Taxi;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.Progression;
@@ -27,12 +29,14 @@ public static class CommandLoader
         ZoneService zoneService,
         ProgressionService progressionService,
         JobManager jobManager,
+        JobService jobService,
         TaxiPointStorage taxiPointStorage,
         RegitraService regitraService,
         RegitraConfigStorage regitraConfigStorage,
         MarketService marketService,
         TowService towService,
         TowConfigStorage towConfigStorage,
+        PursuitService pursuitService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         commandManager.Register(new HelpCommand(sendMessage));
@@ -55,5 +59,7 @@ public static class CommandLoader
         commandManager.Register(new SellCarCommand(marketService, sendMessage));
         commandManager.Register(new TowCommand(towService));
         commandManager.Register(new SetRankCommand(playerManager, databaseService, sendMessage));
+        commandManager.Register(new SetPoliceCommand(playerManager, databaseService, sendMessage));
+        commandManager.Register(new ChaseCommand(playerManager, jobService, pursuitService, sendMessage));
     }
 }
