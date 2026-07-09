@@ -1,6 +1,7 @@
 ﻿using LfsCruise.Core.Economy;
 using LfsCruise.Core.Economy.Bank;
 using LfsCruise.Core.Jobs;
+using LfsCruise.Core.Jobs.Police;
 using LfsCruise.Core.Players;
 using LfsCruise.Core.UI.Menu.Pages;
 using LfsCruise.Core.Vehicles;
@@ -37,6 +38,11 @@ public sealed class MenuManager
     private readonly ModNameService _modNameService;
     private readonly GarageService _garageService;
     private readonly VehicleDemandService _demandService;
+    private readonly PoliceRadarService _policeRadarService;
+    private readonly PursuitService _pursuitService;
+    private readonly PoliceFineService _policeFineService;
+
+    private const double PoliceActionRangeMeters = 15.0;
 
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
 
@@ -55,6 +61,9 @@ public sealed class MenuManager
         ModNameService modNameService,
         GarageService garageService,
         VehicleDemandService demandService,
+        PoliceRadarService policeRadarService,
+        PursuitService pursuitService,
+        PoliceFineService policeFineService,
         Func<byte, string, CancellationToken, Task> sendMessage)
     {
         _renderer = renderer;
@@ -71,6 +80,9 @@ public sealed class MenuManager
         _modNameService = modNameService;
         _garageService = garageService;
         _demandService = demandService;
+        _policeRadarService = policeRadarService;
+        _pursuitService = pursuitService;
+        _policeFineService = policeFineService;
         _sendMessage = sendMessage;
 
         _shopPage = new ShopCategoriesPage(vehicleShopService);
@@ -105,8 +117,6 @@ public sealed class MenuManager
             Player = player
         };
 
-
-
         await page.HandleClickAsync(this, context, clickId, cancellationToken);
     }
 
@@ -120,7 +130,7 @@ public sealed class MenuManager
     {
         _currentPages.Remove(ucid);
     }
-    
+
     // VEHICLE SHOP
 
     public Task OpenShopAsync(
@@ -333,13 +343,11 @@ public sealed class MenuManager
 
     private async Task<string> ResolveVehicleDisplayNameAsync(string carCode, CancellationToken cancellationToken)
     {
-        // 1) Jei mašina yra ir Parduotuvėje - naudojam ten priskirtą pavadinimą.
         var shopVehicle = _vehicleShopService.GetVehicleByCode(carCode);
 
         if (shopVehicle is not null)
             return shopVehicle.DisplayName;
 
-        // 2) Kitu atveju tai mod'as - traukiam tikra pavadinimą iš lfs.net (su cache).
         var skinId = LfsCarCode.ToSkinId(carCode);
 
         return await _modNameService.ResolveNameAsync(skinId, cancellationToken);
@@ -381,15 +389,6 @@ public sealed class MenuManager
         await OpenGarageAsync(player, originPage, cancellationToken);
     }
 
-    public async Task CancelMarketListingAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
-    {
-        var result = await _marketService.CancelListingAsync(player, carCode, cancellationToken);
-
-        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
-
-        await OpenGarageAsync(player, originPage, cancellationToken);
-    }
-
     public async Task ListVehicleOnMarketAsync(Player player, string carCode, string priceText, int originPage, CancellationToken cancellationToken)
     {
         if (!int.TryParse(priceText, out var price) || price <= 0)
@@ -403,5 +402,90 @@ public sealed class MenuManager
         await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
 
         await OpenGarageAsync(player, originPage, cancellationToken);
+    }
+
+    public async Task CancelMarketListingAsync(Player player, string carCode, int originPage, CancellationToken cancellationToken)
+    {
+        var result = await _marketService.CancelListingAsync(player, carCode, cancellationToken);
+
+        await SendMessageAsync(player.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        await OpenGarageAsync(player, originPage, cancellationToken);
+    }
+
+    // POLICIJA
+
+    public Task OpenPoliceMenuAsync(Player player, CancellationToken cancellationToken)
+    {
+        if (_jobService.GetJob(player) != JobType.Police)
+            return SendMessageAsync(player.UCID, "^1Tu ne policijos pareigunas.", cancellationToken);
+
+        return OpenPageAsync(player, new PoliceMenuPage(), cancellationToken);
+    }
+
+    public async Task OpenPoliceTargetSelectionAsync(Player officer, PoliceAction action, CancellationToken cancellationToken)
+    {
+        var targets = _policeRadarService.GetNearbyNonOfficerTargets(officer, PoliceActionRangeMeters);
+
+        if (targets.Count == 0)
+        {
+            await SendMessageAsync(officer.UCID, "^1Salia nera zaideju.", cancellationToken);
+            await OpenPoliceMenuAsync(officer, cancellationToken);
+            return;
+        }
+
+        if (targets.Count == 1)
+        {
+            await OpenPoliceActionForTargetAsync(officer, targets[0], action, cancellationToken);
+            return;
+        }
+
+        await OpenPageAsync(officer, new PoliceTargetSelectionPage(targets, action), cancellationToken);
+    }
+
+    public Task OpenPoliceActionForTargetAsync(
+        Player officer, Player target, PoliceAction action, CancellationToken cancellationToken)
+    {
+        return action == PoliceAction.Fine
+            ? OpenPoliceFineAsync(officer, target, new HashSet<string>(), cancellationToken)
+            : OpenPoliceDocumentsAsync(officer, target, cancellationToken);
+    }
+
+    public Task OpenPoliceFineAsync(
+        Player officer, Player target, HashSet<string> selectedIds, CancellationToken cancellationToken)
+    {
+        var violations = _policeFineService.LoadViolations().Violations;
+
+        return OpenPageAsync(officer, new PoliceFinePage(target, violations, selectedIds), cancellationToken);
+    }
+
+    public async Task ConfirmPoliceFineAsync(
+        Player officer, Player target, HashSet<string> selectedIds, CancellationToken cancellationToken)
+    {
+        var result = await _policeFineService.ApplyFinesAsync(officer, target, selectedIds, cancellationToken);
+
+        await SendMessageAsync(officer.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
+
+        if (result.Success)
+            await SendMessageAsync(target.UCID, $"^1Gavai bauda nuo pareigūno {officer.Username}.", cancellationToken);
+
+        await OpenPoliceMenuAsync(officer, cancellationToken);
+    }
+
+    public async Task OpenPoliceDocumentsAsync(Player officer, Player target, CancellationToken cancellationToken)
+    {
+        VehicleDocuments? docs = null;
+
+        if (!string.IsNullOrEmpty(target.CarName))
+            docs = await _regitraService.GetDocumentsAsync(target, target.CarName, cancellationToken);
+
+        await OpenPageAsync(officer, new PoliceDocumentsPage(target, docs), cancellationToken);
+    }
+
+    public Task OpenPolicePursuitsAsync(Player officer, CancellationToken cancellationToken)
+    {
+        var pursuits = _pursuitService.GetActivePursuitSummaries();
+
+        return OpenPageAsync(officer, new PolicePursuitsPage(pursuits), cancellationToken);
     }
 }

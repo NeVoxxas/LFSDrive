@@ -16,4 +16,5 @@ public static class HudLayout
     public const byte JobStatusWidth = 30;
     public const byte GarageTowWidth = 24;
     public const byte WantedWidth = 45;
+    public const byte PoliceMenuWidth = 25;
 }

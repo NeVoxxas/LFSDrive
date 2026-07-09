@@ -9,18 +9,8 @@ public sealed class PursuitState
     public int WantedLevel { get; set; } = 1;
     public DateTime LastLevelIncreaseAt { get; set; } = DateTime.UtcNow;
 
-    // Null, kol bent vienas gaudantis pareigunas yra <= EscapeDistanceMeters.
-    // Kai VISI per toli - cia irasomas laikas, KADA tai prasidejo.
     public DateTime? SafeSince { get; set; }
 }
-
-// "Gaudymo" (wanted) busenos variklis. Taisykles:
-//  - Lygis (1-5) kyla AUTOMATISKAI kas LevelIncreaseInterval, nepriklausomai
-//    nuo to, kiek pareigunu vejasi.
-//  - Jei zaidejas JAU gaudomas ir prisijungia NAUJAS pareigunas - lygis
-//    NEPAKYLA, pareigunas tiesiog prisideda prie esamo saraso.
-//  - Gaudymas VISISKAI isnyksta, kai zaidejas islaiko > EscapeDistanceMeters
-//    atstuma nuo VISU ji gaudanciu pareigunu ilgiau nei EscapeDuration.
 public sealed class PursuitService
 {
     public const double EscapeDistanceMeters = 150.0;
@@ -52,7 +42,6 @@ public sealed class PursuitService
     {
         if (_pursuits.TryGetValue(target.UCID, out var existing))
         {
-            // Jau gaudomas - tiesiog prisidedam prie saraso, LYGIS NEKYLA.
             existing.OfficerUcids.Add(officer.UCID);
             existing.SafeSince = null;
 
@@ -81,19 +70,12 @@ public sealed class PursuitService
 
     public void RemoveOfficer(byte officerUcid)
     {
-        // Pareigunas baige pamaina/atsijunge - isimam ji is VISU gaudymu, kuriuose
-        // dalyvavo. Jei jame buvo vienintelis pareigunas, gaudymas ISLIEKA (target
-        // vis dar "wanted") - nenutraukiam automatiskai, kad nebutu galima
-        // "isjungti" gaudymo tiesiog atsijungiant nuo serverio.
         foreach (var state in _pursuits.Values)
         {
             state.OfficerUcids.Remove(officerUcid);
         }
     }
 
-    // Kviecama KIEKVIENAM zaidejui kiekviena MCI tick'a (ne tik pareigunams) -
-    // nes reikia sekti TIKSLINIO zaidejo pozicija santykyje su VISAIS ji
-    // gaudanciais pareigunais.
     public async Task OnPlayerMoveAsync(Player player, CancellationToken cancellationToken)
     {
         if (!_pursuits.TryGetValue(player.UCID, out var state))
@@ -149,5 +131,28 @@ public sealed class PursuitService
 
             await _sendMessage(player.UCID, $"^1Gaudomumo lygis pakilo: ^7{state.WantedLevel}/{MaxWantedLevel}", cancellationToken);
         }
+    }
+
+    // PD UI - Gaudomi zaidejai. Grazina sarasa su (TargetName, Level, OfficerNames).
+    public IReadOnlyList<(string TargetName, int Level, string OfficerNames)> GetActivePursuitSummaries()
+    {
+        var result = new List<(string, int, string)>();
+
+        foreach (var (targetUcid, state) in _pursuits)
+        {
+            var target = _playerManager.Get(targetUcid);
+
+            if (target is null)
+                continue;
+
+            var officerNames = state.OfficerUcids
+                .Select(ucid => _playerManager.Get(ucid)?.Username)
+                .Where(name => name is not null)
+                .ToList();
+
+            result.Add((target.Username, state.WantedLevel, string.Join(", ", officerNames)));
+        }
+
+        return result;
     }
 }

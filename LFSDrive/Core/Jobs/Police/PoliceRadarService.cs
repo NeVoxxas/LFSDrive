@@ -139,6 +139,18 @@ public sealed class PoliceRadarService
         _lastRowTargets.Remove(ucid);
     }
 
+    public IReadOnlyList<Player> GetNearbyNonOfficerTargets(Player officer, double rangeMeters)
+    {
+        return _playerManager.Players
+            .Where(p => p.UCID != officer.UCID)
+            .Where(p => _jobService.GetJob(p) != JobType.Police)
+            .Select(p => (Player: p, Distance: Distance(officer, p)))
+            .Where(x => x.Distance <= rangeMeters)
+            .OrderBy(x => x.Distance)
+            .Select(x => x.Player)
+            .ToList();
+    }
+
     private static double Distance(Player a, Player b)
     {
         var dx = a.Vehicle.X - b.Vehicle.X;

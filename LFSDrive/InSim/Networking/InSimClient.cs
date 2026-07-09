@@ -109,6 +109,8 @@ public sealed class InSimClient : IDisposable
     private readonly PoliceConfigStorage _policeConfigStorage = new();
     private readonly PursuitService _pursuitService;
     private readonly PoliceRadarService _policeRadarService;
+    private readonly PoliceViolationStorage _policeViolationStorage = new();
+    private readonly PoliceFineService _policeFineService;
 
     // HANDLERIAI
 
@@ -165,6 +167,7 @@ public sealed class InSimClient : IDisposable
         _policeRadarService = new PoliceRadarService(
             _playerManager, _jobService, _pursuitService,
             SendMessageToConnectionAsync, SendButtonAsync, DeleteButtonRangeAsync);
+        _policeFineService = new PoliceFineService(_policeViolationStorage, _economyService, _databaseService);
 
         _jobManager = new JobManager(
             _jobService,
@@ -225,6 +228,7 @@ public sealed class InSimClient : IDisposable
             menuRenderer, _vehicleShopService, _vehicleOwnershipService, _economyService, _databaseService,
             _jobManager, _jobService, _bankService, _regitraService, _marketService,
             _starterCarService, _modNameService, _garageService, _vehicleDemandService,
+            _policeRadarService, _pursuitService, _policeFineService,
             SendMessageToConnectionAsync);
 
         _eventBus.Subscribe(new PlayerConnectedHandler(_playerManager, _databaseService, _menuManager, SendMessageToConnectionAsync));
@@ -425,8 +429,11 @@ public sealed class InSimClient : IDisposable
                             case ClickIds.Hud.GarageTow:
                                  await _towService.TowPlayerAsync(player, cancellationToken);
                                  break;
+                             case ClickIds.Hud.PoliceMenu:
+                                 await _menuManager.OpenPoliceMenuAsync(player, cancellationToken);
+                                 break;
 
-                            default:
+                                default:
                                  if (await _policeRadarService.HandleClickAsync(player, btc.ClickID, cancellationToken))
                                     break;
 
@@ -663,7 +670,7 @@ public sealed class InSimClient : IDisposable
             UCID = ucid,
             ClickID = clickId,
             Inst = 0,
-            BStyle = 0x10 | 0x40, // ISB_LEFT tik - BE ISB_DARK => šviesiai pilkas fonas (kontrastas su tamsiais mygtukais)
+            BStyle = 0x10 | 0x40,
             TypeIn = 0,
             L = left,
             T = top,
@@ -684,7 +691,7 @@ public sealed class InSimClient : IDisposable
             UCID = ucid,
             ClickID = clickId,
             Inst = 0,
-            BStyle = 0x20 | 0x40 | 0x08, // ISB_DARK | ISB_LEFT | ISB_CLICK - fonas + klikinamas
+            BStyle = 0x20 | 0x40 | 0x08,
             TypeIn = 0,
             L = left,
             T = top,

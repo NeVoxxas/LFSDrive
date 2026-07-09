@@ -31,6 +31,7 @@ public sealed class HudManager
             new JobStatusWidget(jobService),
             new GarageTowWidget(towService),
             new WantedWidget(pursuitService),
+            new PoliceMenuWidget(jobService),
             new DiscordWidget(),
             new MenuWidget()
         ];

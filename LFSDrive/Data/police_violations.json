@@ -1,0 +1,30 @@
+{
+  "officerSharePercent": 0.2,
+  "violations": [
+    {
+      "id": "speeding",
+      "name": "Greicio virsijimas",
+      "fine": 200
+    },
+    {
+      "id": "nostop",
+      "name": "Nesustojo prie STOP",
+      "fine": 150
+    },
+    {
+      "id": "nodocs",
+      "name": "Vairavimas be dokumentu",
+      "fine": 300
+    },
+    {
+      "id": "reckless",
+      "name": "Pavojingas vairavimas",
+      "fine": 250
+    },
+    {
+      "id": "wrongway",
+      "name": "Vaziavimas pries eismo kryptimi",
+      "fine": 350
+    }
+  ]
+}

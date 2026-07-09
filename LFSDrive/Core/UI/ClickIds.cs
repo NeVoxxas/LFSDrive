@@ -19,7 +19,7 @@ public static class ClickIds
         public const byte JobStatus = 56;
         public const byte GarageTow = 57;
         public const byte Wanted = 58;
-
+        public const byte PoliceMenu = 59;
     }
     public static class Menu
     {
@@ -95,13 +95,11 @@ public static class ClickIds
         public const byte CategoryStart = Content.Start;
         public const byte CategoryEnd = 83;
 
-        // NAUJA - atskiri ID intervalai info tekstui ir "Pirkti" mygtukui,
-        // kad jie nebeperrasytu vienas kito (LFS ClickId = unikalus mygtuko slotas).
         public const byte ListingInfoStart = 84;
-        public const byte ListingInfoEnd = 88;   // 5 vietos (PageSize=5)
+        public const byte ListingInfoEnd = 88;
 
         public const byte ListingBuyStart = 89;
-        public const byte ListingBuyEnd = 93;    // 5 vietos (PageSize=5)
+        public const byte ListingBuyEnd = 93;
 
         public const byte PrevPage = Content.PrevPage;
         public const byte NextPage = Content.NextPage;
@@ -140,6 +138,34 @@ public static class ClickIds
         public const byte SellToServer = 82;
         public const byte SellOnMarket = 83;
     }
+
+    // NAUJA - policijos meniu puslapiai (Shop/Bank/Market stiliaus - bendras
+    // Content diapazonas, nes tai standartiniai MenuPage'ai, niekada
+    // nerodomi vienu metu su kitais meniu).
+    public static class Police
+    {
+        public const byte MenuFines = Content.Start;
+        public const byte MenuDocs = 81;
+        public const byte MenuPursuits = 82;
+
+        public const byte TargetStart = Content.Start;
+        public const byte TargetEnd = 89;
+
+        public const byte ViolationStart = Content.Start;
+        public const byte ViolationEnd = 94;
+        public const byte FineConfirm = 95;
+        public const byte DocsIssueFine = 96;
+
+        public const byte PursuitEntryStart = Content.Start;
+        public const byte PursuitEntryEnd = 94;
+
+        // Radaras - VISADA matomas kartu su kitais elementais (kaip GPS),
+        // tad NEGALI naudoti bendro Content diapazono - reikia sava, unikalu.
+        public const byte RadarBackground = 160;
+        public const byte RadarRowStart = 161;
+        public const byte RadarRowEnd = 163;
+    }
+
     public static class Gps
     {
         public const byte Background = 130;
@@ -153,12 +179,5 @@ public static class ClickIds
         public const byte Bottom = 138;
         public const byte BottomRight = 139;
         public const byte Info = 140;
-    }
-
-    public static class Police
-    {
-        public const byte RadarBackground = 160;
-        public const byte RadarRowStart = 161;
-        public const byte RadarRowEnd = 163; // 3 vietos - tiek telpa i pazymeta plotą
     }
 }
