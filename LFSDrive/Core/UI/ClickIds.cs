@@ -139,9 +139,6 @@ public static class ClickIds
         public const byte SellOnMarket = 83;
     }
 
-    // NAUJA - policijos meniu puslapiai (Shop/Bank/Market stiliaus - bendras
-    // Content diapazonas, nes tai standartiniai MenuPage'ai, niekada
-    // nerodomi vienu metu su kitais meniu).
     public static class Police
     {
         public const byte MenuFines = Content.Start;
@@ -159,8 +156,6 @@ public static class ClickIds
         public const byte PursuitEntryStart = Content.Start;
         public const byte PursuitEntryEnd = 94;
 
-        // Radaras - VISADA matomas kartu su kitais elementais (kaip GPS),
-        // tad NEGALI naudoti bendro Content diapazono - reikia sava, unikalu.
         public const byte RadarBackground = 160;
         public const byte RadarRowStart = 161;
         public const byte RadarRowEnd = 163;

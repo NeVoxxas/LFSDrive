@@ -467,7 +467,7 @@ public sealed class MenuManager
         await SendMessageAsync(officer.UCID, result.Success ? $"^2{result.Message}" : $"^1{result.Message}", cancellationToken);
 
         if (result.Success)
-            await SendMessageAsync(target.UCID, $"^1Gavai bauda nuo pareigūno {officer.Username}.", cancellationToken);
+            await SendMessageAsync(target.UCID, $"^1Gavai bauda nuo pareiguno {officer.Username}.", cancellationToken);
 
         await OpenPoliceMenuAsync(officer, cancellationToken);
     }

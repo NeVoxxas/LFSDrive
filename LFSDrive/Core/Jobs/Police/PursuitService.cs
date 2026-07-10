@@ -10,13 +10,19 @@ public sealed class PursuitState
     public DateTime LastLevelIncreaseAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? SafeSince { get; set; }
+    public DateTime? CaptureSince { get; set; }
 }
+
 public sealed class PursuitService
 {
     public const double EscapeDistanceMeters = 150.0;
     public static readonly TimeSpan EscapeDuration = TimeSpan.FromMinutes(1);
     public static readonly TimeSpan LevelIncreaseInterval = TimeSpan.FromSeconds(45);
     public const int MaxWantedLevel = 5;
+
+    public const double CaptureDistanceMeters = 10.0;
+    public const double CaptureMaxStopSpeedKmh = 1.0;
+    public static readonly TimeSpan CaptureDuration = TimeSpan.FromSeconds(3);
 
     private readonly PlayerManager _playerManager;
     private readonly Func<byte, string, CancellationToken, Task> _sendMessage;
@@ -59,7 +65,8 @@ public sealed class PursuitService
             PrimaryOfficerName = officer.Username,
             WantedLevel = 1,
             LastLevelIncreaseAt = DateTime.UtcNow,
-            SafeSince = null
+            SafeSince = null,
+            CaptureSince = null
         };
 
         _pursuits[target.UCID] = state;
@@ -124,6 +131,54 @@ public sealed class PursuitService
             }
         }
 
+        var captureConditionMet = false;
+
+        if (player.Vehicle.Speed <= CaptureMaxStopSpeedKmh)
+        {
+            foreach (var officerUcid in state.OfficerUcids)
+            {
+                var officer = _playerManager.Get(officerUcid);
+
+                if (officer is null || officer.Vehicle.Speed > CaptureMaxStopSpeedKmh)
+                    continue;
+
+                var dx = player.Vehicle.X - officer.Vehicle.X;
+                var dy = player.Vehicle.Y - officer.Vehicle.Y;
+                var distance = Math.Sqrt(dx * dx + dy * dy);
+
+                if (distance <= CaptureDistanceMeters)
+                {
+                    captureConditionMet = true;
+                    break;
+                }
+            }
+        }
+
+        if (captureConditionMet)
+        {
+            state.CaptureSince ??= now;
+
+            if (now - state.CaptureSince.Value >= CaptureDuration)
+            {
+                var officerUcids = state.OfficerUcids.ToList();
+
+                _pursuits.Remove(player.UCID);
+
+                await _sendMessage(player.UCID, "^2Buvai sulaikytas! Gaudymas baigtas.", cancellationToken);
+
+                foreach (var officerUcid in officerUcids)
+                {
+                    await _sendMessage(officerUcid, $"^2Sulaikei {player.Username}!", cancellationToken);
+                }
+
+                return;
+            }
+        }
+        else
+        {
+            state.CaptureSince = null;
+        }
+
         if (state.WantedLevel < MaxWantedLevel && now - state.LastLevelIncreaseAt >= LevelIncreaseInterval)
         {
             state.WantedLevel++;
@@ -133,7 +188,6 @@ public sealed class PursuitService
         }
     }
 
-    // PD UI - Gaudomi zaidejai. Grazina sarasa su (TargetName, Level, OfficerNames).
     public IReadOnlyList<(string TargetName, int Level, string OfficerNames)> GetActivePursuitSummaries()
     {
         var result = new List<(string, int, string)>();

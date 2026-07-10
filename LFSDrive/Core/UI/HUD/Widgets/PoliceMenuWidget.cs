@@ -17,8 +17,6 @@ public sealed class PoliceMenuWidget : HudWidget
     public override byte ClickId => ClickIds.Hud.PoliceMenu;
     public override byte Width => HudLayout.PoliceMenuWidth;
 
-    // Apytiksle "apacia desineje" pozicija - koreguosim po screenshot'o, kaip
-    // ir su kitais elementais.
     public override byte? Left => 165;
     public override byte? Top => 160;
 
